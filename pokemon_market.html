@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="포켓몬 피규어 시장조사">
+<meta property="og:description" content="실시간 가격·판매순위·리뷰 분석 대시보드">
+<meta property="og:type" content="website">
+<title>포켓몬 피규어 시장조사</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0F0F11;
+  --bg2:#18181C;
+  --bg3:#222228;
+  --border:#2E2E36;
+  --border2:#3A3A44;
+  --text:#F0F0F5;
+  --text2:#9090A8;
+  --text3:#5A5A70;
+  --accent:#FFCB05;
+  --accent2:#3B55E6;
+  --green:#22C55E;
+  --red:#EF4444;
+  --amber:#F59E0B;
+  --purple:#A78BFA;
+  --radius:10px;
+  --radius-lg:14px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR','Inter',sans-serif;font-size:14px;min-height:100vh}
+
+/* ── API KEY MODAL ── */
+#key-modal{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:28px;max-width:400px;width:100%}
+.modal-box h2{font-size:18px;font-weight:700;margin-bottom:6px;color:var(--text)}
+.modal-box p{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:18px}
+.modal-box input{width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:inherit;outline:none;margin-bottom:10px}
+.modal-box input:focus{border-color:var(--accent2)}
+.modal-box button{width:100%;padding:11px;background:var(--accent2);border:none;border-radius:var(--radius);color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.modal-box button:hover{opacity:.9}
+.modal-note{font-size:11px;color:var(--text3);text-align:center;margin-top:10px}
+
+/* ── LAYOUT ── */
+.wrap{max-width:480px;margin:0 auto;padding:0 0 80px}
+
+/* ── HEADER ── */
+.header{padding:20px 16px 0;display:flex;align-items:center;justify-content:space-between}
+.header-left{display:flex;align-items:center;gap:10px}
+.logo{width:36px;height:36px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.header-title{font-size:16px;font-weight:700;color:var(--text)}
+.header-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── SCAN BAR ── */
+.scan-bar{margin:16px;display:flex;gap:8px;align-items:stretch}
+.search-wrap{flex:1;position:relative}
+.search-wrap input{width:100%;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:14px;font-family:inherit;outline:none}
+.search-wrap input:focus{border-color:var(--accent2)}
+.search-wrap input::placeholder{color:var(--text3)}
+.scan-btn{padding:0 18px;background:var(--accent);border:none;border-radius:var(--radius);color:#000;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity .15s}
+.scan-btn:hover{opacity:.85}
+.scan-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:2px;padding:0 16px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;border:1px solid transparent;color:var(--text2);background:none;font-family:inherit;transition:all .15s}
+.tab.active{background:var(--bg3);color:var(--text);border-color:var(--border2)}
+.tab:hover:not(.active){color:var(--text)}
+
+/* ── CARDS ── */
+.section{padding:0 16px;margin-bottom:16px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.card-header{padding:14px 16px 0;display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:13px;font-weight:600;color:var(--text)}
+.card-meta{font-size:11px;color:var(--text3)}
+.divider{height:1px;background:var(--border);margin:12px 16px}
+
+/* ── METRICS ROW ── */
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px;margin-bottom:16px}
+.metric{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
+.metric-label{font-size:11px;color:var(--text3);margin-bottom:6px}
+.metric-val{font-size:22px;font-weight:700;color:var(--text);line-height:1}
+.metric-delta{font-size:11px;margin-top:4px}
+.up{color:var(--green)}
+.dn{color:var(--red)}
+.nu{color:var(--text3)}
+
+/* ── RANK LIST ── */
+.rank-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
+.rank-item:last-child{border-bottom:none}
+.rank-num{font-size:11px;font-weight:700;color:var(--text3);width:18px;text-align:center;flex-shrink:0}
+.rank-num.top{color:var(--accent);font-size:13px}
+.rank-info{flex:1;min-width:0}
+.rank-name{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank-ch{display:inline-block;font-size:10px;padding:1px 5px;border-radius:4px;margin-top:2px;background:var(--bg3);color:var(--text2)}
+.rank-bar-wrap{width:60px;height:4px;background:var(--bg3);border-radius:2px;flex-shrink:0}
+.rank-bar{height:100%;border-radius:2px}
+.rank-score{font-size:12px;font-weight:600;color:var(--text);min-width:48px;text-align:right;flex-shrink:0}
+
+/* ── PRICE TABLE ── */
+.price-item{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);font-size:12px}
+.price-item:last-child{border-bottom:none}
+.price-name{color:var(--text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.price-ko{color:var(--text2);text-align:right}
+.price-cn{color:var(--amber);text-align:right}
+.price-gap{font-weight:700;text-align:right}
+
+/* ── REVIEW ── */
+.review-item{padding:12px 16px;border-bottom:1px solid var(--border)}
+.review-item:last-child{border-bottom:none}
+.review-top{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.review-prod{font-size:12px;font-weight:600;color:var(--text)}
+.stars{color:var(--accent);font-size:11px}
+.review-ch-tag{font-size:10px;padding:1px 5px;border-radius:4px;background:var(--bg3);color:var(--text2)}
+.sent-tag{font-size:10px;padding:1px 6px;border-radius:4px;font-weight:500}
+.pos-tag{background:rgba(34,197,94,.15);color:var(--green)}
+.neg-tag{background:rgba(239,68,68,.15);color:var(--red)}
+.neu-tag{background:var(--bg3);color:var(--text3)}
+.review-body{font-size:12px;color:var(--text2);line-height:1.6}
+.review-date{font-size:10px;color:var(--text3);margin-top:4px}
+
+/* ── ALERT ── */
+.alert{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:var(--amber);display:flex;align-items:flex-start;gap:8px;margin:0 16px 16px}
+.alert-icon{flex-shrink:0;margin-top:1px}
+
+/* ── RESULT BOX ── */
+.result-box{margin:16px;padding:16px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);display:none}
+.result-box.active{display:block}
+.result-box pre{font-family:'Noto Sans KR',sans-serif;font-size:13px;color:var(--text);line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.thinking{display:flex;align-items:center;gap:8px;color:var(--text3);font-size:13px;padding:8px 0}
+.dot-anim span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent2);margin:0 2px;animation:bounce .9s infinite}
+.dot-anim span:nth-child(2){animation-delay:.15s}
+.dot-anim span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(15,15,17,.92);border-top:1px solid var(--border);display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom));backdrop-filter:blur(12px);z-index:100}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 8px;cursor:pointer;border:none;background:none;color:var(--text3);font-family:inherit;font-size:10px;transition:color .15s}
+.nav-btn.active{color:var(--accent)}
+.nav-icon{font-size:20px;line-height:1}
+
+/* ── NEW SKU ── */
+.sku-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)}
+.sku-item:last-child{border-bottom:none}
+.sku-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sku-info{flex:1;min-width:0}
+.sku-name{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sku-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.sku-price{font-size:13px;font-weight:600;color:var(--text);text-align:right;flex-shrink:0}
+
+.tab-page{display:none}
+.tab-page.active{display:block}
+</style>
+</head>
+<body>
+
+<!-- API KEY MODAL -->
+<div id="key-modal">
+  <div class="modal-box">
+    <h2>API 키 설정</h2>
+    <p>Anthropic API 키를 입력하면 실시간 시장 분석이 활성화돼요.<br>키는 브라우저에만 저장되고 외부로 전송되지 않아요.</p>
+    <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." autocomplete="off">
+    <button onclick="saveKey()">시작하기</button>
+    <p class="modal-note">키가 없으면 <a href="https://console.anthropic.com" style="color:var(--accent2)">console.anthropic.com</a>에서 발급</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">⚡</div>
+      <div>
+        <div class="header-title">포켓몬 피규어 시장조사</div>
+        <div class="header-sub">Hello Apolo × FUNISM</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)">
+      <div class="status-dot"></div>Live
+    </div>
+  </div>
+
+  <!-- SCAN BAR -->
+  <div class="scan-bar">
+    <div class="search-wrap">
+      <input type="text" id="query-input" placeholder="예: 트윙크몬트 피카츄 가격 분석" value="트윙크몬트 피카츄 쿠팡 알리 가격 판매순위">
+    </div>
+    <button class="scan-btn" id="scan-btn" onclick="runScan()">분석</button>
+  </div>
+
+  <!-- TABS (상단) -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchPage('home',this)">홈</button>
+    <button class="tab" onclick="switchPage('rank',this)">판매순위</button>
+    <button class="tab" onclick="switchPage('price',this)">가격추적</button>
+    <button class="tab" onclick="switchPage('review',this)">리뷰분석</button>
+    <button class="tab" onclick="switchPage('new',this)">신상품</button>
+  </div>
+
+  <!-- ══ HOME PAGE ══ -->
+  <div id="page-home" class="tab-page active">
+
+    <div class="alert">
+      <span class="alert-icon">⚠</span>
+      <span><strong>가격 이상 감지</strong> — 알리에서 트윙크몬트 피카츄 ₩15,900 판매 중 (국내 대비 -36%)</span>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric">
+        <div class="metric-label">추적 SKU</div>
+        <div class="metric-val">122</div>
+        <div class="metric-delta up">▲ 8 신규</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">모니터링 채널</div>
+        <div class="metric-val">7</div>
+        <div class="metric-delta nu">쿠팡·네이버·타오바오 외</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">평균 국내 가격</div>
+        <div class="metric-val">₩24,800</div>
+        <div class="metric-delta dn">▼ -2.3% (30일)</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">해외 가격 격차</div>
+        <div class="metric-val">-28%</div>
+        <div class="metric-delta dn">▼ 격차 확대 중</div>
+      </div>
+    </div>
+
+    <!-- AI 분석 결과 박스 -->
+    <div class="result-box" id="result-box">
+      <div id="result-thinking" class="thinking" style="display:none">
+        <div class="dot-anim"><span></span><span></span><span></span></div>
+        분석 중...
+      </div>
+      <pre id="result-text"></pre>
+    </div>
+
+    <!-- 빠른 분석 버튼 -->
+    <div class="section">
+      <div class="card">
+        <div class="card-header" style="padding:14px 16px">
+          <div class="card-title">빠른 분석</div>
+        </div>
+        <div style="padding:8px 12px 12px;display:flex;flex-direction:column;gap:6px">
+          <button onclick="quickScan('쿠팡 네이버 포켓몬 피규어 베스트셀러 판매순위 2026')" style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:13px;text-align:left;cursor:pointer;font-family:inherit">
+            🏆 국내 베스트셀러 지금 확인
+          </button>
+          <button onclick="quickScan('타오바오 알리익스프레스 포켓몬 피규어 퍼니즘 가격 2026 한국 비교')" style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:13px;text-align:left;cursor:pointer;font-family:inherit">
+            💱 국내 vs 해외 가격 격차 분석
+          </button>
+          <button onclick="quickScan('포켓몬 피규어 쿠팡 네이버 리뷰 고객 반응 평점 2026')" style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:13px;text-align:left;cursor:pointer;font-family:inherit">
+            💬 최신 고객 리뷰 및 반응 분석
+          </button>
+          <button onclick="quickScan('포켓몬 피규어 신상품 신규 SKU 2026 퍼니즘 출시 예정')" style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-size:13px;text-align:left;cursor:pointer;font-family:inherit">
+            ✨ 신규 출시 상품 모니터링
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ RANK PAGE ══ -->
+  <div id="page-rank" class="tab-page">
+    <div class="section">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px">국내 이커머스 (쿠팡·네이버 기준)</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">베스트셀러 TOP 7</div><div class="card-meta">샘플 데이터</div></div>
+        <div style="height:10px"></div>
+        <div id="rank-ko-list"></div>
+      </div>
+    </div>
+    <div class="section">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px">해외 이커머스 (타오바오·알리 기준)</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">해외 베스트셀러 TOP 6</div><div class="card-meta">샘플 데이터</div></div>
+        <div style="height:10px"></div>
+        <div id="rank-cn-list"></div>
+      </div>
+    </div>
+    <div class="section">
+      <button onclick="quickScan('쿠팡 네이버 포켓몬 피규어 트윙크몬트 판매순위 베스트셀러 2026 최신')" style="width:100%;padding:12px;background:var(--accent2);border:none;border-radius:var(--radius);color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">
+        🔄 실시간 판매순위 업데이트
+      </button>
+    </div>
+    <div class="result-box" id="rank-result-box">
+      <pre id="rank-result-text"></pre>
+    </div>
+  </div>
+
+  <!-- ══ PRICE PAGE ══ -->
+  <div id="page-price" class="tab-page">
+    <div class="section">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px">국내 소비자가 vs 해외 직구가</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">가격 비교표</div>
+          <div class="card-meta" style="display:flex;gap:8px">
+            <span style="color:var(--text2)">국내</span>
+            <span style="color:var(--amber)">타오바오</span>
+            <span style="color:var(--red)">차이</span>
+          </div>
+        </div>
+        <div style="height:8px"></div>
+        <div id="price-list"></div>
+      </div>
+    </div>
+    <div class="section">
+      <button onclick="quickScan('타오바오 알리 쿠팡 포켓몬 트윙크몬트 블라인드박스 키체인 가격 비교 현재 2026')" style="width:100%;padding:12px;background:var(--accent2);border:none;border-radius:var(--radius);color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">
+        🔄 실시간 가격 스캔
+      </button>
+    </div>
+    <div class="result-box" id="price-result-box">
+      <pre id="price-result-text"></pre>
+    </div>
+  </div>
+
+  <!-- ══ REVIEW PAGE ══ -->
+  <div id="page-review" class="tab-page">
+    <div class="metrics-grid">
+      <div class="metric">
+        <div class="metric-label">긍정 리뷰</div>
+        <div class="metric-val" style="color:var(--green)">78%</div>
+        <div class="metric-delta up">▲ +3%p</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">평균 별점</div>
+        <div class="metric-val">4.3</div>
+        <div class="metric-delta nu">243개 리뷰 기준</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="card">
+        <div class="card-header"><div class="card-title">최신 리뷰 피드</div><div class="card-meta">샘플</div></div>
+        <div id="review-list"></div>
+      </div>
+    </div>
+    <div class="section">
+      <button onclick="quickScan('쿠팡 네이버 포켓몬 피규어 고객 리뷰 평점 반응 좋은점 나쁜점 2026')" style="width:100%;padding:12px;background:var(--accent2);border:none;border-radius:var(--radius);color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">
+        🔄 최신 리뷰 분석
+      </button>
+    </div>
+    <div class="result-box" id="review-result-box">
+      <pre id="review-result-text"></pre>
+    </div>
+  </div>
+
+  <!-- ══ NEW SKU PAGE ══ -->
+  <div id="page-new" class="tab-page">
+    <div class="section">
+      <div class="card">
+        <div class="card-header"><div class="card-title">신규 감지 SKU</div><div class="card-meta">최근 14일</div></div>
+        <div id="new-sku-list"></div>
+      </div>
+    </div>
+    <div class="section">
+      <button onclick="quickScan('포켓몬 피규어 퍼니즘 신상품 신규 출시 2026 하반기 예정 SKU')" style="width:100%;padding:12px;background:var(--accent2);border:none;border-radius:var(--radius);color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">
+        🔄 신상품 스캔
+      </button>
+    </div>
+    <div class="result-box" id="new-result-box">
+      <pre id="new-result-text"></pre>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-home" onclick="switchPage('home',null,'nav-home')">
+    <span class="nav-icon">🏠</span>홈
+  </button>
+  <button class="nav-btn" id="nav-rank" onclick="switchPage('rank',null,'nav-rank')">
+    <span class="nav-icon">🏆</span>순위
+  </button>
+  <button class="nav-btn" id="nav-price" onclick="switchPage('price',null,'nav-price')">
+    <span class="nav-icon">💱</span>가격
+  </button>
+  <button class="nav-btn" id="nav-review" onclick="switchPage('review',null,'nav-review')">
+    <span class="nav-icon">💬</span>리뷰
+  </button>
+  <button class="nav-btn" id="nav-new" onclick="switchPage('new',null,'nav-new')">
+    <span class="nav-icon">✨</span>신상품
+  </button>
+</nav>
+
+<script>
+// ── 샘플 데이터 ──
+const rankKo=[
+  {name:'Twinkmont 피카츄',ch:'쿠팡',score:9840,pct:100},
+  {name:'Blind Box 이브이',ch:'네이버',score:8640,pct:88},
+  {name:'Twinkmont 겐가',ch:'쿠팡',score:7200,pct:73},
+  {name:'Keychain 피카츄',ch:'네이버',score:6480,pct:66},
+  {name:'Prime 이브이 스탠다드',ch:'쿠팡',score:5760,pct:59},
+  {name:'Twinkmont 님피아',ch:'카카오',score:4800,pct:49},
+  {name:'Home 피카츄',ch:'쿠팡',score:2160,pct:22},
+];
+const rankCn=[
+  {name:'Twinkmont 皮卡丘',ch:'타오바오',score:32400,pct:100},
+  {name:'Blind Box 伊布',ch:'알리',score:28800,pct:89},
+  {name:'Keychain 皮卡丘',ch:'타오바오',score:24000,pct:74},
+  {name:'Twinkmont 耿鬼',ch:'알리',score:19200,pct:59},
+  {name:'Prime 伊布',ch:'타오바오',score:14400,pct:44},
+  {name:'Palmsize Mixed',ch:'알리',score:9600,pct:30},
+];
+const priceData=[
+  {name:'Twinkmont 피카츄',ko:25000,cn:17500,gap:-30},
+  {name:'Blind Box 이브이',ko:29800,cn:20000,gap:-33},
+  {name:'Keychain 피카츄',ko:7800,cn:5200,gap:-33},
+  {name:'Prime 이브이',ko:64800,cn:46000,gap:-29},
+  {name:'Palmsize Mixed',ko:8800,cn:6000,gap:-32},
+  {name:'Home Collection',ko:198000,cn:145000,gap:-27},
+  {name:'Flocking 피카츄',ko:16000,cn:12000,gap:-25},
+];
+const reviews=[
+  {prod:'Twinkmont 피카츄',stars:5,ch:'쿠팡',sent:'pos',text:'퀄리티가 생각보다 훨씬 좋아요! 피카츄 표정이 귀엽고 도색도 깔끔합니다.',date:'06-08'},
+  {prod:'Blind Box 이브이',stars:4,ch:'네이버',sent:'pos',text:'블라인드박스라 두근거렸는데 님피아 나왔어요. 만족! 박스 포장이 살짝 약한 느낌.',date:'06-08'},
+  {prod:'Prime 이브이',stars:3,ch:'쿠팡',sent:'neg',text:'사진이랑 실물이 좀 달라요. 색감이 칙칙하고 가격 대비 아쉬워요.',date:'06-07'},
+  {prod:'Twinkmont 겐가',stars:5,ch:'카카오',sent:'pos',text:'생일 선물로 줬더니 너무 좋아했어요. 포장도 예쁘고 크기도 딱!',date:'06-07'},
+  {prod:'Keychain 피카츄',stars:2,ch:'알리',sent:'neg',text:'배송은 빨랐는데 도색 불량 있었어요. 눈 부분이 삐뚤어졌습니다.',date:'06-06'},
+];
+const newSkus=[
+  {name:'Twinkmont - 빠모 (Pawmi)',ch:'타오바오',price:'₩25,000',date:'06-07',color:'#22C55E'},
+  {name:'Twinkmont - 거다이맥스 리자몽',ch:'알리',price:'₩45,800',date:'06-06',color:'#22C55E'},
+  {name:'Prime Figure - 차리파이어',ch:'타오바오',price:'₩84,800',date:'06-05',color:'#22C55E'},
+  {name:'Keychain - 모르페코',ch:'쿠팡',price:'₩7,800',date:'06-04',color:'#3B55E6'},
+  {name:'Twinkmont - 두드리짱',ch:'네이버',price:'₩25,000',date:'06-03',color:'#3B55E6'},
+  {name:'Blind Box - 30주년 Special',ch:'타오바오',price:'₩35,000',date:'06-01',color:'#F59E0B'},
+];
+
+// ── DOM 빌드 ──
+function buildRankList(el,data){
+  if(!el)return;
+  el.innerHTML=data.map((d,i)=>`
+    <div class="rank-item">
+      <span class="rank-num ${i<3?'top':''}">${i+1}</span>
+      <div class="rank-info">
+        <div class="rank-name">${d.name}</div>
+        <span class="rank-ch">${d.ch}</span>
+      </div>
+      <div class="rank-bar-wrap">
+        <div class="rank-bar" style="width:${d.pct}%;background:${i===0?'#FFCB05':i===1?'#9090A8':'#3B55E6'}"></div>
+      </div>
+      <span class="rank-score">${d.score.toLocaleString()}</span>
+    </div>`).join('');
+}
+
+function buildPriceList(el){
+  if(!el)return;
+  el.innerHTML=priceData.map(d=>`
+    <div class="price-item">
+      <span class="price-name">${d.name}</span>
+      <span class="price-ko">₩${d.ko.toLocaleString()}</span>
+      <span class="price-cn" style="color:var(--amber)">₩${d.cn.toLocaleString()}</span>
+      <span class="price-gap" style="color:${d.gap<-30?'var(--red)':'var(--amber)'}">${d.gap}%</span>
+    </div>`).join('');
+}
+
+function buildReviewList(el){
+  if(!el)return;
+  const sentMap={pos:['긍정','pos-tag'],neg:['부정','neg-tag'],neu:['중립','neu-tag']};
+  el.innerHTML=reviews.map(d=>`
+    <div class="review-item">
+      <div class="review-top">
+        <span class="review-prod">${d.prod}</span>
+        <span class="stars">${'★'.repeat(d.stars)}${'☆'.repeat(5-d.stars)}</span>
+        <span class="review-ch-tag">${d.ch}</span>
+        <span class="sent-tag ${sentMap[d.sent][1]}">${sentMap[d.sent][0]}</span>
+      </div>
+      <div class="review-body">${d.text}</div>
+      <div class="review-date">${d.date}</div>
+    </div>`).join('');
+}
+
+function buildNewSkuList(el){
+  if(!el)return;
+  el.innerHTML=newSkus.map(d=>`
+    <div class="sku-item">
+      <div class="sku-dot" style="background:${d.color}"></div>
+      <div class="sku-info">
+        <div class="sku-name">${d.name}</div>
+        <div class="sku-sub">${d.ch} · ${d.date}</div>
+      </div>
+      <span class="sku-price">${d.price}</span>
+    </div>`).join('');
+}
+
+buildRankList(document.getElementById('rank-ko-list'),rankKo);
+buildRankList(document.getElementById('rank-cn-list'),rankCn);
+buildPriceList(document.getElementById('price-list'));
+buildReviewList(document.getElementById('review-list'));
+buildNewSkuList(document.getElementById('new-sku-list'));
+
+// ── 탭/네비 전환 ──
+let currentPage='home';
+function switchPage(page, tabBtn, navId){
+  document.querySelectorAll('.tab-page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  currentPage=page;
+  if(tabBtn){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tabBtn.classList.add('active');
+  }
+  if(navId){
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById(navId).classList.add('active');
+    const tabMap={home:'홈',rank:'판매순위',price:'가격추적',review:'리뷰분석',new:'신상품'};
+    document.querySelectorAll('.tab').forEach(t=>{
+      if(t.textContent.trim()===tabMap[page]) t.classList.add('active');
+      else t.classList.remove('active');
+    });
+  }
+}
+
+// ── API KEY ──
+function saveKey(){
+  const k=document.getElementById('api-key-input').value.trim();
+  if(!k.startsWith('sk-')){alert('올바른 API 키를 입력해주세요 (sk-ant-... 형식)');return;}
+  sessionStorage.setItem('apk',k);
+  document.getElementById('key-modal').style.display='none';
+}
+window.addEventListener('load',()=>{
+  const k=sessionStorage.getItem('apk');
+  if(k) document.getElementById('key-modal').style.display='none';
+});
+
+// ── Claude API 호출 ──
+async function callClaude(query){
+  const key=sessionStorage.getItem('apk');
+  if(!key){document.getElementById('key-modal').style.display='flex';return null;}
+
+  const systemPrompt=`당신은 포켓몬 피규어 한국 시장 전문 조사 어시스턴트입니다.
+Hello Apolo Co., Ltd.(PITB 운영)가 Funism(중국) 포켓몬 피규어를 한국에 독점 유통합니다.
+주요 상품: Twinkmont(₩25,000~45,800), Blind Box(₩27,000), Keychain(₩7,800), Prime Figure(₩64,800~130,000), Home Collection(₩198,000)
+채널: PITB 직영 7개점 / B2B(아트박스,영풍문고,핫트렉스,버터) / 이커머스(쿠팡,카카오,자사몰)
+
+웹 검색 결과를 바탕으로 다음을 분석하세요:
+1. 판매 순위 / 베스트셀러 상품
+2. 국내 vs 해외(타오바오/알리) 가격 비교
+3. 고객 리뷰 감성 분석
+4. 신규 SKU 감지
+
+결과는 한국어로, 모바일 화면에 맞게 간결하게 핵심만 작성하세요.
+각 항목을 이모지로 구분하고, 숫자와 퍼센트를 명확히 표시하세요.`;
+
+  const resp=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key':key,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true',
+    },
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:1500,
+      system:systemPrompt,
+      tools:[{type:'web_search_20250305',name:'web_search'}],
+      messages:[{role:'user',content:query}]
+    })
+  });
+
+  if(!resp.ok){
+    const err=await resp.json().catch(()=>({}));
+    throw new Error(err.error?.message||`API 오류 (${resp.status})`);
+  }
+  const data=await resp.json();
+  // 텍스트 블록만 추출
+  return data.content
+    .filter(b=>b.type==='text')
+    .map(b=>b.text)
+    .join('\n').trim();
+}
+
+// ── 스캔 실행 ──
+async function runScan(){
+  const query=document.getElementById('query-input').value.trim();
+  if(!query)return;
+  await doScan(query,'result-box','result-text','result-thinking');
+}
+
+async function quickScan(query){
+  document.getElementById('query-input').value=query;
+  // 현재 페이지에 맞는 결과 박스 선택
+  const pageResultMap={
+    home:['result-box','result-text','result-thinking'],
+    rank:['rank-result-box','rank-result-text',null],
+    price:['price-result-box','price-result-text',null],
+    review:['review-result-box','review-result-text',null],
+    new:['new-result-box','new-result-text',null],
+  };
+  const [boxId,textId,thinkId]=pageResultMap[currentPage]||pageResultMap.home;
+  await doScan(query,boxId,textId,thinkId);
+}
+
+async function doScan(query,boxId,textId,thinkId){
+  const box=document.getElementById(boxId);
+  const textEl=document.getElementById(textId);
+  const thinkEl=thinkId?document.getElementById(thinkId):null;
+  const btn=document.getElementById('scan-btn');
+
+  box.classList.add('active');
+  if(thinkEl) thinkEl.style.display='flex';
+  if(textEl) textEl.textContent='';
+  btn.disabled=true; btn.textContent='분석 중...';
+
+  try{
+    const result=await callClaude(query);
+    if(thinkEl) thinkEl.style.display='none';
+    if(textEl && result) textEl.textContent=result;
+  }catch(e){
+    if(thinkEl) thinkEl.style.display='none';
+    if(textEl) textEl.textContent='오류: '+e.message+'\n\nAPI 키를 확인하거나 잠시 후 다시 시도해주세요.';
+  }
+  btn.disabled=false; btn.textContent='분석';
+}
+</script>
+</body>
+</html>
