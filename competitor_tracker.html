@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>퍼니즘 포켓몬 — 경쟁사 가격 관리</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0F0F11;--bg2:#18181C;--bg3:#222228;--bg4:#2A2A32;
+  --border:#2E2E36;--border2:#3A3A44;
+  --text:#F0F0F5;--text2:#9090A8;--text3:#5A5A70;
+  --accent:#FFCB05;--blue:#3B55E6;
+  --green:#22C55E;--red:#EF4444;--amber:#F59E0B;--purple:#A78BFA;
+  --r:10px;--rlg:14px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:14px;min-height:100vh}
+.wrap{max-width:480px;margin:0 auto;padding-bottom:80px}
+
+/* HEADER */
+.hdr{padding:18px 16px 12px;display:flex;align-items:center;justify-content:space-between}
+.hdr-left{display:flex;align-items:center;gap:10px}
+.logo{width:34px;height:34px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.hdr-title{font-size:15px;font-weight:700}
+.hdr-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.live{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:p 2s infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* TABS */
+.tabs{display:flex;gap:2px;padding:0 16px 12px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;border:1px solid transparent;color:var(--text2);background:none;font-family:inherit;transition:all .15s}
+.tab.active{background:var(--bg3);color:var(--text);border-color:var(--border2)}
+
+/* ALERT */
+.alert{margin:0 16px 14px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:var(--r);padding:10px 14px;font-size:12px;color:#FCA5A5;display:flex;gap:8px;align-items:flex-start}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px 14px}
+.metric{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px}
+.mlabel{font-size:11px;color:var(--text3);margin-bottom:5px}
+.mval{font-size:21px;font-weight:700;line-height:1}
+.mdelta{font-size:11px;margin-top:4px}
+.up{color:var(--green)}.dn{color:var(--red)}.nu{color:var(--text3)}
+
+/* CARD */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);overflow:hidden;margin:0 16px 12px}
+.card-hdr{padding:12px 14px;display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:13px;font-weight:600}
+.card-meta{font-size:11px;color:var(--text3)}
+.divider{height:1px;background:var(--border)}
+
+/* COMPANY LIST */
+.co-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border)}
+.co-item:last-child{border-bottom:none}
+.co-badge{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.co-info{flex:1;min-width:0}
+.co-name{font-size:13px;font-weight:600;color:var(--text)}
+.co-type{font-size:11px;color:var(--text3);margin-top:1px}
+.co-right{text-align:right;flex-shrink:0}
+.co-sku{font-size:12px;font-weight:600;color:var(--text)}
+.co-status{font-size:10px;padding:2px 7px;border-radius:20px;margin-top:3px;display:inline-block}
+.status-same{background:rgba(239,68,68,.15);color:#FCA5A5}
+.status-diff{background:rgba(34,197,94,.1);color:var(--green)}
+.status-watch{background:rgba(245,158,11,.1);color:var(--amber)}
+
+/* PRICE TABLE */
+.price-hdr{display:grid;grid-template-columns:1.6fr 1fr 1fr .7fr;gap:4px;padding:8px 14px;font-size:11px;color:var(--text3);border-bottom:1px solid var(--border);font-weight:500}
+.price-row{display:grid;grid-template-columns:1.6fr 1fr 1fr .7fr;gap:4px;padding:9px 14px;border-bottom:1px solid var(--border);font-size:12px;align-items:center}
+.price-row:last-child{border-bottom:none}
+.price-row.same{background:rgba(239,68,68,.05)}
+.pname{color:var(--text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pmy{color:var(--accent);font-weight:600;text-align:right}
+.pcomp{text-align:right;color:var(--text2)}
+.pgap{text-align:right;font-weight:700}
+.same-badge{display:inline-block;font-size:9px;padding:1px 5px;border-radius:4px;background:rgba(239,68,68,.2);color:#FCA5A5;margin-left:4px;vertical-align:middle}
+
+/* SEARCH BAR */
+.sbar{padding:0 16px 12px;display:flex;gap:8px}
+.sbar input{flex:1;padding:10px 13px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-size:13px;font-family:inherit;outline:none}
+.sbar input:focus{border-color:var(--blue)}
+.sbar input::placeholder{color:var(--text3)}
+.sbtn{padding:0 16px;background:var(--accent);border:none;border-radius:var(--r);color:#000;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+.sbtn:disabled{opacity:.5}
+
+/* RESULT */
+.result{margin:0 16px 12px;padding:14px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rlg);display:none}
+.result.on{display:block}
+.result pre{font-family:'Noto Sans KR',sans-serif;font-size:13px;color:var(--text);line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.thinking{display:flex;align-items:center;gap:8px;color:var(--text3);font-size:13px}
+.dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--blue);margin:0 2px;animation:b .9s infinite}
+.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(15,15,17,.94);border-top:1px solid var(--border);display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom));backdrop-filter:blur(12px);z-index:100}
+.nbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px;cursor:pointer;border:none;background:none;color:var(--text3);font-family:inherit;font-size:10px;transition:color .15s}
+.nbtn.active{color:var(--accent)}
+.nicon{font-size:19px}
+
+.page{display:none}.page.active{display:block}
+.tag{font-size:10px;padding:2px 6px;border-radius:4px}
+.tag-eco{background:rgba(59,85,230,.2);color:#93A8FF}
+.tag-off{background:rgba(167,139,250,.2);color:var(--purple)}
+.tag-direct{background:rgba(34,197,94,.1);color:var(--green)}
+
+/* PASSWORD MODAL */
+#pwmodal{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px}
+.pwbox{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rlg);padding:26px;max-width:360px;width:100%}
+.pwbox h2{font-size:17px;font-weight:700;margin-bottom:6px}
+.pwbox p{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px}
+.pwbox input{width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);color:var(--text);font-size:13px;font-family:inherit;outline:none;margin-bottom:10px}
+.pwbox input:focus{border-color:var(--blue)}
+.pwbox button{width:100%;padding:11px;background:var(--blue);border:none;border-radius:var(--r);color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.pwerr{font-size:12px;color:var(--red);text-align:center;margin-top:8px;display:none}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD MODAL -->
+<div id="pwmodal">
+  <div class="pwbox">
+    <h2>⚡ Hello Apolo 전용</h2>
+    <p>경쟁사 가격 관리 시스템입니다.<br>팀 비밀번호를 입력해주세요.</p>
+    <input type="password" id="pwinput" placeholder="비밀번호 입력"
+      onkeydown="if(event.key==='Enter')checkPw()">
+    <button onclick="checkPw()">입장하기</button>
+    <div class="pwerr" id="pwerr">비밀번호가 틀렸어요</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="hdr">
+    <div class="hdr-left">
+      <div class="logo">🔍</div>
+      <div>
+        <div class="hdr-title">경쟁사 가격 관리</div>
+        <div class="hdr-sub">퍼니즘 포켓몬 취급 업체 추적</div>
+      </div>
+    </div>
+    <div class="live"><div class="dot"></div>실시간</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchP('overview',this)">전체 현황</button>
+    <button class="tab" onclick="switchP('same',this)">동일상품 ⚠</button>
+    <button class="tab" onclick="switchP('price',this)">가격 비교</button>
+    <button class="tab" onclick="switchP('eco',this)">이커머스</button>
+    <button class="tab" onclick="switchP('scan',this)">AI 스캔</button>
+  </div>
+
+  <!-- ══ PAGE: OVERVIEW ══ -->
+  <div id="page-overview" class="page active">
+
+    <div class="alert">
+      <span>⚠</span>
+      <span><b>동일상품 판매 감지 3건</b> — ASL몰, 디스톤, 쿠팡에서 퍼니즘 상품 판매 중. 가격 차이 확인 필요.</span>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="mlabel">추적 업체</div>
+        <div class="mval">16</div>
+        <div class="mdelta nu">국내 이커머스 포함</div>
+      </div>
+      <div class="metric">
+        <div class="mlabel">동일상품 판매 업체</div>
+        <div class="mval" style="color:var(--red)">3</div>
+        <div class="mdelta dn">▼ 가격 낮은 곳 있음</div>
+      </div>
+      <div class="metric">
+        <div class="mlabel">평균 시장가 (트윙크)</div>
+        <div class="mval">₩22,600</div>
+        <div class="mdelta dn">▼ PITB 대비 -9.6%</div>
+      </div>
+      <div class="metric">
+        <div class="mlabel">모니터링 SKU</div>
+        <div class="mval">122</div>
+        <div class="mdelta up">▲ 퍼니즘 전체</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">국내 취급 업체 전체</div>
+        <div class="card-meta">16개 채널</div>
+      </div>
+      <div class="divider"></div>
+      <div id="co-list"></div>
+    </div>
+
+  </div>
+
+  <!-- ══ PAGE: SAME PRODUCT ══ -->
+  <div id="page-same" class="page">
+
+    <div class="alert">
+      <span>⚠</span>
+      <span><b>주의</b> — 아래 업체들이 Hello Apolo 계약 상품(퍼니즘)과 동일한 상품을 판매 중입니다. 가격·유통 경쟁 리스크 체크 필요.</span>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">동일상품 판매 업체</div>
+        <div class="card-meta" style="color:var(--red)">3곳</div>
+      </div>
+      <div class="divider"></div>
+
+      <!-- ASL몰 -->
+      <div style="padding:12px 14px;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="co-badge" style="background:rgba(239,68,68,.15)">🛒</div>
+            <div>
+              <div style="font-size:13px;font-weight:700">ASL몰 (aslmall.com)</div>
+              <div style="font-size:11px;color:var(--text3)">이커머스 · 퍼니즘 공식 온라인 유통</div>
+            </div>
+          </div>
+          <span class="co-status status-same">동일상품</span>
+        </div>
+        <div style="background:var(--bg3);border-radius:8px;padding:10px;font-size:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="color:var(--text2)">홈콜렉션 단품</span>
+            <span style="color:var(--red);font-weight:600">₩155,000 <span style="color:var(--text3);font-weight:400">(PITB ₩198,000)</span></span>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="color:var(--text2)">프라임 이브이 6종 세트</span>
+            <span style="color:var(--red);font-weight:600">₩365,000</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="color:var(--text2)">키링 단품</span>
+            <span style="color:var(--amber);font-weight:600">₩6,900 <span style="color:var(--text3);font-weight:400">(PITB ₩7,800)</span></span>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span style="color:var(--text2)">블라인드박스 9종 세트</span>
+            <span style="color:var(--text);font-weight:600">₩243,000</span>
+          </div>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--red)">⚠ 홈콜렉션 ₩43,000 저렴 / 키링 ₩900 저렴 — 가격 정책 조율 필요</div>
+      </div>
+
+      <!-- 디스톤 -->
+      <div style="padding:12px 14px;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="co-badge" style="background:rgba(245,158,11,.15)">🏪</div>
+            <div>
+              <div style="font-size:13px;font-weight:700">디스톤 (D.Stone)</div>
+              <div style="font-size:11px;color:var(--text3)">이커머스+오프라인 · 기존 위탁 판매처</div>
+            </div>
+          </div>
+          <span class="co-status status-watch">모니터링</span>
+        </div>
+        <div style="background:var(--bg3);border-radius:8px;padding:10px;font-size:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="color:var(--text2)">트윙클 단품 (네이버)</span>
+            <span style="color:var(--amber);font-weight:600">₩21,900 <span style="color:var(--text3);font-weight:400">(PITB ₩25,000)</span></span>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span style="color:var(--text2)">상태</span>
+            <span style="color:var(--text2)">기존 재고 소진 중</span>
+          </div>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--amber)">⚡ 기존 위탁 계약 종료 후 재고 정리 중 — 소진 시점 모니터링 필요</div>
+      </div>
+
+      <!-- 쿠팡 셀러 -->
+      <div style="padding:12px 14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="co-badge" style="background:rgba(239,68,68,.15)">🛒</div>
+            <div>
+              <div style="font-size:13px;font-weight:700">쿠팡 마켓플레이스 셀러</div>
+              <div style="font-size:11px;color:var(--text3)">이커머스 · 복수 셀러 활성</div>
+            </div>
+          </div>
+          <span class="co-status status-same">동일상품</span>
+        </div>
+        <div style="background:var(--bg3);border-radius:8px;padding:10px;font-size:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="color:var(--text2)">트윙클 피카츄 (광고)</span>
+            <span style="color:var(--red);font-weight:600">₩21,900~₩23,500</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="color:var(--text2)">블라인드박스 이브이 세트</span>
+            <span style="color:var(--text);font-weight:600">₩243,000</span>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span style="color:var(--text2)">트윙클 8종 세트 (광고)</span>
+            <span style="color:var(--text);font-weight:600">노출 중</span>
+          </div>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--red)">⚠ PITB 런칭 시 가격 경쟁 발생 예상 — 쿠팡 입점 전략 수립 필요</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ PAGE: PRICE ══ -->
+  <div id="page-price" class="page">
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">주요 상품 채널별 가격 비교</div>
+        <div class="card-meta">PITB 기준</div>
+      </div>
+      <div class="price-hdr">
+        <span>상품명</span><span style="text-align:right">PITB 가격</span><span style="text-align:right">경쟁사 최저</span><span style="text-align:right">차이</span>
+      </div>
+      <div id="price-table"></div>
+    </div>
+
+    <div class="card" style="margin-top:0">
+      <div class="card-hdr">
+        <div class="card-title">채널별 가격 정리</div>
+      </div>
+      <div style="padding:12px 14px;font-size:12px;color:var(--text2);line-height:1.8">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <div style="background:var(--bg3);border-radius:8px;padding:10px">
+            <div style="font-size:11px;color:var(--text3);margin-bottom:4px">ASL몰</div>
+            <div style="font-weight:600;color:var(--text)">홈콜렉션 ₩155,000</div>
+            <div style="color:var(--red);font-size:11px">PITB 대비 -22%</div>
+          </div>
+          <div style="background:var(--bg3);border-radius:8px;padding:10px">
+            <div style="font-size:11px;color:var(--text3);margin-bottom:4px">디스톤 (네이버)</div>
+            <div style="font-weight:600;color:var(--text)">트윙클 ₩21,900</div>
+            <div style="color:var(--amber);font-size:11px">PITB 대비 -12%</div>
+          </div>
+          <div style="background:var(--bg3);border-radius:8px;padding:10px">
+            <div style="font-size:11px;color:var(--text3);margin-bottom:4px">쿠팡 셀러</div>
+            <div style="font-weight:600;color:var(--text)">트윙클 ₩21,900~</div>
+            <div style="color:var(--red);font-size:11px">PITB 대비 -12%</div>
+          </div>
+          <div style="background:var(--bg3);border-radius:8px;padding:10px">
+            <div style="font-size:11px;color:var(--text3);margin-bottom:4px">알리익스프레스</div>
+            <div style="font-weight:600;color:var(--text)">트윙클 ₩15,900~</div>
+            <div style="color:var(--red);font-size:11px">PITB 대비 -36%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: ECOMMERCE ══ -->
+  <div id="page-eco" class="page">
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">이커머스 채널 현황</div>
+        <div class="card-meta">국내+해외</div>
+      </div>
+      <div class="divider"></div>
+      <div id="eco-list"></div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: AI SCAN ══ -->
+  <div id="page-scan" class="page">
+
+    <div style="padding:0 16px 12px">
+      <div style="font-size:12px;color:var(--text3);margin-bottom:8px">경쟁사 가격·상품 실시간 조사</div>
+      <div class="sbar" style="padding:0;margin-bottom:8px">
+        <input type="text" id="scan-input" placeholder="예: ASL몰 퍼니즘 현재 가격 확인">
+        <button class="sbtn" id="scan-btn" onclick="doScan()">조사</button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <button onclick="qs('ASL몰 aslmall.com 퍼니즘 포켓몬 피규어 전체 상품 가격 2026')" style="padding:6px 12px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit">ASL몰 전체 가격</button>
+        <button onclick="qs('쿠팡 퍼니즘 포켓몬 트윙클 피규어 최저가 셀러 현황 2026')" style="padding:6px 12px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit">쿠팡 최저가</button>
+        <button onclick="qs('네이버 스마트스토어 퍼니즘 포켓몬 피규어 디스톤 판매 현황 재고')" style="padding:6px 12px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit">디스톤 재고 현황</button>
+        <button onclick="qs('한국 포켓몬 피규어 퍼니즘 판매 업체 이커머스 오프라인 전체 2026')" style="padding:6px 12px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit">전체 업체 현황</button>
+        <button onclick="qs('알리익스프레스 타오바오 퍼니즘 포켓몬 트윙클 블라인드박스 키링 가격 2026')" style="padding:6px 12px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit">해외 직구 가격</button>
+      </div>
+    </div>
+
+    <div class="result" id="scan-result">
+      <div id="scan-think" class="thinking" style="display:none">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <span>웹 검색 후 분석 중...</span>
+      </div>
+      <pre id="scan-text"></pre>
+    </div>
+
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <button class="nbtn active" id="nav-overview" onclick="switchP('overview',null,'nav-overview')">
+    <span class="nicon">🏠</span>현황
+  </button>
+  <button class="nbtn" id="nav-same" onclick="switchP('same',null,'nav-same')">
+    <span class="nicon">⚠️</span>동일상품
+  </button>
+  <button class="nbtn" id="nav-price" onclick="switchP('price',null,'nav-price')">
+    <span class="nicon">💰</span>가격
+  </button>
+  <button class="nbtn" id="nav-eco" onclick="switchP('eco',null,'nav-eco')">
+    <span class="nicon">🛒</span>이커머스
+  </button>
+  <button class="nbtn" id="nav-scan" onclick="switchP('scan',null,'nav-scan')">
+    <span class="nicon">🔍</span>AI조사
+  </button>
+</nav>
+
+<script>
+// ── 업체 데이터 ──
+const companies = [
+  // 이커머스
+  {name:'ASL몰 (aslmall.com)',     type:'이커머스 · 퍼니즘 공식 온라인',  icon:'🛒', skus:8,  status:'same',  statusLabel:'동일상품', tags:['eco']},
+  {name:'쿠팡 (Coupang)',           type:'이커머스 · 마켓플레이스 셀러',    icon:'🛒', skus:'복수', status:'same', statusLabel:'동일상품', tags:['eco']},
+  {name:'네이버 스마트스토어',       type:'이커머스 · 복수 셀러',           icon:'🛒', skus:'복수', status:'same', statusLabel:'동일상품', tags:['eco']},
+  {name:'카카오 선물하기',           type:'이커머스 · 선물 채널',           icon:'💛', skus:'-', status:'watch', statusLabel:'모니터링', tags:['eco']},
+  {name:'11번가',                  type:'이커머스',                       icon:'🛒', skus:'-', status:'watch', statusLabel:'모니터링', tags:['eco']},
+  {name:'G마켓/옥션',               type:'이커머스',                       icon:'🛒', skus:'-', status:'watch', statusLabel:'모니터링', tags:['eco']},
+  // 오프라인/전문
+  {name:'디스톤 (D.Stone)',         type:'오프라인+온라인 · 기존 위탁처',  icon:'🏪', skus:'재고소진중', status:'watch', statusLabel:'소진중', tags:['off']},
+  {name:'레벨투 (Level.2)',          type:'피규어 전문 · 고가 컬렉터',       icon:'🎯', skus:'-', status:'diff', statusLabel:'타브랜드', tags:['off']},
+  {name:'아트박스',                 type:'오프라인 · B2B 파트너(예정)',     icon:'🎨', skus:'-', status:'diff', statusLabel:'협력사', tags:['off']},
+  {name:'영풍문고',                 type:'오프라인 · B2B 파트너(예정)',     icon:'📚', skus:'-', status:'diff', statusLabel:'협력사', tags:['off']},
+  {name:'핫트렉스',                 type:'오프라인 · B2B 파트너(예정)',     icon:'🎮', skus:'-', status:'diff', statusLabel:'협력사', tags:['off']},
+  {name:'버터',                    type:'오프라인 · B2B 파트너(예정)',     icon:'🧁', skus:'-', status:'diff', statusLabel:'협력사', tags:['off']},
+  // 공식
+  {name:'포켓몬스토어 (pokemonstore.co.kr)', type:'공식 온라인 · 포켓몬코리아 직영', icon:'⚡', skus:'-', status:'diff', statusLabel:'공식 IP', tags:['eco','direct']},
+  {name:'반다이 공식 (tamashii.bandai)',      type:'공식 · 스케일월드 등',           icon:'🇯🇵', skus:'-', status:'diff', statusLabel:'타브랜드', tags:['off']},
+  // 해외 직구
+  {name:'알리익스프레스',            type:'해외 직구 · 가격 최저',         icon:'🌐', skus:'복수', status:'same', statusLabel:'가격경쟁', tags:['eco']},
+  {name:'타오바오',                 type:'해외 직구 · 중국 직구',         icon:'🌐', skus:'복수', status:'same', statusLabel:'가격경쟁', tags:['eco']},
+];
+
+const priceData = [
+  {name:'트윙크몬트 단품',   my:25000, comp:21900, compCh:'디스톤/쿠팡', same:true},
+  {name:'홈콜렉션 단품',    my:198000,comp:155000, compCh:'ASL몰',       same:true},
+  {name:'키링 단품',        my:7800,  comp:6900,   compCh:'ASL몰',       same:true},
+  {name:'블라인드박스 단품', my:29800, comp:27000,  compCh:'쿠팡셀러',    same:true},
+  {name:'프라임 스탠다드',  my:64800, comp:62000,  compCh:'알리',        same:true},
+  {name:'팜사이즈',         my:8800,  comp:8800,   compCh:'-',           same:false},
+  {name:'플로킹',           my:16000, comp:16000,  compCh:'-',           same:false},
+];
+
+const ecoData = [
+  {name:'ASL몰',       url:'aslmall.com',      type:'국내 이커머스',icon:'🛒', products:'홈콜렉션·프라임·블라인드박스·키링',   status:'동일상품',  statusC:'same',  price:'홈콜렉션 ₩155,000'},
+  {name:'쿠팡',        url:'coupang.com',       type:'국내 이커머스',icon:'🛒', products:'트윙클·블라인드박스 광고 노출 중',     status:'동일상품',  statusC:'same',  price:'트윙클 ₩21,900~'},
+  {name:'네이버 스토어',url:'smartstore.naver', type:'국내 이커머스',icon:'🛒', products:'D.Stone·복수셀러',                   status:'동일상품',  statusC:'same',  price:'트윙클 ₩21,900'},
+  {name:'카카오 선물', url:'gift.kakao.com',    type:'국내 이커머스',icon:'💛', products:'선물용 피규어 (런칭 후 추가 예정)',     status:'모니터링',  statusC:'watch', price:'미확인'},
+  {name:'알리익스프레스',url:'aliexpress.com',  type:'해외 직구',   icon:'🌐', products:'트윙클·키링·블라인드박스',             status:'가격경쟁',  statusC:'same',  price:'트윙클 ₩15,900~'},
+  {name:'타오바오',    url:'taobao.com',        type:'해외 직구',   icon:'🌐', products:'전 상품 직구 가능',                    status:'가격경쟁',  statusC:'same',  price:'트윙클 ₩17,500~'},
+  {name:'11번가',      url:'11st.co.kr',        type:'국내 이커머스',icon:'🛒', products:'포켓몬 피규어 일부',                   status:'모니터링',  statusC:'watch', price:'미확인'},
+  {name:'G마켓',       url:'gmarket.co.kr',     type:'국내 이커머스',icon:'🛒', products:'포켓몬 피규어 일부',                   status:'모니터링',  statusC:'watch', price:'미확인'},
+];
+
+function buildCoList(){
+  const el=document.getElementById('co-list');
+  el.innerHTML=companies.map(c=>`
+    <div class="co-item">
+      <div class="co-badge" style="background:var(--bg3)">${c.icon}</div>
+      <div class="co-info">
+        <div class="co-name">${c.name}</div>
+        <div class="co-type">${c.type}</div>
+      </div>
+      <div class="co-right">
+        <div class="co-sku">${typeof c.skus==='number'?c.skus+'SKU':c.skus}</div>
+        <span class="co-status ${c.status==='same'?'status-same':c.status==='watch'?'status-watch':'status-diff'}">${c.statusLabel}</span>
+      </div>
+    </div>`).join('');
+}
+
+function buildPriceTable(){
+  const el=document.getElementById('price-table');
+  el.innerHTML=priceData.map(d=>{
+    const gap=d.comp>0?Math.round((d.comp-d.my)/d.my*100):0;
+    const gapColor=gap<-10?'var(--red)':gap<0?'var(--amber)':'var(--green)';
+    return `<div class="price-row ${d.same&&d.comp<d.my?'same':''}">
+      <span class="pname">${d.name}${d.same&&d.comp<d.my?'<span class="same-badge">경쟁</span>':''}</span>
+      <span class="pmy">₩${d.my.toLocaleString()}</span>
+      <span class="pcomp">${d.comp>0?'₩'+d.comp.toLocaleString()+' ('+d.compCh+')':'-'}</span>
+      <span class="pgap" style="color:${gapColor}">${gap!==0?(gap>0?'+':'')+gap+'%':'-'}</span>
+    </div>`;
+  }).join('');
+}
+
+function buildEcoList(){
+  const el=document.getElementById('eco-list');
+  el.innerHTML=ecoData.map(d=>`
+    <div class="co-item">
+      <div class="co-badge" style="background:var(--bg3)">${d.icon}</div>
+      <div class="co-info">
+        <div class="co-name">${d.name} <span style="font-size:10px;color:var(--text3)">${d.type}</span></div>
+        <div class="co-type">${d.products}</div>
+        <div style="font-size:11px;color:var(--amber);margin-top:2px">${d.price}</div>
+      </div>
+      <div class="co-right">
+        <span class="co-status ${d.statusC==='same'?'status-same':d.statusC==='watch'?'status-watch':'status-diff'}">${d.status}</span>
+      </div>
+    </div>`).join('');
+}
+
+buildCoList(); buildPriceTable(); buildEcoList();
+
+// ── 탭/페이지 전환 ──
+let curPage='overview';
+function switchP(page, tabBtn, navId){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  curPage=page;
+  if(tabBtn){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tabBtn.classList.add('active');
+  }
+  if(navId){
+    document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
+    document.getElementById(navId).classList.add('active');
+    const map={overview:'전체 현황',same:'동일상품 ⚠',price:'가격 비교',eco:'이커머스',scan:'AI 스캔'};
+    document.querySelectorAll('.tab').forEach(t=>{
+      if(t.textContent.trim()===map[page]) t.classList.add('active');
+      else t.classList.remove('active');
+    });
+  }
+}
+
+// ── 비밀번호 ──
+const TEAM_PW='pitb2026';
+const TEAM_KEY='REPLACE_WITH_YOUR_KEY';
+function checkPw(){
+  const pw=document.getElementById('pwinput').value.trim();
+  if(pw!==TEAM_PW){document.getElementById('pwerr').style.display='block';document.getElementById('pwinput').value='';return;}
+  sessionStorage.setItem('auth','1');
+  sessionStorage.setItem('apk',TEAM_KEY);
+  document.getElementById('pwmodal').style.display='none';
+}
+window.addEventListener('load',()=>{
+  if(sessionStorage.getItem('auth')==='1'){
+    sessionStorage.setItem('apk',TEAM_KEY);
+    document.getElementById('pwmodal').style.display='none';
+  }
+});
+
+// ── Claude API ──
+async function callClaude(q){
+  const key=sessionStorage.getItem('apk');
+  if(!key||key==='REPLACE_WITH_YOUR_KEY') throw new Error('API 키를 설정해주세요');
+  const sys=`당신은 Hello Apolo Co., Ltd.(PITB 운영)의 경쟁사 가격 분석 전문 어시스턴트입니다.
+Hello Apolo는 Funism(퍼니즘·중국)과 포켓몬 피규어 한국 독점 유통 계약 중입니다.
+주요 상품: Twinkmont(₩25,000~45,800), Blind Box(₩27,000), Keychain(₩7,800), Prime Figure(₩64,800~), Home Collection(₩198,000)
+
+경쟁 현황:
+- ASL몰(aslmall.com): 퍼니즘 공식 온라인 유통, 홈콜렉션 ₩155,000 판매(PITB 대비 -22%)
+- 디스톤(D.Stone): 기존 위탁처, 트윙클 ₩21,900 네이버 판매 중(재고소진중)
+- 쿠팡 셀러: 트윙클 ₩21,900~ 광고 집행 중
+- 알리익스프레스: 트윙클 ₩15,900~(국내 대비 -36%)
+
+웹 검색 결과를 바탕으로 현재 판매가·재고·셀러 현황을 분석해주세요.
+한국어로 간결하게, 이모지로 구분, 숫자 명확히 표시해주세요.`;
+  const resp=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:sys,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:q}]})
+  });
+  if(!resp.ok) throw new Error(`오류 ${resp.status}`);
+  const data=await resp.json();
+  return data.content.filter(b=>b.type==='text').map(b=>b.text).join('\n').trim();
+}
+
+async function doScan(){
+  const q=document.getElementById('scan-input').value.trim(); if(!q) return;
+  const result=document.getElementById('scan-result');
+  const think=document.getElementById('scan-think');
+  const text=document.getElementById('scan-text');
+  const btn=document.getElementById('scan-btn');
+  result.classList.add('on'); think.style.display='flex'; text.textContent=''; btn.disabled=true; btn.textContent='조사 중...';
+  try{const r=await callClaude(q); think.style.display='none'; text.textContent=r;}
+  catch(e){think.style.display='none'; text.textContent='오류: '+e.message;}
+  btn.disabled=false; btn.textContent='조사';
+}
+function qs(q){document.getElementById('scan-input').value=q; doScan();}
+</script>
+</body>
+</html>
