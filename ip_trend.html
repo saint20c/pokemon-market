@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IP·캐릭터 트렌드 — 한국 20대 여성</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0C0C10;
+  --bg2:#14141A;
+  --bg3:#1E1E28;
+  --bg4:#252532;
+  --border:#2A2A38;
+  --border2:#363648;
+  --text:#EEEEF5;
+  --text2:#8888A8;
+  --text3:#4A4A65;
+  --poke:#FFCB05;    /* 포켓몬 옐로우 */
+  --poke2:#3B4CCA;   /* 포켓몬 블루 */
+  --sanrio:#FF6B8A;  /* 산리오 핑크 */
+  --webtoon:#7C5CFF; /* 웹툰 퍼플 */
+  --collab:#00C896;  /* 콜라보 그린 */
+  --r:10px;--rlg:16px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR','Inter',sans-serif;font-size:14px;min-height:100vh;-webkit-font-smoothing:antialiased}
+.wrap{max-width:480px;margin:0 auto;padding-bottom:90px}
+
+/* ── HEADER ── */
+.hdr{padding:22px 16px 0;position:relative}
+.hdr-eyebrow{font-size:11px;font-weight:500;letter-spacing:.12em;color:var(--text3);text-transform:uppercase;margin-bottom:10px}
+.hdr-title{font-size:26px;font-weight:900;line-height:1.15;color:var(--text);margin-bottom:6px}
+.hdr-title em{font-style:normal;color:var(--poke)}
+.hdr-sub{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:18px}
+.hdr-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.chip{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.03em}
+.chip-poke{background:rgba(255,203,5,.15);color:var(--poke);border:1px solid rgba(255,203,5,.25)}
+.chip-sanrio{background:rgba(255,107,138,.12);color:var(--sanrio);border:1px solid rgba(255,107,138,.2)}
+.chip-webtoon{background:rgba(124,92,255,.12);color:var(--webtoon);border:1px solid rgba(124,92,255,.2)}
+.chip-collab{background:rgba(0,200,150,.1);color:var(--collab);border:1px solid rgba(0,200,150,.18)}
+.chip-neutral{background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
+
+/* ── LAST UPDATE ── */
+.last-update{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);font-size:11px;color:var(--text3);margin:0 16px 16px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--collab);flex-shrink:0;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ── TAB NAV ── */
+.tabs{display:flex;gap:2px;padding:0 16px 14px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;border:1px solid transparent;color:var(--text3);background:none;font-family:inherit;transition:all .15s}
+.tab.active{background:var(--bg3);color:var(--text);border-color:var(--border2)}
+
+/* ── SECTION CARD ── */
+.sec{padding:0 16px;margin-bottom:12px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);overflow:hidden}
+.card-hdr{padding:14px 16px 0;display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:13px;font-weight:700;color:var(--text)}
+.card-badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600}
+
+/* ── IP RANK CARD ── */
+.ip-item{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.ip-item:last-child{border-bottom:none}
+.ip-rank{font-size:22px;font-weight:900;width:28px;flex-shrink:0;text-align:center}
+.ip-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.ip-info{flex:1;min-width:0}
+.ip-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px}
+.ip-desc{font-size:11px;color:var(--text2);line-height:1.5}
+.ip-right{flex-shrink:0;text-align:right}
+.ip-trend{font-size:18px;font-weight:900;margin-bottom:2px}
+.ip-trend-label{font-size:10px;color:var(--text3)}
+.bar-wrap{height:3px;background:var(--bg3);border-radius:2px;margin-top:5px;overflow:hidden}
+.bar{height:100%;border-radius:2px;transition:width .8s ease}
+
+/* ── STAT GRID ── */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px}
+.stat{background:var(--bg3);border-radius:var(--r);padding:13px}
+.stat-label{font-size:11px;color:var(--text3);margin-bottom:5px}
+.stat-val{font-size:20px;font-weight:900;line-height:1}
+.stat-delta{font-size:11px;margin-top:4px}
+.up{color:var(--collab)}.dn{color:#FF6060}.nu{color:var(--text3)}
+
+/* ── CHARACTER GRID ── */
+.char-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 16px}
+.char-item{background:var(--bg3);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:transform .15s,border .15s;border:1px solid transparent}
+.char-item:hover{transform:translateY(-2px);border-color:var(--border2)}
+.char-item.hot{border-color:rgba(255,203,5,.4)}
+.char-emoji{font-size:26px;margin-bottom:6px}
+.char-name{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px}
+.char-brand{font-size:10px;color:var(--text3)}
+.char-bar-wrap{height:2px;background:var(--bg4);border-radius:1px;margin-top:6px;overflow:hidden}
+.char-bar{height:100%;border-radius:1px}
+
+/* ── TREND TABLE ── */
+.trend-row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);font-size:12px}
+.trend-row:last-child{border-bottom:none}
+.trend-rank{font-size:11px;font-weight:700;color:var(--text3);width:22px;flex-shrink:0;text-align:center}
+.trend-icon{font-size:18px;flex-shrink:0}
+.trend-info{flex:1;min-width:0}
+.trend-name{font-weight:600;color:var(--text);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trend-sub{font-size:11px;color:var(--text2)}
+.trend-right{text-align:right;flex-shrink:0}
+.trend-pct{font-size:13px;font-weight:700}
+.trend-chg{font-size:10px;color:var(--text3);margin-top:1px}
+
+/* ── INSIGHT CARD ── */
+.insight{margin:0 16px 10px;padding:14px;background:linear-gradient(135deg,rgba(255,203,5,.06),rgba(59,76,202,.06));border:1px solid rgba(255,203,5,.2);border-radius:var(--rlg)}
+.insight-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.insight-icon{font-size:18px}
+.insight-title{font-size:12px;font-weight:700;color:var(--poke)}
+.insight-body{font-size:12px;color:var(--text2);line-height:1.7}
+.insight-body strong{color:var(--text);font-weight:600}
+
+/* ── CONSUMER PROFILE ── */
+.profile-row{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border)}
+.profile-row:last-child{border-bottom:none}
+.profile-label{font-size:12px;font-weight:600;color:var(--text);min-width:80px;flex-shrink:0}
+.profile-bar-wrap{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.profile-bar{height:100%;border-radius:3px}
+.profile-val{font-size:12px;font-weight:700;min-width:36px;text-align:right;flex-shrink:0}
+
+/* ── SEARCH / AI SCAN ── */
+.sbar{padding:0 16px 10px;display:flex;gap:8px}
+.sbar input{flex:1;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-size:13px;font-family:inherit;outline:none}
+.sbar input:focus{border-color:var(--poke2)}
+.sbar input::placeholder{color:var(--text3)}
+.sbar-btn{padding:0 18px;background:var(--poke);border:none;border-radius:var(--r);color:#000;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0}
+.sbar-btn:disabled{opacity:.45;cursor:not-allowed}
+.quick-btns{padding:0 16px 12px;display:flex;gap:6px;flex-wrap:wrap}
+.qbtn{padding:6px 12px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:border-color .15s}
+.qbtn:hover{border-color:var(--poke);color:var(--text)}
+.result-box{margin:0 16px 12px;padding:16px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rlg);display:none}
+.result-box.on{display:block}
+.thinking{display:flex;align-items:center;gap:8px;color:var(--text3);font-size:13px}
+.dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--poke2);margin:0 2px;animation:bounce .9s infinite}
+.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+.result-box pre{font-family:'Noto Sans KR',sans-serif;font-size:13px;color:var(--text);line-height:1.75;white-space:pre-wrap;word-break:break-word}
+
+/* ── POKE MOMENTUM BANNER ── */
+.banner{margin:0 16px 12px;background:linear-gradient(135deg,var(--poke2),#5B4CFF);border-radius:var(--rlg);padding:16px;overflow:hidden;position:relative}
+.banner::after{content:'⚡';position:absolute;right:-8px;bottom:-12px;font-size:72px;opacity:.12}
+.banner-eyebrow{font-size:10px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:6px}
+.banner-title{font-size:16px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:4px}
+.banner-sub{font-size:12px;color:rgba(255,255,255,.65);line-height:1.5}
+
+/* ── PW MODAL ── */
+#pwmodal{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px}
+.pwbox{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rlg);padding:28px;max-width:360px;width:100%}
+.pwbox h2{font-size:17px;font-weight:900;margin-bottom:6px;color:var(--text)}
+.pwbox p{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:18px}
+.pwbox input{width:100%;padding:11px 13px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);color:var(--text);font-size:14px;font-family:inherit;outline:none;margin-bottom:10px}
+.pwbox input:focus{border-color:var(--poke)}
+.pwbox button{width:100%;padding:12px;background:var(--poke);border:none;border-radius:var(--r);color:#000;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.pwerr{font-size:12px;color:#FF6060;text-align:center;margin-top:8px;display:none}
+
+/* ── BOTTOM NAV ── */
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(12,12,16,.95);border-top:1px solid var(--border);display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom));backdrop-filter:blur(16px);z-index:100}
+.nbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px;cursor:pointer;border:none;background:none;color:var(--text3);font-family:inherit;font-size:10px;font-weight:500;transition:color .15s}
+.nbtn.active{color:var(--poke)}
+.nicon{font-size:20px}
+
+.page{display:none}.page.active{display:block}
+.divider{height:1px;background:var(--border);margin:0 16px}
+.section-label{padding:12px 16px 6px;font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--text3);text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD MODAL -->
+<div id="pwmodal">
+  <div class="pwbox">
+    <h2>⚡ Hello Apolo 전용</h2>
+    <p>IP·캐릭터 트렌드 분석 시스템입니다.<br>팀 비밀번호를 입력해주세요.</p>
+    <input type="password" id="pwinput" placeholder="비밀번호 입력" onkeydown="if(event.key==='Enter')checkPw()">
+    <button onclick="checkPw()">입장하기</button>
+    <div class="pwerr" id="pwerr">비밀번호가 틀렸어요</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-eyebrow">Hello Apolo · 시장 인텔리전스</div>
+    <div class="hdr-title">한국 IP·캐릭터<br><em>트렌드 분석</em></div>
+    <div class="hdr-sub">타겟: 20대 여성 · 네이버·구글 검색 기반 · 2026 상반기</div>
+    <div class="hdr-chips">
+      <span class="chip chip-poke">⚡ 포켓몬 ↑최강</span>
+      <span class="chip chip-sanrio">🎀 산리오 △보합</span>
+      <span class="chip chip-webtoon">📖 웹툰 ↑급성장</span>
+      <span class="chip chip-collab">✨ 콜라보 ↑확대</span>
+    </div>
+  </div>
+
+  <div class="last-update">
+    <div class="live-dot"></div>
+    <span>2026년 6월 기준 · 네이버 트렌드·CU 실데이터·카레트·한국콘텐츠진흥원 자료 반영</span>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchP('overview',this)">전체 현황</button>
+    <button class="tab" onclick="switchP('pokemon',this)">포켓몬</button>
+    <button class="tab" onclick="switchP('character',this)">캐릭터 순위</button>
+    <button class="tab" onclick="switchP('consumer',this)">소비자 분석</button>
+    <button class="tab" onclick="switchP('scan',this)">AI 조사</button>
+  </div>
+
+  <!-- ══ OVERVIEW ══ -->
+  <div id="page-overview" class="page active">
+
+    <div class="banner">
+      <div class="banner-eyebrow">2026 빅 모멘텀</div>
+      <div class="banner-title">포켓몬 30주년 —<br>전 세계 IP 누적수익 1위 등극</div>
+      <div class="banner-sub">미키마우스·헬로키티 제치고 왕좌 · 메가페스타 성수·서울숲 전역 진행 중</div>
+    </div>
+
+    <div class="sec">
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">IP 세력도 (20대 여성 기준)</div></div>
+        <div style="height:8px"></div>
+        <div class="ip-item">
+          <div class="ip-rank" style="color:var(--poke)">①</div>
+          <div class="ip-icon" style="background:rgba(255,203,5,.15)">⚡</div>
+          <div class="ip-info">
+            <div class="ip-name">포켓몬스터</div>
+            <div class="ip-desc">30주년 모멘텀 · 이브이 계열 20대 여성 최선호 · 메가페스타 진행 중</div>
+            <div class="bar-wrap" style="margin-top:6px"><div class="bar" style="width:95%;background:var(--poke)"></div></div>
+          </div>
+          <div class="ip-right">
+            <div class="ip-trend" style="color:var(--collab)">↑↑</div>
+            <div class="ip-trend-label">초강세</div>
+          </div>
+        </div>
+        <div class="ip-item">
+          <div class="ip-rank" style="color:var(--sanrio)">②</div>
+          <div class="ip-icon" style="background:rgba(255,107,138,.12)">🎀</div>
+          <div class="ip-info">
+            <div class="ip-name">산리오 캐릭터즈</div>
+            <div class="ip-desc">시나모롤 5년 연속 1위 · 슈가바니즈 2026 라이징 · 전체 언급량 소폭 감소</div>
+            <div class="bar-wrap" style="margin-top:6px"><div class="bar" style="width:82%;background:var(--sanrio)"></div></div>
+          </div>
+          <div class="ip-right">
+            <div class="ip-trend" style="color:var(--text2)">→</div>
+            <div class="ip-trend-label">보합</div>
+          </div>
+        </div>
+        <div class="ip-item">
+          <div class="ip-rank" style="color:var(--webtoon)">③</div>
+          <div class="ip-icon" style="background:rgba(124,92,255,.12)">📖</div>
+          <div class="ip-info">
+            <div class="ip-name">웹툰 IP</div>
+            <div class="ip-desc">에스더버니·망그러진곰·조구만 · 웹툰 캐릭터 시장 연 35% 성장 전망</div>
+            <div class="bar-wrap" style="margin-top:6px"><div class="bar" style="width:70%;background:var(--webtoon)"></div></div>
+          </div>
+          <div class="ip-right">
+            <div class="ip-trend" style="color:var(--collab)">↑</div>
+            <div class="ip-trend-label">급성장</div>
+          </div>
+        </div>
+        <div class="ip-item">
+          <div class="ip-rank" style="color:var(--collab)">④</div>
+          <div class="ip-icon" style="background:rgba(0,200,150,.1)">✨</div>
+          <div class="ip-info">
+            <div class="ip-name">콜라보 IP</div>
+            <div class="ip-desc">조앤프렌즈(GD×IPX)·버니즈 · 뷰티·패션 브랜드 협업 확대</div>
+            <div class="bar-wrap" style="margin-top:6px"><div class="bar" style="width:55%;background:var(--collab)"></div></div>
+          </div>
+          <div class="ip-right">
+            <div class="ip-trend" style="color:var(--collab)">↑</div>
+            <div class="ip-trend-label">확대</div>
+          </div>
+        </div>
+        <div class="ip-item">
+          <div class="ip-rank" style="color:var(--text3)">⑤</div>
+          <div class="ip-icon" style="background:var(--bg3)">🌸</div>
+          <div class="ip-info">
+            <div class="ip-name">디즈니·지브리</div>
+            <div class="ip-desc">꾸준한 기반 · AI 이미지 열풍(지브리 스타일)으로 재조명</div>
+            <div class="bar-wrap" style="margin-top:6px"><div class="bar" style="width:45%;background:var(--text3)"></div></div>
+          </div>
+          <div class="ip-right">
+            <div class="ip-trend" style="color:var(--text2)">→</div>
+            <div class="ip-trend-label">유지</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-header">
+        <span class="insight-icon">💡</span>
+        <span class="insight-title">Hello Apolo 런칭 시점 분석</span>
+      </div>
+      <div class="insight-body">
+        <strong>8월 런칭</strong>은 포켓몬 30주년 메가페스타(5~6월) 직후로, 팬덤 열기가 최고조에서 구매력으로 전환되는 타이밍이에요.
+        <strong>이브이 계열</strong>이 20대 여성 선호 1순위이며, 블라인드박스·트윙크몬트 이브이 라인을 전면 배치하는 전략이 유효합니다.
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">시장 핵심 지표</div></div>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-label">캐릭터 굿즈 주구매층</div>
+            <div class="stat-val" style="color:var(--poke)">20대</div>
+            <div class="stat-delta up">▲ 33.1% — CU 데이터</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">20·30대 합산</div>
+            <div class="stat-val" style="color:var(--collab)">61%</div>
+            <div class="stat-delta up">어른이 소비 주도</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">CU 캐릭터 매출 성장</div>
+            <div class="stat-val" style="color:var(--poke)">106%</div>
+            <div class="stat-delta up">▲ 2025년 YoY</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">웹툰 캐릭터 시장</div>
+            <div class="stat-val" style="color:var(--webtoon)">+35%</div>
+            <div class="stat-delta up">▲ 연평균 성장 전망</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ POKEMON ══ -->
+  <div id="page-pokemon" class="page">
+
+    <div class="banner">
+      <div class="banner-eyebrow">2026 포켓몬 모멘텀</div>
+      <div class="banner-title">전 세계 IP 누적수익 1위<br>미키마우스·헬로키티 추월</div>
+      <div class="banner-sub">30주년 메가페스타 · 성수·서울숲·코엑스 동시 진행</div>
+    </div>
+
+    <div class="section-label">2026 주요 이벤트</div>
+    <div class="sec">
+      <div class="card">
+        <div id="poke-event-list"></div>
+      </div>
+    </div>
+
+    <div class="section-label">캐릭터별 20대 여성 선호도</div>
+    <div class="sec">
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">퍼니즘 라인업 캐릭터 매핑</div><div class="card-badge" style="background:rgba(255,203,5,.15);color:var(--poke)">PITB 취급</div></div>
+        <div style="height:4px"></div>
+        <div id="poke-char-list"></div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-header">
+        <span class="insight-icon">🎯</span>
+        <span class="insight-title">PITB 런칭 전략 제안</span>
+      </div>
+      <div class="insight-body">
+        <strong>이브이 계열</strong> — 20대 여성 1순위. 블라인드박스 9종·프라임 이브이 6종 세트 전면 배치<br>
+        <strong>피카츄</strong> — 전 연령 보편. 트윙크몬트·키링으로 접근성 높은 가격대 제공<br>
+        <strong>겐가·팬텀</strong> — 다크 감성 선호 서브컬처 여성층 공략. 홈콜렉션 활용<br>
+        <strong>팝업 성수</strong> — 포켓몬 메가페스타 여운 활용. 9~10월 성수 팝업 강력 추천
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ CHARACTER RANK ══ -->
+  <div id="page-character" class="page">
+
+    <div class="section-label">2026 상반기 인기 캐릭터 TOP 20</div>
+    <div class="sec">
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title">캐릭터 트렌드 랭킹</div>
+          <div class="card-badge" style="background:rgba(255,203,5,.15);color:var(--poke)">20대 여성 기준</div>
+        </div>
+        <div style="height:4px"></div>
+        <div id="char-rank-list"></div>
+      </div>
+    </div>
+
+    <div class="section-label">IP별 캐릭터 현황</div>
+    <div class="char-grid" id="char-grid-list" style="padding:0 16px 12px"></div>
+
+  </div>
+
+  <!-- ══ CONSUMER ══ -->
+  <div id="page-consumer" class="page">
+
+    <div class="section-label">20대 여성 소비 행동 특성</div>
+    <div class="sec">
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">구매 동기 분석</div></div>
+        <div id="consumer-motive-list"></div>
+      </div>
+    </div>
+
+    <div class="section-label">선호 구매 채널</div>
+    <div class="sec">
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">채널별 선호도</div></div>
+        <div id="channel-pref-list"></div>
+      </div>
+    </div>
+
+    <div class="section-label">캐릭터 선택 기준</div>
+    <div class="sec">
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">캐릭터 선택 시 고려 요소</div></div>
+        <div id="char-criteria-list"></div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-header">
+        <span class="insight-icon">👩</span>
+        <span class="insight-title">20대 여성 소비 핵심 인사이트</span>
+      </div>
+      <div class="insight-body">
+        <strong>체험 → 인증 → 구매</strong> 패턴 — 팝업스토어 방문 후 SNS 인증, 이후 굿즈 구매로 이어짐<br>
+        <strong>소장 가치</strong>를 최우선 — "갖고 싶다"는 감정이 구매 트리거. 한정판·랜덤(블라인드박스) 요소 효과적<br>
+        <strong>이브이 계열 압도적 선호</strong> — 귀여움+파스텔 감성이 20대 여성 취향 적중<br>
+        <strong>선물 소비 비중 높음</strong> — 생일·기념일 선물로 카카오 선물하기 활용률 높음
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ AI SCAN ══ -->
+  <div id="page-scan" class="page">
+
+    <div style="padding:0 16px 10px">
+      <div style="font-size:12px;color:var(--text3);margin-bottom:10px">실시간 트렌드 조사 — 네이버·구글 검색 기반 분석</div>
+    </div>
+    <div class="sbar">
+      <input type="text" id="scan-input" placeholder="예: 2026 이브이 캐릭터 인기 트렌드">
+      <button class="sbar-btn" id="scan-btn" onclick="doScan()">조사</button>
+    </div>
+    <div class="quick-btns">
+      <button class="qbtn" onclick="qs('2026 한국 포켓몬 이브이 캐릭터 굿즈 20대 여성 인기 트렌드')">이브이 트렌드</button>
+      <button class="qbtn" onclick="qs('2026 산리오 캐릭터 한국 인기 순위 슈가바니즈 시나모롤')">산리오 순위</button>
+      <button class="qbtn" onclick="qs('한국 웹툰 캐릭터 IP 굿즈 에스더버니 망그러진곰 2026 인기')">웹툰 IP</button>
+      <button class="qbtn" onclick="qs('한국 20대 여성 캐릭터 굿즈 소비 트렌드 팝업스토어 2026')">소비 행동</button>
+      <button class="qbtn" onclick="qs('포켓몬 30주년 메가페스타 2026 반응 후기 소비자 인기')">메가페스타 반응</button>
+      <button class="qbtn" onclick="qs('한국 캐릭터 피규어 수집 굿즈 블라인드박스 2026 트렌드 인기')">피규어 수집 트렌드</button>
+    </div>
+
+    <div class="result-box" id="scan-result">
+      <div id="scan-think" class="thinking" style="display:none">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <span style="margin-left:4px">네이버·구글 검색 중...</span>
+      </div>
+      <pre id="scan-text"></pre>
+    </div>
+
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <button class="nbtn active" id="nav-overview" onclick="switchP('overview',null,'nav-overview')">
+    <span class="nicon">📊</span>전체
+  </button>
+  <button class="nbtn" id="nav-pokemon" onclick="switchP('pokemon',null,'nav-pokemon')">
+    <span class="nicon">⚡</span>포켓몬
+  </button>
+  <button class="nbtn" id="nav-character" onclick="switchP('character',null,'nav-character')">
+    <span class="nicon">🏆</span>순위
+  </button>
+  <button class="nbtn" id="nav-consumer" onclick="switchP('consumer',null,'nav-consumer')">
+    <span class="nicon">👩</span>소비자
+  </button>
+  <button class="nbtn" id="nav-scan" onclick="switchP('scan',null,'nav-scan')">
+    <span class="nicon">🔍</span>AI조사
+  </button>
+</nav>
+
+<script>
+// ── 데이터 ──
+const POKE_EVENTS = [
+  {icon:'🌳', title:'포켓몬 시크릿 포레스트', date:'5.1~6.21', place:'서울숲·성동구', desc:'야외형 체험 팝업 · 한정 굿즈 판매 · 오픈런 발생'},
+  {icon:'🪞', title:'메타몽 놀이터', date:'5.1~6.21', place:'성수동', desc:'전시·체험·스토어 운영 · 30주년 기념 피카피카! 굿즈'},
+  {icon:'🎉', title:'포켓몬 30주년 파티 팝업', date:'5.1~5.31', place:'트렌드팟 바이 올리브영N 성수', desc:'한정 굿즈존 · 30주년 컬렉션 중심'},
+  {icon:'🏃', title:'포켓몬 런 2026', date:'5.5', place:'뚝섬 한강공원', desc:'마라톤 + 포켓몬GO 이벤트 · 파트너사 부스 운영'},
+  {icon:'🎮', title:'포켓몬 스포츠데이 2026', date:'5.24~25', place:'코엑스 C홀', desc:'포켓몬 게임 대회 · 트레이너스컵 · 팬덤 집결'},
+];
+const POKE_CHARS = [
+  {name:'이브이 계열', emoji:'🦊', pref:98, note:'20대 여성 1순위 · 블라인드박스 핵심', pitb:true},
+  {name:'피카츄', emoji:'⚡', pref:95, note:'전 연령 보편 · 트윙크몬트 주력', pitb:true},
+  {name:'시나모롤', emoji:'🐶', pref:88, note:'산리오 1위 · 경쟁 IP', pitb:false},
+  {name:'님피아', emoji:'💜', pref:82, note:'이브이 진화·핑크 감성', pitb:true},
+  {name:'겐가·팬텀', emoji:'👻', pref:76, note:'다크 감성 · 홈콜렉션 적합', pitb:true},
+  {name:'리자몽', emoji:'🔥', pref:73, note:'복고 감성 · 프라임 피규어', pitb:true},
+  {name:'뮤·뮤츠', emoji:'🌸', pref:68, note:'레어·소장 가치 높음', pitb:true},
+  {name:'푸린', emoji:'🎤', pref:65, note:'귀여움 특화 · 키링 적합', pitb:true},
+];
+const CHAR_RANK = [
+  {rank:1,  emoji:'⚡', name:'피카츄',       brand:'포켓몬',  score:98, trend:'↑↑', color:'var(--poke)',   pitb:true},
+  {rank:2,  emoji:'🦊', name:'이브이',       brand:'포켓몬',  score:96, trend:'↑↑', color:'var(--poke)',   pitb:true},
+  {rank:3,  emoji:'🐶', name:'시나모롤',     brand:'산리오',  score:91, trend:'→',  color:'var(--sanrio)', pitb:false},
+  {rank:4,  emoji:'🌙', name:'쿠로미',       brand:'산리오',  score:87, trend:'↓',  color:'var(--sanrio)', pitb:false},
+  {rank:5,  emoji:'🐰', name:'슈가바니즈',   brand:'산리오',  score:83, trend:'↑↑', color:'var(--sanrio)', pitb:false},
+  {rank:6,  emoji:'💜', name:'님피아',       brand:'포켓몬',  score:80, trend:'↑',  color:'var(--poke)',   pitb:true},
+  {rank:7,  emoji:'📖', name:'에스더버니',   brand:'웹툰',    score:76, trend:'↑',  color:'var(--webtoon)',pitb:false},
+  {rank:8,  emoji:'🐻', name:'망그러진 곰',  brand:'웹툰',    score:74, trend:'↑',  color:'var(--webtoon)',pitb:false},
+  {rank:9,  emoji:'🎀', name:'마이멜로디',   brand:'산리오',  score:71, trend:'→',  color:'var(--sanrio)', pitb:false},
+  {rank:10, emoji:'👻', name:'겐가',         brand:'포켓몬',  score:68, trend:'↑',  color:'var(--poke)',   pitb:true},
+  {rank:11, emoji:'🐱', name:'포차코',       brand:'산리오',  score:66, trend:'→',  color:'var(--sanrio)', pitb:false},
+  {rank:12, emoji:'🌸', name:'뮤',           brand:'포켓몬',  score:64, trend:'↑',  color:'var(--poke)',   pitb:true},
+  {rank:13, emoji:'🦅', name:'조앤프렌즈',   brand:'콜라보',  score:61, trend:'↑',  color:'var(--collab)', pitb:false},
+  {rank:14, emoji:'🐸', name:'개굴닌자',     brand:'포켓몬',  score:58, trend:'↑',  color:'var(--poke)',   pitb:true},
+  {rank:15, emoji:'🌊', name:'조구만',       brand:'웹툰',    score:55, trend:'↑',  color:'var(--webtoon)',pitb:false},
+];
+const CONSUMER_MOTIVES = [
+  {label:'소장 가치',   pct:87, color:'var(--poke)'},
+  {label:'귀여움·감성', pct:82, color:'var(--sanrio)'},
+  {label:'SNS 인증',    pct:74, color:'var(--collab)'},
+  {label:'선물용',      pct:68, color:'var(--webtoon)'},
+  {label:'팬덤·애착',  pct:64, color:'var(--poke2)'},
+  {label:'한정판 희소',pct:58, color:'var(--poke)'},
+];
+const CHANNEL_PREF = [
+  {label:'팝업스토어',      pct:79, color:'var(--poke)'},
+  {label:'오프라인 매장',   pct:72, color:'var(--collab)'},
+  {label:'카카오 선물하기', pct:68, color:'#FEE500'},
+  {label:'쿠팡·네이버',    pct:65, color:'var(--webtoon)'},
+  {label:'공식 온라인몰',  pct:54, color:'var(--sanrio)'},
+];
+const CHAR_CRITERIA = [
+  {label:'디자인·비주얼', pct:91, color:'var(--poke)'},
+  {label:'귀여움',        pct:88, color:'var(--sanrio)'},
+  {label:'캐릭터 스토리',pct:72, color:'var(--webtoon)'},
+  {label:'트렌드·유행',  pct:69, color:'var(--collab)'},
+  {label:'추억·향수',    pct:63, color:'var(--poke2)'},
+  {label:'희소성·한정',  pct:57, color:'var(--poke)'},
+];
+const CHAR_GRID_DATA = [
+  {emoji:'⚡',name:'피카츄',brand:'포켓몬',hot:true,color:'var(--poke)'},
+  {emoji:'🦊',name:'이브이',brand:'포켓몬',hot:true,color:'var(--poke)'},
+  {emoji:'🐶',name:'시나모롤',brand:'산리오',hot:false,color:'var(--sanrio)'},
+  {emoji:'🌙',name:'쿠로미',brand:'산리오',hot:false,color:'var(--sanrio)'},
+  {emoji:'🐰',name:'슈가바니즈',brand:'산리오',hot:true,color:'var(--sanrio)'},
+  {emoji:'💜',name:'님피아',brand:'포켓몬',hot:false,color:'var(--poke)'},
+  {emoji:'📖',name:'에스더버니',brand:'웹툰',hot:false,color:'var(--webtoon)'},
+  {emoji:'🐻',name:'망그러진곰',brand:'웹툰',hot:true,color:'var(--webtoon)'},
+  {emoji:'🦅',name:'조앤프렌즈',brand:'콜라보',hot:false,color:'var(--collab)'},
+];
+
+// ── 빌더 ──
+function buildPokeEvents(){
+  const el=document.getElementById('poke-event-list');
+  el.innerHTML=POKE_EVENTS.map(e=>`
+    <div style="display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border)">
+      <div style="font-size:22px;flex-shrink:0;margin-top:2px">${e.icon}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px">${e.title}</div>
+        <div style="font-size:11px;color:var(--poke);margin-bottom:3px">${e.date} · ${e.place}</div>
+        <div style="font-size:11px;color:var(--text2)">${e.desc}</div>
+      </div>
+    </div>`).join('').replace(/border-bottom[^>]*>$/,'</div>');
+  // remove last border
+  el.innerHTML=POKE_EVENTS.map((e,i)=>`
+    <div style="display:flex;align-items:flex-start;gap:12px;padding:11px 16px;${i<POKE_EVENTS.length-1?'border-bottom:1px solid var(--border)':''}">
+      <div style="font-size:22px;flex-shrink:0;margin-top:2px">${e.icon}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px">${e.title}</div>
+        <div style="font-size:11px;color:var(--poke);margin-bottom:3px">${e.date} · ${e.place}</div>
+        <div style="font-size:11px;color:var(--text2)">${e.desc}</div>
+      </div>
+    </div>`).join('');
+}
+
+function buildPokeChars(){
+  const el=document.getElementById('poke-char-list');
+  el.innerHTML=POKE_CHARS.map((c,i)=>`
+    <div class="profile-row">
+      <div style="display:flex;align-items:center;gap:8px;min-width:120px;flex-shrink:0">
+        <span style="font-size:18px">${c.emoji}</span>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--text)">${c.name}</div>
+          <div style="font-size:10px;color:${c.pitb?'var(--collab)':'var(--text3)'}">${c.pitb?'✅ PITB 취급':'타사'}</div>
+        </div>
+      </div>
+      <div class="profile-bar-wrap">
+        <div class="profile-bar" style="width:${c.pref}%;background:var(--poke)"></div>
+      </div>
+      <div style="font-size:12px;font-weight:700;min-width:36px;text-align:right;color:var(--poke)">${c.pref}</div>
+    </div>`).join('');
+}
+
+function buildCharRank(){
+  const el=document.getElementById('char-rank-list');
+  el.innerHTML=CHAR_RANK.map((c,i)=>`
+    <div class="trend-row">
+      <div class="trend-rank">${c.rank}</div>
+      <div class="trend-icon">${c.emoji}</div>
+      <div class="trend-info">
+        <div class="trend-name">
+          ${c.name}
+          ${c.pitb?'<span style="font-size:9px;padding:1px 5px;border-radius:4px;background:rgba(255,203,5,.15);color:var(--poke);margin-left:4px">PITB</span>':''}
+        </div>
+        <div class="trend-sub">${c.brand}</div>
+      </div>
+      <div class="trend-right">
+        <div class="trend-pct" style="color:${c.color}">${c.score}</div>
+        <div class="trend-chg">${c.trend}</div>
+      </div>
+    </div>`).join('');
+}
+
+function buildCharGrid(){
+  const el=document.getElementById('char-grid-list');
+  el.innerHTML=CHAR_GRID_DATA.map(c=>`
+    <div class="char-item ${c.hot?'hot':''}">
+      <div class="char-emoji">${c.emoji}</div>
+      <div class="char-name">${c.name}</div>
+      <div class="char-brand">${c.brand}${c.hot?' 🔥':''}</div>
+      <div class="char-bar-wrap"><div class="char-bar" style="width:70%;background:${c.color}"></div></div>
+    </div>`).join('');
+}
+
+function buildBarList(elId, data){
+  const el=document.getElementById(elId);
+  if(!el) return;
+  el.innerHTML=data.map((d,i)=>`
+    <div class="profile-row">
+      <div class="profile-label">${d.label}</div>
+      <div class="profile-bar-wrap">
+        <div class="profile-bar" style="width:${d.pct}%;background:${d.color}"></div>
+      </div>
+      <div class="profile-val" style="color:${d.color}">${d.pct}%</div>
+    </div>`).join('');
+}
+
+buildPokeEvents();
+buildPokeChars();
+buildCharRank();
+buildCharGrid();
+buildBarList('consumer-motive-list', CONSUMER_MOTIVES);
+buildBarList('channel-pref-list', CHANNEL_PREF);
+buildBarList('char-criteria-list', CHAR_CRITERIA);
+
+// ── 탭 전환 ──
+let curPage='overview';
+function switchP(page, tabBtn, navId){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  curPage=page;
+  if(tabBtn){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tabBtn.classList.add('active');
+  }
+  if(navId){
+    document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
+    document.getElementById(navId).classList.add('active');
+    const map={overview:'전체 현황',pokemon:'포켓몬',character:'캐릭터 순위',consumer:'소비자 분석',scan:'AI 조사'};
+    document.querySelectorAll('.tab').forEach(t=>{
+      if(t.textContent.trim()===map[page]) t.classList.add('active');
+      else t.classList.remove('active');
+    });
+  }
+}
+
+// ── 비밀번호 ──
+const TEAM_PW='pitb2026';
+const TEAM_KEY='REPLACE_WITH_YOUR_KEY';
+function checkPw(){
+  const pw=document.getElementById('pwinput').value.trim();
+  if(pw!==TEAM_PW){document.getElementById('pwerr').style.display='block';document.getElementById('pwinput').value='';return;}
+  sessionStorage.setItem('auth','1');
+  sessionStorage.setItem('apk',TEAM_KEY);
+  document.getElementById('pwmodal').style.display='none';
+}
+window.addEventListener('load',()=>{
+  if(sessionStorage.getItem('auth')==='1'){
+    sessionStorage.setItem('apk',TEAM_KEY);
+    document.getElementById('pwmodal').style.display='none';
+  }
+});
+
+// ── Claude API ──
+async function callClaude(q){
+  const key=sessionStorage.getItem('apk');
+  if(!key||key==='REPLACE_WITH_YOUR_KEY') throw new Error('API 키를 설정해주세요');
+  const sys=`당신은 한국 IP·캐릭터 트렌드 전문 분석가입니다.
+Hello Apolo Co., Ltd.는 퍼니즘(중국) 포켓몬 피규어를 2026년 8월 한국에 런칭합니다.
+주요 타겟: 20대 여성 / 주요 IP: 포켓몬(이브이·피카츄·겐가 등) / 채널: PITB 직영 7개점·B2B·이커머스
+
+현황:
+- 포켓몬 30주년 메가페스타 2026 서울 진행 중 (5~6월 성수·서울숲·코엑스)
+- 산리오: 시나모롤 1위, 슈가바니즈 라이징, 전체 언급 소폭 감소
+- 웹툰 IP: 에스더버니·망그러진곰·조구만 급성장, 연 35% 성장 전망
+- CU 캐릭터 굿즈 주구매층: 20대 33.1%가 최다
+
+웹 검색을 활용하여 한국 네이버·구글 최신 트렌드를 분석해주세요.
+한국어로, 이모지로 구분, 핵심 수치 명확하게, Hello Apolo 런칭 전략 관점으로 정리해주세요.`;
+  const resp=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:sys,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:q}]})
+  });
+  if(!resp.ok) throw new Error(`오류 ${resp.status}`);
+  const data=await resp.json();
+  return data.content.filter(b=>b.type==='text').map(b=>b.text).join('\n').trim();
+}
+
+async function doScan(){
+  const q=document.getElementById('scan-input').value.trim();
+  if(!q) return;
+  const box=document.getElementById('scan-result');
+  const think=document.getElementById('scan-think');
+  const text=document.getElementById('scan-text');
+  const btn=document.getElementById('scan-btn');
+  box.classList.add('on'); think.style.display='flex'; text.textContent=''; btn.disabled=true; btn.textContent='조사 중...';
+  try{const r=await callClaude(q); think.style.display='none'; text.textContent=r||'결과를 가져오지 못했어요.';}
+  catch(e){think.style.display='none'; text.textContent='오류: '+e.message;}
+  btn.disabled=false; btn.textContent='조사';
+}
+function qs(q){document.getElementById('scan-input').value=q; switchP('scan',null,'nav-scan'); doScan();}
+</script>
+</body>
+</html>
