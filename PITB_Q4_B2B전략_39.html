@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PITB × FUNISM — Q4 B2B Strategy</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F5F6FA;color:#1a1a2e;font-size:14px}
+.topbar{background:#1a1a2e;color:#fff;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100}
+.topbar-title{font-size:14px;font-weight:700}
+.topbar-badge{background:#2E5FA3;color:#fff;font-size:11px;padding:4px 12px;border-radius:20px;font-weight:600}
+.nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 24px;display:flex;align-items:stretch;position:sticky;top:52px;z-index:99}
+.nav-left{display:flex;gap:4px;flex:1;overflow-x:auto}
+.ntab{border:none;background:none;padding:14px 12px;font-size:13px;color:#6b7280;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;font-weight:500;transition:color .15s}
+.ntab:hover{color:#1a1a2e}
+.ntab.on{border-bottom-color:currentColor;font-weight:700}
+.page{display:none;padding:24px;max-width:1300px;margin:0 auto}
+.page.on{display:block}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.kpi{background:#fff;border-radius:10px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.kpi-label{font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi-val{font-size:32px;font-weight:800;line-height:1}
+.kpi-sub{font-size:11px;color:#9ca3af;margin-top:4px}
+.sec-head{font-size:13px;font-weight:700;padding:0 0 10px;margin-bottom:16px;border-left:3px solid currentColor;padding-left:10px}
+.pri-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.pri-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.07);cursor:pointer;transition:transform .15s,box-shadow .15s}
+.pri-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.pri-top{padding:14px 16px}
+.pri-no{font-size:10px;font-weight:700;letter-spacing:1px;opacity:.7;color:#fff}
+.pri-name{font-size:16px;font-weight:800;color:#fff;margin:2px 0 4px}
+.pri-brands{font-size:11px;color:rgba(255,255,255,.75);line-height:1.4}
+.pri-body{padding:12px 16px;display:flex;flex-direction:column;gap:6px}
+.pri-row{display:flex;justify-content:space-between;align-items:center}
+.pri-lbl{font-size:11px;color:#9ca3af}
+.pri-val{font-size:20px;font-weight:800}
+.pkm-pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;margin-top:2px}
+.ov-wrap{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);overflow:hidden}
+.ov-table{width:100%;border-collapse:collapse;font-size:13px}
+.ov-table th{background:#1a1a2e;color:#fff;padding:11px 14px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.4px;white-space:nowrap}
+.ov-table td{padding:10px 14px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
+.pri-badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;color:#fff;font-size:10px;font-weight:800}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.rate-pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);overflow:hidden}
+@media(max-width:900px){.ch-grid{grid-template-columns:1fr}}
+.ch-img-wrap{display:none}
+.card-head{padding:14px 18px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:1px solid #f3f4f6}
+.card-title{font-size:16px;font-weight:800}
+.detail-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px}
+.detail-key{padding:7px 0;font-weight:600;font-size:12px;width:140px;vertical-align:top;color:inherit}
+.detail-val{padding:7px 0;color:#374151;border-bottom:1px solid #f9fafb;line-height:1.5}
+.reg-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.reg-tbl th{background:#f9fafb;padding:7px 10px;text-align:left;font-size:11px;color:#6b7280;font-weight:600}
+.reg-tbl td{padding:7px 10px;border-bottom:1px solid #f9fafb}
+.r-badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700}
+.key-badge{display:inline-block;padding:1px 6px;border-radius:8px;background:#FFFBEB;color:#B45309;font-size:10px;font-weight:700;margin-right:4px}
+.region-grid{display:block}
+.rcard{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);overflow:hidden}
+.rcard-head{padding:10px 14px;background:#1a1a2e;color:#fff;font-size:12px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+.rcard-cnt{background:rgba(255,255,255,.2);padding:1px 8px;border-radius:20px;font-size:10px}
+.store-row{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid #f3f4f6}
+.store-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.store-info{flex:1;min-width:0}
+.store-name{font-size:12px;font-weight:600}
+.store-brand{font-size:11px;color:#9ca3af}
+.store-pkm{font-size:10px;padding:1px 7px;border-radius:10px;font-weight:600;flex-shrink:0}
+.tl-wrap{display:flex;flex-direction:column;gap:12px}
+.tl-item{display:flex;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.tl-month{min-width:90px;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px 8px;color:#fff;font-size:12px;font-weight:700;line-height:1.4;white-space:pre-line}
+.tl-body{background:#fff;padding:14px 18px;flex:1;display:flex;flex-direction:column;gap:4px}
+.tl-ch{font-size:13px;font-weight:700}
+.tl-action{font-size:12px;color:#6b7280;line-height:1.5}
+.tl-goal{font-size:11px;font-weight:600;color:#2E5FA3}
+/* SCHEDULE TABLE */
+/* ── SCHEDULE ── */
+.sch-outer{overflow-x:auto;padding-bottom:8px}
+.sch-tbl{border-collapse:separate;border-spacing:0;width:100%;min-width:920px;font-size:13px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.1)}
+/* 헤더 — 월 그룹 */
+.sch-tbl thead tr:first-child th{padding:0}
+.sch-tbl thead tr.hdr-group th{background:#0f172a;color:#94a3b8;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:6px 8px;text-align:center;border-bottom:1px solid #1e293b}
+.sch-tbl thead tr.hdr-group th:first-child{text-align:left;padding-left:18px;background:#0f172a}
+.sch-tbl thead tr.hdr-months th{padding:10px 8px;text-align:center;font-size:11px;font-weight:700;color:#fff;border-right:1px solid rgba(255,255,255,.12);white-space:nowrap;letter-spacing:.2px}
+.sch-tbl thead tr.hdr-months th:first-child{text-align:left;padding-left:18px;min-width:170px;border-right:2px solid rgba(255,255,255,.2);background:#0f172a;font-size:12px;color:#e2e8f0}
+.sch-tbl thead tr.hdr-months th.m-2026{background:#1e3a5f}
+.sch-tbl thead tr.hdr-months th.m-2027{background:#1e293b}
+/* 바디 */
+.sch-tbl tbody tr{border-bottom:1px solid #f1f5f9;transition:background .1s}
+.sch-tbl tbody tr:last-child{border-bottom:none}
+.sch-tbl tbody tr:hover td{background:#f8fafc}
+.sch-tbl tbody tr:hover td:first-child{background:#f8fafc}
+.sch-tbl tbody td{padding:11px 8px;text-align:center;border-right:1px solid #f1f5f9;vertical-align:middle;min-width:80px}
+.sch-tbl tbody td:first-child{text-align:left;padding-left:18px;font-weight:700;font-size:13px;border-right:2px solid #e2e8f0;background:#fff;white-space:nowrap}
+.sch-tbl tbody tr.sub-row td{background:#fafafa}
+.sch-tbl tbody tr.sub-row td:first-child{font-weight:500;color:#64748b;padding-left:32px;font-size:12px;background:#fafafa;font-style:italic}
+.sch-tbl tbody tr.sub-row:hover td{background:#f1f5f9}
+.sch-tbl tbody tr.group-row td{background:#f8fafc;font-size:12px;font-weight:700;padding:7px 18px;border-bottom:2px solid #e2e8f0;color:#374151;letter-spacing:.2px}
+.sch-tbl tbody tr.group-row:hover td{background:#f8fafc}
+/* 년도 구분선 */
+.sch-tbl tbody td.yr-sep{border-left:2px solid #e2e8f0}
+/* 상태 셀 */
+.sc{display:inline-flex;align-items:center;justify-content:center;gap:4px;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;white-space:nowrap;letter-spacing:.1px;min-width:64px}
+.sc-prep{background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE}
+.sc-out{background:#F5F3FF;color:#7C3AED;border:1px solid #DDD6FE}
+.sc-live{background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0}
+.sc-on{background:#FFFBEB;color:#B45309;border:1px solid #FDE68A}
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-title">PITB × FUNISM Pokémon 2026 — Q4 B2B Distribution Strategy</div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <span style="color:#9ca3af;font-size:12px">Oct Launch</span>
+    <span class="topbar-badge">8 Channels · 23 Partners</span>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-left">
+    <button class="ntab on" onclick="go('overview',this)">Overview</button>
+    <button class="ntab" onclick="go('p1',this)" data-tab="p1">① Bookstore</button>
+    <button class="ntab" onclick="go('p2',this)" data-tab="p2">② Fancy Shop</button>
+    <button class="ntab" onclick="go('p3',this)" data-tab="p3">③ Fashion Edit</button>
+    <button class="ntab" onclick="go('p4',this)" data-tab="p4">④ Mart</button>
+    <button class="ntab" onclick="go('p5',this)" data-tab="p5">⑤ Tourism</button>
+    <button class="ntab" onclick="go('p6',this)" data-tab="p6">⑥ Road Shop</button>
+    <button class="ntab" onclick="go('p7',this)" data-tab="p7">⑦ Airport &amp; Airline</button>
+    <button class="ntab" onclick="go('p8',this)" data-tab="p8">⑧ Duty-Free</button>
+    <button class="ntab" onclick="go('region',this)">⑨ By Region</button>
+    <button class="ntab" onclick="go('timeline',this)">⑩ Timeline</button>
+  </div>
+</nav>
+
+<div id="page-overview" class="page on">
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Total Channels</div><div class="kpi-val">8</div><div class="kpi-sub">Priority-based</div></div>
+    <div class="kpi"><div class="kpi-label">Total Partners</div><div class="kpi-val" style="color:#2E5FA3">22</div><div class="kpi-sub">Direct &amp; Vendor</div></div>
+    <div class="kpi"><div class="kpi-label">Reachable Stores</div><div class="kpi-val" style="color:#9D174D">800+</div><div class="kpi-sub">Nationwide</div></div>
+    <div class="kpi"><div class="kpi-label">B2B Launch Target</div><div class="kpi-val" style="color:#15803D;font-size:26px">Oct 2026</div><div class="kpi-sub">Pre-contact from Sept</div></div>
+  </div>
+  <div class="sec-head" style="border-color:#2E5FA3;color:#1a1a2e">Channel Cards by Priority</div>
+  <div class="pri-grid" id="pri-cards"></div>
+  <div class="sec-head" style="border-color:#2E5FA3;color:#1a1a2e;margin-top:8px">Full Channel Comparison</div>
+  <div class="ov-wrap">
+    <table class="ov-table">
+      <thead><tr><th>Pri.</th><th>Category</th><th>Partner</th><th>Stores</th><th>Key Stores</th><th>Pokémon Status</th><th>Product Model</th><th>SKU Range</th></tr></thead>
+      <tbody id="ov-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="page-p1" class="page"><div class="sec-head" style="border-color:#1F3864;color:#1F3864">① Bookstore</div><div id="ch-p1"></div></div>
+<div id="page-p2" class="page"><div class="sec-head" style="border-color:#6D28D9;color:#6D28D9">② Fancy Shop</div><div id="ch-p2"></div></div>
+<div id="page-p3" class="page"><div class="sec-head" style="border-color:#0E7490;color:#0E7490">③ Fashion Edit</div><div id="ch-p3"></div></div>
+<div id="page-p4" class="page"><div class="sec-head" style="border-color:#B45309;color:#B45309">④ Mart</div><div id="ch-p4"></div></div>
+<div id="page-p5" class="page"><div class="sec-head" style="border-color:#15803D;color:#15803D">⑤ Tourism</div><div id="ch-p5"></div></div>
+<div id="page-p6" class="page"><div class="sec-head" style="border-color:#9D174D;color:#9D174D">⑥ Road Shop</div><div id="ch-p6"></div></div>
+<div id="page-p7" class="page"><div class="sec-head" style="border-color:#1D4ED8;color:#1D4ED8">⑦ Airport &amp; Airline</div><div id="ch-p7"></div></div>
+<div id="page-p8" class="page"><div class="sec-head" style="border-color:#7C3AED;color:#7C3AED">⑧ Duty-Free</div><div id="ch-p8"></div></div>
+<div id="page-region" class="page"><div class="sec-head" style="border-color:#2E5FA3;color:#1a1a2e">Store Map by Region</div><div class="region-grid" id="region-grid"></div></div>
+<div id="page-timeline" class="page"><div class="sec-head" style="border-color:#2E5FA3;color:#1a1a2e">Channel Launch Timeline</div><div class="tl-wrap" id="tl-wrap"></div></div>
+
+<script>
+const CHANNELS = [
+  { pri:1, cat:'Bookstore', brand:'Yeongpung Mungo', stores:32,
+    region:'Nationwide terminals & malls', trade:'Direct/Vendor',
+    pkm:'no', pkmNote:'Only Pokémon books found — figure/goods not confirmed. Verify with buyer.',
+    sku:'Selected lines', rate:'60–63%',
+    detail:[
+      ['Stores','32 (nationwide terminals & shopping malls)'],
+      ['Operation','Direct / Vendor | Buyer: Merchandise Planning team'],
+      ['Product Model','Consignment — settled on actual sales'],
+      ['Core Customer','Office workers & students 20s–40s, cultural goods buyers'],
+      ['Approach','Jongno flagship first → COEX & IFC. Link to Christmas campaign'],
+    ],
+    regions:[
+      {r:'Seoul Jongno',   name:'Jongno Flagship',   key:true,  addr:'1 Jongno, Yeongpung Bldg 1–6F',                   pkm:'partial'},
+      {r:'Seoul Gangnam',  name:'COEX Starfield',     key:false, addr:'Starfield COEX B1, Gangnam-gu',                   pkm:'partial'},
+      {r:'Seoul Yeouido',  name:'IFC Mall',           key:false, addr:'10 Gukjegeumyung-ro, IFC Mall B1',                pkm:'no'},
+      {r:'Incheon',        name:'Incheon Terminal',   key:false, addr:'Incheon Namdong-gu terminal',                     pkm:'no'},
+      {r:'Gwangju',        name:'Gwangju Terminal',   key:false, addr:'Gwangju Seo-gu terminal',                         pkm:'no'},
+      {r:'Daejeon',        name:'Daejeon Terminal',   key:false, addr:'Near Daejeon Station, Dong-gu',                   pkm:'no'},
+      {r:'Gyeonggi Paju',  name:"Unjeong (Dec '25)",  key:false, addr:'Starfield Village Unjeong 3F',                    pkm:'no'},
+    ]
+  },
+  { pri:1, cat:'Bookstore', brand:'Hottracks (Kyobo)', stores:52,
+    region:'Nationwide — all Kyobo branches', trade:'Direct',
+    pkm:'yes', pkmNote:'Pokémon figures listed on Hottracks online mall — confirmed (hottracks.kyobobook.co.kr)',
+    sku:'Selected lines', rate:'60–63%',
+    detail:[
+      ['Stores','52 (all Kyobo Book Centre branches + standalone)'],
+      ['Operation','Direct | Via Kyobo Book Centre MD'],
+      ['Product Model','Consignment — settled on actual sales'],
+      ['Core Customer','Cultural consumers 20s–35s, K-POP fans, foreign tourists'],
+      ['Approach','Gwanghwamun flagship first → Gangnam / Jamsil / Busan Centum'],
+    ],
+    regions:[
+      {r:'Seoul Gwanghwamun', name:'Gwanghwamun',    key:true,  addr:'1 Jongno, Kyobo Bldg B1',              pkm:'partial'},
+      {r:'Seoul Gangnam',     name:'Gangnam',         key:false, addr:'465 Gangnam-daero, Kyobo Gangnam',      pkm:'partial'},
+      {r:'Seoul Jamsil',      name:'Jamsil',          key:false, addr:'Lotte Castle Tower Jamsil B1',          pkm:'no'},
+      {r:'Seoul Mokdong',     name:'Mokdong',         key:false, addr:'CBS Bldg B1, Yangcheon-gu',             pkm:'no'},
+      {r:'Gyeonggi Ilsan',    name:'Ilsan',           key:false, addr:'Kyobo Bldg, Ilsandong-gu Goyang',       pkm:'no'},
+      {r:'Busan',             name:'Centum City',     key:true,  addr:'Inside Shinsegae Centum, Haeundae-gu',  pkm:'partial'},
+      {r:'Daegu',             name:'Daegu',           key:false, addr:'Kyobo Tower B1, Jung-gu Daegu',         pkm:'no'},
+    ]
+  },
+  { pri:2, cat:'Fancy Shop', brand:'ARTBOX', stores:207,
+    region:'Nationwide — high streets, university areas, dept stores', trade:'Direct',
+    pkm:'no', pkmNote:'Marvel/Naruto/Transformers figures confirmed, Pokémon figures not found on POOM',
+    sku:'Full lineup', rate:'60–65%',
+    detail:[
+      ['Stores','207 (surpassed 200th store in 2025)'],
+      ['Operation','Direct | Single-buyer decision structure'],
+      ['Product Model','Direct Purchase — MD direct buy'],
+      ['Core Customer','Female shoppers 10s–30s, kidults, goods collectors'],
+      ['Approach','Pilot 20–30 key-zone stores → review sell-through → national rollout. Seasonal pitch: Oct Halloween → Dec Christmas'],
+    ],
+    regions:[
+      {r:'Seoul Gangnam',  name:'Gangnam · COEX',    key:true,  addr:'Gangnam-gu / Starfield COEX',              pkm:'partial'},
+      {r:'Seoul Hongdae',  name:'Hongdae · Hongdae AK', key:true, addr:'Near Hongik Univ. Stn, Mapo-gu',         pkm:'partial'},
+      {r:'Seoul Sinchon',  name:'Sinchon · Ewha',    key:false, addr:'Sinchon Stn / Ewha, Seodaemun-gu',         pkm:'no'},
+      {r:'Seoul Kondae',   name:'Konkuk StarCity',   key:false, addr:'StarCity Mall, Gwangjin-gu',               pkm:'no'},
+      {r:'Gyeonggi Bundang',name:'Bundang Seohyeon', key:true,  addr:'AK Plaza Seohyeon Stn, Bundang',           pkm:'no'},
+      {r:'Busan',          name:'Seomyeon · Nampodong', key:true, addr:'Seomyeon / Nampodong, Busanjin-gu',     pkm:'no'},
+      {r:'Daegu',          name:'Dongseongno',       key:true,  addr:'Dongseongno prime zone, Jung-gu',          pkm:'no'},
+      {r:'Gwangju',        name:'Chungjangno',       key:false, addr:'Chungjangno, Dong-gu Gwangju',             pkm:'no'},
+    ]
+  },
+  { pri:2, cat:'Fancy Shop', brand:'BUTTER', stores:25,
+    region:'Myeongdong · COEX · Starfield · Hongdae', trade:'Direct',
+    pkm:'no', pkmNote:'Sanrio & original character goods confirmed, Pokémon not found on butter_insta',
+    sku:'Full lineup', rate:'62–65%',
+    detail:[
+      ['Stores','26 (operated by E-Land Modernhaus)'],
+      ['Operation','Direct | Via E-Land MD'],
+      ['Product Model','Direct Purchase — E-Land central buying'],
+      ['Core Customer','Women in 20s, foreign tourists, character & figure collectors'],
+      ['Approach','Myeongdong (high tourist traffic) first → COEX & Starfield expansion'],
+    ],
+    regions:[
+      {r:'Seoul Myeongdong', name:'Myeongdong',         key:true,  addr:'55 Myeongdong-gil (next to Olive Young)',     pkm:'no'},
+      {r:'Seoul Gangnam',    name:'COEX',               key:false, addr:'Starfield COEX, Gangnam-gu',                  pkm:'no'},
+      {r:'Seoul Hongdae',    name:'Hongdae',            key:false, addr:'Near Hongik Univ. Stn, Mapo-gu',              pkm:'no'},
+      {r:'Gyeonggi Gimpo',   name:'Hyundai Premium Gimpo', key:false, addr:'Hyundai Premium Outlet 4F, Gimpo',        pkm:'no'},
+    ]
+  },
+  { pri:3, cat:'Fashion Edit', brand:'KARYMARKET', stores:11,
+    region:'Sinsa · Lotte World Mall · Dept stores', trade:'Direct',
+    pkm:'yes', pkmNote:'Pokémon goods confirmed on KARYMARKET — "Snoopy · One Piece · Pokémon new arrivals" listed on karymarket.com',
+    sku:'Special / LE only', rate:'62–65%',
+    detail:[
+      ['Stores','11 (premium kids & family lifestyle edit shop)'],
+      ['Operation','Direct'],
+      ['Product Model','Direct Purchase — edit shop direct buy'],
+      ['Core Customer','Parents 30s–40s with children aged 5–12'],
+      ['Approach','Sinsa + Lotte World Mall first → expand to dept store locations'],
+    ],
+    regions:[
+      {r:'Seoul Gangnam',  name:'Sinsa (Garosu-gil)', key:true,  addr:'82 Garosu-gil, Gangnam-gu',                pkm:'partial'},
+      {r:'Seoul Jamsil',   name:'Lotte World Mall',   key:true,  addr:'Lotte World Mall, Songpa-gu',              pkm:'partial'},
+      {r:'Seoul Mokdong',  name:'Hyundai Dept Mokdong', key:false, addr:'Hyundai Dept 5F, Yangcheon-gu',          pkm:'no'},
+      {r:'Daegu',          name:'Shinsegae Daegu',    key:false, addr:'Shinsegae Daegu 7F, Dong-gu',              pkm:'no'},
+      {r:'Daegu',          name:'Lotte Outlet Isia',  key:false, addr:'Lotte Outlet Isia 2F, Dong-gu',            pkm:'no'},
+      {r:'Busan',          name:'Ananti Cove',        key:false, addr:'Ananti Cove Resort, Gijang-gun',           pkm:'no'},
+    ]
+  },
+  { pri:3, cat:'Fashion Edit', brand:'MUSINSA Store', stores:16,
+    region:'Hongdae · Seongsu · Gangnam · Busan · Daegu', trade:'Direct',
+    pkm:'no', pkmNote:'Fashion & lifestyle goods confirmed, Pokémon figures not found',
+    sku:'Special / LE only', rate:'62–65%',
+    detail:[
+      ['Stores','16 (Seongsu Mega Store opened 2026)'],
+      ['Operation','Direct edit shop | Curated MD curation approach'],
+      ['Product Model','Direct Purchase — MUSINSA direct buy'],
+      ['Core Customer','Fashion consumers age 18–35, kidults'],
+      ['Approach','Seongsu Mega Store + Hongdae first → expand Gangnam & Busan'],
+    ],
+    regions:[
+      {r:'Seoul Seongsu',  name:'Mega Store Seongsu', key:true,  addr:'62 Seongsui-ro, Seongdong-gu (S1 Bldg)',   pkm:'partial'},
+      {r:'Seoul Hongdae',  name:'Standard Hongdae',   key:true,  addr:'144 Yanghwa-ro, Mapo-gu',                  pkm:'no'},
+      {r:'Seoul Gangnam',  name:'Standard Gangnam',   key:false, addr:'54 Seocho-daero 77-gil, Seocho-gu',        pkm:'no'},
+      {r:'Seoul Myeongdong',name:'Standard Myeongdong',key:false, addr:'90 Namdaemun-ro, Jung-gu',                pkm:'no'},
+      {r:'Busan',          name:'Standard Seomyeon',  key:true,  addr:'694 Jungang-daero, Busanjin-gu',            pkm:'no'},
+      {r:'Daegu',          name:'Standard Dongseongno',key:false, addr:'25 Dongseongno, Jung-gu Daegu',            pkm:'no'},
+      {r:'Gyeonggi Suwon', name:'Timevillas Suwon',   key:false, addr:'Lotte Mall Suwon 2F',                       pkm:'no'},
+    ]
+  },
+  { pri:4, cat:'Mart', brand:'Lotte Mart Toys"R"Us', stores:42,
+    region:'Nationwide — inside Lotte Mart', trade:'Vendor',
+    pkm:'yes', pkmNote:'Pokémon toy campaign confirmed via official press release (Apr 2026)',
+    sku:'Full lineup', rate:'50–55%',
+    detail:[
+      ['Stores','42 (toy specialist section inside Lotte Mart nationwide)'],
+      ['Operation','Via vendor → toy MD negotiation'],
+      ['Product Model','Direct Purchase — via vendor, supplied to Lotte'],
+      ['Core Customer','Families with children aged 5–12, Christmas gift buyers'],
+      ['Approach','Jamsil & Cheongnyangni flagships first → Christmas season campaign'],
+    ],
+    regions:[
+      {r:'Seoul Jamsil',       name:'Jamsil',        key:true,  addr:'Inside Lotte Mart Jamsil, Songpa-gu',       pkm:'yes'},
+      {r:'Seoul Cheongnyangni',name:'Cheongnyangni',  key:false, addr:'Lotte Mart Cheongnyangni, Dongdaemun-gu',   pkm:'yes'},
+      {r:'Busan',              name:'Busan',          key:true,  addr:'Lotte Mart Busan, Busanjin-gu',              pkm:'yes'},
+      {r:'Incheon',            name:'Incheon',        key:false, addr:'Lotte Mart Incheon, Namdong-gu',             pkm:'partial'},
+      {r:'Daegu',              name:'Daegu',          key:false, addr:'Lotte Mart Daegu',                           pkm:'partial'},
+    ]
+  },
+  { pri:4, cat:'Mart', brand:'E-Mart', stores:136,
+    region:'Nationwide — E-Mart toy sections', trade:'Vendor',
+    pkm:'yes', pkmNote:'Pokémon cards & toys stocked — confirmed via retail listings',
+    sku:'Full lineup', rate:'50–53%',
+    detail:[
+      ['Stores','136 (toy section in E-Mart stores nationwide)'],
+      ['Operation','Via vendor'],
+      ['Product Model','Direct Purchase — via vendor, return terms negotiable'],
+      ['Core Customer','All-age families, weekend shoppers'],
+      ['Approach','Christmas season (Nov–Dec) campaign focus. Conservative initial volume.'],
+    ],
+    regions:[
+      {r:'Seoul Seongsu',  name:'Seongsu',   key:false, addr:'E-Mart Seongsu, Seongdong-gu',      pkm:'yes'},
+      {r:'Seoul Eunpyeong',name:'Eunpyeong', key:false, addr:'E-Mart Eunpyeong, Eunpyeong-gu',    pkm:'yes'},
+      {r:'Gyeonggi Suwon', name:'Suwon',     key:false, addr:'E-Mart Suwon, Suwon-si',             pkm:'yes'},
+      {r:'Busan',          name:'Haeundae',  key:false, addr:'E-Mart Haeundae, Haeundae-gu',       pkm:'partial'},
+      {r:'Daegu',          name:'Dalseo',    key:false, addr:'E-Mart Dalseo, Dalseo-gu',            pkm:'partial'},
+    ]
+  },
+  { pri:4,  cat:'Mart',           brand:'Costco Korea', stores:16,
+    region:'Nationwide — Seoul · Gyeonggi · Busan · Daejeon + 12 others', trade:'Direct',
+    pkm:'no', pkmNote:'Not confirmed — direct buy only, no consignment. Bundle pack required. Roadshow format recommended first.',
+    sku:'Full lineup',
+    detail:[
+      ['Stores','16 warehouses nationwide'],
+      ['Operation','Direct | Costco Korea buyer (direct purchase only)'],
+      ['Product Model','Direct Purchase — full buy-in, no returns, no consignment'],
+      ['Core Customer','Costco members — families, bulk buyers'],
+      ['Approach','① Roadshow (temporary display) proposal first ② Regular listing via costco.co.kr/vendor with bundle pack SKUs'],
+      ['Contact','costco.co.kr/vendor → product proposal page'],
+    ],
+    regions:[
+      {r:'Seoul Yangpyeong',  name:'Seoul Yangpyeong',  key:true,  addr:'240 Yangpyeong-ro, Yeongdeungpo-gu', pkm:'no'},
+      {r:'Gyeonggi Ilsan',   name:'Ilsan',               key:false, addr:'Ilsan, Goyang-si, Gyeonggi-do',      pkm:'no'},
+      {r:'Gyeonggi Uijeongbu',name:'Uijeongbu',          key:false, addr:'Uijeongbu-si, Gyeonggi-do',          pkm:'no'},
+      {r:'Busan',             name:'Busan',               key:false, addr:'Busan',                               pkm:'no'},
+      {r:'Daejeon',           name:'Daejeon',             key:false, addr:'Daejeon',                             pkm:'no'},
+    ]
+  },
+
+  { pri:5, cat:'Tourism', brand:'Jeju Shinhwa World', stores:1,
+    region:'Jeju Seogwipo', trade:'Direct',
+    pkm:'no', pkmNote:'No Pokémon goods confirmed. Verify with resort MD.',
+    sku:'Limited selection', rate:'65–70%',
+    detail:[
+      ['Stores','1 (complex resort shopping mall)'],
+      ['Operation','Direct | Contact resort MD directly'],
+      ['Product Model','Consignment — resort retail standard'],
+      ['Core Customer','Chinese & SE Asian tourists; leverage Pokémon global IP recognition'],
+      ['Approach','Contact resort MD; propose Pokémon themed display package'],
+    ],
+    regions:[
+      {r:'Jeju',name:'Shinhwa World Mall',key:false,addr:'304 Shinhwaeyoksa-ro, Andeok-myeon, Seogwipo',pkm:'no'},
+    ]
+  },
+  { pri:5, cat:'Tourism', brand:'Aqua Planet', stores:5,
+    region:'Seoul COEX · Jeju · Ilsan · Yeosu · Gwangyo', trade:'Direct',
+    pkm:'no', pkmNote:'No Pokémon goods confirmed. Verify with Hanwha MD.',
+    sku:'Limited selection',
+    detail:[
+      ['Stores','5 locations (COEX · Jeju · Ilsan · Yeosu · Gwangyo)'],
+      ['Operation','Direct | Hanwha Aqua Planet MD'],
+      ['Product Model','Consignment — aquarium retail standard'],
+      ['Core Customer','Families & foreign tourists, aquarium visitors'],
+      ['Approach','COEX & Jeju first → Home Collection & Prime Figure souvenir proposal'],
+    ],
+    regions:[
+      {r:'Seoul Gangnam', name:'COEX',    key:true,  addr:'COEX B1, 513 Yeongdong-daero, Gangnam-gu', pkm:'partial'},
+      {r:'Jeju',          name:'Jeju',    key:true,  addr:'213 Cheomdanno, Jeju-si',                   pkm:'no'},
+      {r:'Gyeonggi Ilsan',name:'Ilsan',   key:false, addr:'1955 Goyang-daero, Ilsandong-gu',            pkm:'no'},
+      {r:'Jeonnam Yeosu', name:'Yeosu',   key:false, addr:'61-11 Odongdo-ro, Yeosu',                   pkm:'no'},
+      {r:'Gyeonggi Gwangyo',name:'Gwangyo',key:false,addr:'Gwangyo Isquare, Suwon-si',                  pkm:'no'},
+    ]
+  },
+  { pri:5, cat:'Tourism', brand:'N Seoul Tower', stores:1,
+    region:'Seoul Namsan', trade:'Direct',
+    pkm:'no', pkmNote:'Pokémon pop-up events in past, but regular stock not confirmed',
+    sku:'Limited selection',
+    detail:[
+      ['Stores','1 (Namsan landmark — 6M+ annual visitors, 40%+ foreign)'],
+      ['Operation','Direct | CJ ENM / N Seoul Tower MD'],
+      ['Product Model','Consignment — tourism landmark retail'],
+      ['Core Customer','Foreign tourists & couples, landmark souvenir buyers'],
+      ['Approach','Home Collection & Limited Edition souvenir proposal · WeChat/AliPay linkage'],
+    ],
+    regions:[
+      {r:'Seoul Namsan', name:'N Seoul Tower', key:true, addr:'105 Namsan Park-gil, Yongsan-gu', pkm:'partial'},
+    ]
+  },
+  { pri:5, cat:'Tourism',         brand:'Hanwha Resort (Aqua Planet)', stores:17,
+    region:'Seoul COEX · Jeju · Yeosu · Ilsan · Gwangyo', trade:'Direct',
+    pkm:'no', pkmNote:'Not confirmed — to verify with Hanwha MD. COEX & Jeju flagships recommended first.',
+    sku:'Limited selection',
+    detail:[
+      ['Stores','5 Aqua Planet aquariums + 12 Hanwha resort gift shops'],
+      ['Operation','Direct | Hanwha Hotel & Resort MD'],
+      ['Product Model','Consignment — resort retail standard'],
+      ['Core Customer','Families & foreign tourists, aquarium visitors'],
+      ['Approach','Brand collab / season proposal email → hanwharesort.co.kr partner inquiry'],
+      ['Contact','hanwharesort.co.kr → partnership proposal email'],
+    ],
+    regions:[
+      {r:'Seoul Gangnam', name:'Aqua Planet COEX',  key:true,  addr:'COEX B1, 513 Yeongdong-daero, Gangnam-gu', pkm:'no'},
+      {r:'Jeju',          name:'Aqua Planet Jeju',  key:true,  addr:'213 Cheomdanno, Jeju-si',                  pkm:'no'},
+      {r:'Jeonnam Yeosu', name:'Aqua Planet Yeosu', key:false, addr:'61-11 Odongdo-ro, Yeosu',                  pkm:'no'},
+      {r:'Gyeonggi Ilsan',name:'Aqua Planet Ilsan', key:false, addr:'1955 Goyang-daero, Ilsandong-gu',          pkm:'no'},
+      {r:'Gyeonggi Gwangyo',name:'Gwangyo Resort',  key:false, addr:'Gwangyo Isquare, Suwon-si',                pkm:'no'},
+    ]
+  },
+  { pri:5, cat:'Tourism',         brand:'Lotte Resort', stores:4,
+    region:'Sokcho · Buyeo · Gimhae · Jeju', trade:'Direct',
+    pkm:'no', pkmNote:'Not confirmed — vendor email proposal to Lotte Resort.',
+    sku:'Limited selection',
+    detail:[
+      ['Stores','4 domestic resorts (Sokcho · Buyeo · Gimhae · Jeju Artville)'],
+      ['Operation','Direct | Lotte Resort MD'],
+      ['Product Model','Consignment — resort gift shop'],
+      ['Core Customer','Domestic leisure travelers & families'],
+      ['Approach','Vendor proposal email → lotteresort.com partner inquiry'],
+      ['Contact','lotteresort.com → partnership proposal email'],
+    ],
+    regions:[
+      {r:'Gangwon Sokcho', name:'Lotte Resort Sokcho', key:true,  addr:'Sokcho, Gangwon-do',          pkm:'no'},
+      {r:'Jeju',           name:'Artville Jeju',        key:true,  addr:'Seogwipo, Jeju-do',            pkm:'no'},
+      {r:'Chungnam Buyeo', name:'Lotte Resort Buyeo',   key:false, addr:'Buyeo-gun, Chungcheongnam-do', pkm:'no'},
+      {r:'Gyeongnam Gimhae',name:'Hotel & Resort Gimhae',key:false,addr:'Gimhae, Gyeongsangnam-do',    pkm:'no'},
+    ]
+  },
+  { pri:5, cat:'Tourism',         brand:'Sono Hotels & Resorts', stores:20,
+    region:'Nationwide — Vivaldi Park · Delpino · Yangyang · Jeju · Geoje', trade:'Direct',
+    pkm:'no', pkmNote:'Not confirmed — partnership inquiry via sonohotelsresorts.com.',
+    sku:'Limited selection',
+    detail:[
+      ['Stores','20+ locations (Felice · Beach · Calm · Belle brands nationwide)'],
+      ['Operation','Direct | Sono H&R MD'],
+      ['Product Model','Consignment — resort gift shop'],
+      ['Core Customer','Family resort guests, weekend travelers'],
+      ['Approach','Partnership/collab proposal → sonohotelsresorts.com partnership inquiry'],
+      ['Contact','sonohotelsresorts.com → partnership inquiry form'],
+    ],
+    regions:[
+      {r:'Gangwon Vivaldi', name:'Vivaldi Park (Felice + Calm + Belle)', key:true,  addr:'Hongcheon-gun, Gangwon-do',  pkm:'no'},
+      {r:'Gangwon Delpino', name:'Delpino (Felice + Calm + Belle)',       key:true,  addr:'Goseong-gun, Gangwon-do',    pkm:'no'},
+      {r:'Gangwon Yangyang',name:'Sol Beach Yangyang',                    key:false, addr:'Yangyang-gun, Gangwon-do',   pkm:'no'},
+      {r:'Jeju',            name:'Sono Calm Jeju',                        key:false, addr:'Jeju-si, Jeju-do',           pkm:'no'},
+      {r:'Gyeongnam Geoje', name:'Sono Calm Geoje',                       key:false, addr:'Geoje-si, Gyeongsangnam-do', pkm:'no'},
+    ]
+  },
+  { pri:5, cat:'Tourism', brand:'Butter (Inspire Resort)', stores:1,
+    region:'Incheon — Inspire Entertainment Resort', trade:'Direct',
+    pkm:'no', pkmNote:'BUTTER shop inside Inspire Entertainment Resort. Character goods confirmed; Pokémon figures not yet verified.',
+    sku:'Limited selection',
+    detail:[
+      ['Stores','1 (Inspire Entertainment Resort, Jung-gu, Incheon)'],
+      ['Operation','Direct | E-Land / Inspire Resort MD'],
+      ['Product Model','Consignment — resort retail standard'],
+      ['Core Customer','Resort guests & foreign tourists, character goods buyers'],
+      ['Approach','Tourism package proposal — link with Pokémon seasonal campaign at resort'],
+      ['Contact','Inspire Resort retail MD via E-Land group channel'],
+    ],
+    regions:[
+      {r:'Incheon', name:'Inspire Entertainment Resort ★', key:true, addr:'Inspire Entertainment Resort, Jung-gu, Incheon', pkm:'no'},
+    ]
+  },
+  { pri:6, cat:'Road Shop', brand:'Aurora World (ToyPlus)', stores:20,
+    region:'Nationwide — Starfield City & shopping mall anchors', trade:'Direct',
+    pkm:'no', pkmNote:'Toy specialist but Pokémon specific stock not confirmed online',
+    sku:'Full lineup',
+    detail:[
+      ['Stores','20+ (franchise & direct — Starfield City, mall shop-in-shop)'],
+      ['Operation','Direct | Aurora World MD · ToyPlus franchise HQ'],
+      ['Product Model','Direct Purchase — franchise wholesale'],
+      ['Core Customer','Children 5–12 & parents, toy collectors'],
+      ['Approach','Full lineup proposal via Aurora World HQ → ToyPlus franchise rollout'],
+    ],
+    regions:[
+      {r:'Seoul Guro',        name:'Mario Outlet',       key:true,  addr:'Mario Outlet 3-7F, Guro-gu',              pkm:'yes'},
+      {r:'Gyeonggi Seongnam', name:'Pangyo Famias',       key:true,  addr:'Famias Mall C2 B107, Seongnam',            pkm:'yes'},
+      {r:'Gyeonggi Hanam',    name:'Starfield Wiryeo',    key:false, addr:'Starfield City Wiryeo 2F, Hanam',          pkm:'yes'},
+      {r:'Gyeonggi Bucheon',  name:'Starfield Bucheon',   key:false, addr:'Starfield City Bucheon 2F',                pkm:'yes'},
+      {r:'Gyeonggi Hwaseong', name:'Dongtan Hanaroseller',key:false, addr:'Hanaroseller Dongtan, Hwaseong',           pkm:'yes'},
+      {r:'Busan',             name:'Starfield Myeongji',  key:false, addr:'Starfield City Myeongji 3F, Gangseo-gu',   pkm:'yes'},
+    ]
+  },
+  { pri:6, cat:'Road Shop', brand:'TM Toy', stores:30,
+    region:'Nationwide — toy specialty direct & franchise stores', trade:'Direct',
+    pkm:'no', pkmNote:'Toy wholesale but Pokémon specific stock not confirmed online',
+    sku:'Full lineup',
+    detail:[
+      ['Stores','30+ (direct stores + franchise network nationwide)'],
+      ['Operation','Direct | TM Toy wholesale & franchise MD'],
+      ['Product Model','Direct Purchase — wholesale supply'],
+      ['Core Customer','Children & families, toy buyers nationwide'],
+      ['Approach','Wholesale supply agreement → franchise store rollout. Volume channel.'],
+    ],
+    regions:[
+      {r:'Incheon',    name:'Incheon Direct',    key:true,  addr:'Incheon area direct store',               pkm:'yes'},
+      {r:'Seoul',      name:'Seoul Area Stores',  key:false, addr:'Multiple locations, Seoul metro area',     pkm:'yes'},
+      {r:'Gyeonggi',   name:'Gyeonggi Stores',    key:false, addr:'Multiple franchise stores, Gyeonggi-do',   pkm:'yes'},
+      {r:'Busan',      name:'Busan Stores',        key:false, addr:'Busan area franchise network',             pkm:'yes'},
+      {r:'Nationwide', name:'Nationwide Network',  key:false, addr:'30+ franchise & direct stores total',      pkm:'yes'},
+    ]
+  },
+  { pri:7, cat:'Airport & Airline', brand:'AK Plaza Incheon Airport', stores:1,
+    region:'Incheon Airport T1 — 3F Departure (Gate H)', trade:'Direct',
+    pkm:'no', pkmNote:'Not confirmed — pop-up format recommended. Sanrio case: 14,500 units in 2 months.',
+    sku:'Limited selection',
+    detail:[
+      ['Stores','1 (Incheon Airport T1 3F, non-duty-free departures zone)'],
+      ['Operation','Direct | AK Plaza Incheon Airport MD'],
+      ['Product Model','Pop-up / consignment — non-duty-free retail'],
+      ['Core Customer','Departing travelers & families (06:00–22:00 daily)'],
+      ['Approach','Pop-up proposal to AK Plaza MD → character IP collab format (ref: Jeju Air × Sanrio)'],
+      ['Contact','AK Plaza MD team direct email'],
+    ],
+    regions:[
+      {r:'Incheon T1', name:'AK Plaza T1 3F ★', key:true, addr:'Incheon Airport T1, 3F Departures, Gate H counter', pkm:'no'},
+    ]
+  },
+  { pri:7, cat:'Airport & Airline', brand:'KAC Regional Airports', stores:14,
+    region:'Jeju · Gimhae · Gimpo · Cheongju · Daegu + 9 others', trade:'Direct',
+    pkm:'no', pkmNote:'Not confirmed — public tender via airport.co.kr. Jeju & Gimhae first priority.',
+    sku:'Limited selection',
+    detail:[
+      ['Stores','14 domestic airports operated by Korea Airports Corporation'],
+      ['Operation','Public tender | KAC concession bidding'],
+      ['Product Model','Concession tender — gift shop space lease'],
+      ['Core Customer','Domestic travelers, inbound/outbound tourists'],
+      ['Approach','Monitor tender notices at airport.co.kr → submit bid for gift shop space'],
+      ['Contact','airport.co.kr → tender notices (KAC)'],
+    ],
+    regions:[
+      {r:'Jeju',           name:'Jeju Airport ★',    key:true,  addr:'2002 Doryeong-ro, Jeju-si',              pkm:'no'},
+      {r:'Gyeongnam Gimhae',name:'Gimhae Airport ★',  key:true,  addr:'108 Gonghangjinan-daero, Gangseo-gu, Busan', pkm:'no'},
+      {r:'Seoul Gimpo',    name:'Gimpo Airport',      key:false, addr:'2 Haneul-gil, Gangseo-gu, Seoul',        pkm:'no'},
+      {r:'Chungbuk Cheongju',name:'Cheongju Airport', key:false, addr:'Cheongju, Chungcheongbuk-do',            pkm:'no'},
+      {r:'Daegu',          name:'Daegu Airport',       key:false, addr:'Daegu',                                  pkm:'no'},
+    ]
+  },
+  { pri:7,  cat:'Airport & Airline', brand:'Korean Air SKYSHOP', stores:1,
+    region:'Korean Air + Jinair — all international routes', trade:'Direct',
+    pkm:'no', pkmNote:'Not confirmed — apply via koreanaircnd.com. Evaluation: 60pt+ → showroom, 70pt+ → listed.',
+    sku:'Limited selection',
+    detail:[
+      ['Stores','1 inflight channel (Korean Air + Jinair simultaneous)'],
+      ['Operation','Direct | Korean Air C&D Services (KCND) buyer'],
+      ['Product Model','Direct Purchase — inflight duty-free'],
+      ['Core Customer','Korean Air & Jinair international passengers'],
+      ['Approach','Online consultation at koreanaircnd.com → buyer review (60pt) → showroom (70pt) → listing'],
+      ['Contact','koreanaircnd.com → inflight duty-free consultation / skymall@koreanaircnd.com'],
+    ],
+    regions:[
+      {r:'In-flight', name:'Korean Air + Jinair Routes ★', key:true, addr:'All Korean Air & Jinair international routes', pkm:'no'},
+    ]
+  },
+  { pri:8, cat:'Duty-Free', brand:'Lotte Duty Free', stores:8,
+    region:'Incheon Airport T1 · T2 · Seoul Myeongdong · Busan · Online', trade:'Direct',
+    pkm:'no', pkmNote:'Not confirmed — must apply via lottedfs.com. SME consultation day: last Thursday monthly.',
+    sku:'Selected lines',
+    detail:[
+      ['Stores','8 locations (airport + city duty-free)'],
+      ['Operation','Direct | Lotte DFS buyer'],
+      ['Product Model','Direct Purchase — consignment/commission structure'],
+      ['Core Customer','Outbound tourists, international shoppers'],
+      ['Approach','① Online application at lottedfs.com/vendor ② Monthly SME consultation (last Thu)'],
+      ['Contact','lottedfs.com → vendor page → online application'],
+    ],
+    regions:[
+      {r:'Incheon T1',    name:'Incheon Airport T1 ★', key:true,  addr:'Incheon Airport Terminal 1, duty-free zone', pkm:'no'},
+      {r:'Incheon T2',    name:'Incheon Airport T2',    key:true,  addr:'Incheon Airport Terminal 2, duty-free zone', pkm:'no'},
+      {r:'Seoul Jung',    name:'Myeongdong City Store', key:false, addr:'Myeongdong, Jung-gu, Seoul',                 pkm:'no'},
+      {r:'Busan',         name:'Busan City Store',       key:false, addr:'Busan',                                      pkm:'no'},
+    ]
+  },
+  { pri:8, cat:'Duty-Free', brand:'Shilla Duty Free', stores:6,
+    region:'Incheon Airport · Seoul · Jeju · Online', trade:'Direct',
+    pkm:'no', pkmNote:'Not confirmed — must register via shillasrm.com. Credit evaluation required.',
+    sku:'Selected lines',
+    detail:[
+      ['Stores','6 locations (airport + city duty-free)'],
+      ['Operation','Direct | Shilla DFS buyer via SRM system'],
+      ['Product Model','Direct Purchase — SRM vendor registration'],
+      ['Core Customer','Outbound tourists, international shoppers'],
+      ['Approach','Register at shillasrm.com → credit eval → vendor approval → brand proposal'],
+      ['Contact','shillasrm.com → new vendor registration'],
+    ],
+    regions:[
+      {r:'Incheon T1',  name:'Incheon Airport T1 ★', key:true,  addr:'Incheon Airport Terminal 1, duty-free zone', pkm:'no'},
+      {r:'Seoul Jung',  name:'Seoul City Store',       key:false, addr:'2F, 249 Dongho-ro, Jung-gu, Seoul',          pkm:'no'},
+      {r:'Jeju',        name:'Jeju City Store',         key:false, addr:'Jeju-si, Jeju-do',                           pkm:'no'},
+    ]
+  },
+];
+const TL = [
+  {month:'Jul–Aug\n2026', bg:'#1F3864', ch:'Pre-Launch Prep',                    action:'Prepare sample kits · Build buyer contact lists · Finalize proposals per channel', goal:'Ready for launch'},
+  {month:'Sept\n2026',    bg:'#243d72', ch:'Bookstore Outreach (YP · HT)',        action:'Contact Jongno flagship & Gwanghwamun first · Send samples · Confirm Oct onboarding', goal:'Bookstore contracts signed'},
+  {month:'Oct Wk 1',       bg:'#2E5FA3', ch:'Bookstore Launch',                    action:'Initial stock: YP Jongno / HT Gwanghwamun / Gangnam / Jamsil · ARTBOX & BUTTER MD meetings', goal:'Bookstore live ✅'},
+  {month:'Oct Wk 2',       bg:'#3b6dbf', ch:'Fancy Shop Launch (ARTBOX · BUTTER)', action:'ARTBOX: pilot 20–30 key-zone stores · BUTTER: Myeongdong & COEX onboarding', goal:'Fancy Shop live ✅'},
+  {month:'Oct Wk 3',       bg:'#4778c8', ch:'Fashion Edit (KARYMARKET · MUSINSA)', action:'Negotiate KARYMARKET Sinsa/Lotte World Mall · MUSINSA Seongsu/Hongdae onboarding', goal:'Fashion Edit live'},
+  {month:'Oct Wk 4',       bg:'#2E5FA3', ch:'Initial Sales Review',                action:'Review sell-through at bookstores & fancy shops · Swap underperformers · Discuss reorders', goal:'Inventory optimized'},
+  {month:'Nov\n2026',     bg:'#1F3864', ch:'Mart + Road Shop Launch',             action:'Toys"R"Us Jamsil/Cheongnyangni Christmas campaign · E-Mart negotiation · Aurora World & TM Toy wholesale onboarding', goal:'Mart & Road Shop live'},
+  {month:'Dec\n2026',     bg:'#243d72', ch:'Tourism + All-Channel CS',            action:'Supply Aqua Planet / N Seoul Tower / Jeju Shinhwa World Christmas campaigns · Full reorder cycle', goal:'Season peak ✅'},
+];
+
+
+const PC={1:'#1F3864',2:'#6D28D9',3:'#0E7490',4:'#B45309',5:'#15803D',6:'#9D174D',7:'#1D4ED8',8:'#7C3AED'};
+const PL={1:'#EBF0FA',2:'#F5F3FF',3:'#ECFEFF',4:'#FFFBEB',5:'#F0FDF4',6:'#FDF2F8',7:'#DBEAFE',8:'#EDE9FE'};
+const CAT={1:'Bookstore',2:'Fancy Shop',3:'Fashion Edit',4:'Mart',5:'Tourism',6:'Road Shop',7:'Airport & Airline',8:'Duty-Free'};
+const PT={yes:'✅ Selling Now',partial:'⚠️ Partial',no:'💡 Opportunity'};
+const PC2={yes:'#16A34A',partial:'#B45309',no:'#6B7280'};
+const PB={yes:'#F0FDF4',partial:'#FFFBEB',no:'#F3F4F6'};
+
+function skuTag(s){
+  const m={'Full lineup':['#F0FDF4','#16A34A','Full lineup'],'Selected lines':['#EBF0FA','#2E5FA3','Selected'],'Special / LE only':['#F5F3FF','#6D28D9','Special'],'Limited selection':['#FFFBEB','#B45309','Limited']};
+  const [bg,c,t]=m[s]||['#EBF0FA','#2E5FA3',s];
+  return `<span class="tag" style="background:${bg};color:${c}">${t}</span>`;
+}
+
+function buildPriCards(){
+  const g={};
+  CHANNELS.forEach(c=>{if(!g[c.pri])g[c.pri]=[];g[c.pri].push(c);});
+  const cont=document.getElementById('pri-cards');
+  [1,2,3,4,5,6,7,8].forEach(p=>{
+    const chs=g[p]||[];
+    const total=chs.reduce((a,c)=>a+c.stores,0);
+    const ps=chs.some(c=>c.pkm==='yes')?'yes':chs.some(c=>c.pkm==='partial')?'partial':'no';
+    const d=document.createElement('div');d.className='pri-card';
+    d.onclick=()=>document.querySelector(`[data-tab='p${p}']`).click();
+    d.innerHTML=`<div class="pri-top" style="background:${PC[p]}"><div class="pri-no">PRIORITY ${p}</div><div class="pri-name">${CAT[p]}</div><div class="pri-brands">${chs.map(c=>c.brand).join(' · ')}</div></div><div class="pri-body"><div class="pri-row"><span class="pri-lbl">Stores</span><span class="pri-val" style="color:${PC[p]}">${total.toLocaleString()}</span></div><div class="pri-row"><span class="pri-lbl">Partners</span><span class="pri-val" style="font-size:16px">${chs.length}</span></div><span class="pkm-pill" style="background:${PB[ps]};color:${PC2[ps]}">${PT[ps]}</span></div>`;
+    cont.appendChild(d);
+  });
+}
+
+function buildOvTable(){
+  const tb=document.getElementById('ov-tbody');
+  CHANNELS.forEach((ch,i)=>{
+    const bg=i%2===0?'#fff':'#F9FAFB';
+    const sm=(ch.detail.find(d=>d[0]==='Product Model')||[,'—'])[1].split('—')[0].trim();
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td style="background:${bg}"><span class="pri-badge" style="background:${PC[ch.pri]}">${ch.pri}</span></td><td style="background:${bg}"><span class="tag" style="background:${PL[ch.pri]};color:${PC[ch.pri]}">${ch.cat}</span></td><td style="background:${bg};font-weight:600">${ch.brand}</td><td style="background:${bg};font-weight:700;color:${PC[ch.pri]}">${ch.stores.toLocaleString()}</td><td style="background:${bg};font-size:11px;color:#6b7280">${ch.region}</td><td style="background:${bg}"><span class="rate-pill" style="background:${PB[ch.pkm]};color:${PC2[ch.pkm]}">${PT[ch.pkm]}</span></td><td style="background:${bg};font-size:12px;color:#6b7280">${sm}</td><td style="background:${bg}">${skuTag(ch.sku)}</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+function buildChannelDetail(pri,id){
+  const chs=CHANNELS.filter(c=>c.pri===pri);
+  const cont=document.getElementById(id);if(!cont)return;
+  const grid=document.createElement('div');grid.className='ch-grid';cont.appendChild(grid);
+  chs.forEach(ch=>{
+    const card=document.createElement('div');card.className='card';
+    const dRows=ch.detail.map(([k,v])=>`<tr><td class="detail-key" style="color:${PC[ch.pri]}">${k}</td><td class="detail-val">${v}</td></tr>`).join('');
+    const rRows=ch.regions.map(r=>`<tr><td><span class="r-badge" style="background:${PL[ch.pri]};color:${PC[ch.pri]}">${r.r}</span></td><td>${r.key?'<span class="key-badge">★ Key</span>':''}${r.name}</td><td style="font-size:11px;color:#9ca3af">${r.addr}</td><td><span class="rate-pill" style="font-size:10px;padding:1px 7px;background:${PB[r.pkm]};color:${PC2[r.pkm]}">${{yes:'Selling',partial:'Partial',no:'N/A'}[r.pkm]}</span></td></tr>`).join('');
+    card.innerHTML=`<div class="card-head"><div class="card-title" style="color:${PC[ch.pri]}">${ch.brand}</div><span class="tag" style="background:${PL[ch.pri]};color:${PC[ch.pri]}">${ch.stores} stores</span>${skuTag(ch.sku)}<span class="rate-pill" style="background:${PB[ch.pkm]};color:${PC2[ch.pkm]}">${PT[ch.pkm]}</span></div><div style="padding:16px 18px"><div style="font-size:11px;color:${PC2[ch.pkm]};background:${PB[ch.pkm]};border-left:3px solid ${PC2[ch.pkm]};padding:7px 12px;border-radius:0 6px 6px 0;margin-bottom:14px">${ch.pkmNote}</div><table class="detail-tbl">${dRows}</table><div style="font-size:12px;font-weight:700;margin-bottom:8px">Key Stores by Region</div><div style="overflow-x:auto"><table class="reg-tbl"><thead><tr><th>Region</th><th>Store</th><th>Address</th><th>Pokémon</th></tr></thead><tbody>${rRows}</tbody></table></div></div>`;
+    grid.appendChild(card);
+  });
+}
+
+function buildRegion(){
+  const KEY_STORES = [
+    {name:'Yeongpung Jongno', brand:'Yeongpung Mungo', pri:1, pkm:'yes', lat:37.5697, lng:126.9823, place:'ChIJedDgSumifDURnOlaQDnoZMs', img:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MjAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNTIwIDI2MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InNoYWRvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iMzAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0icmdiYSgwLDAsMCwwLjE1KSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9InJnYmEoMCwwLDAsMCkiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgoKICA8IS0tIOuwsOqyvSAtLT4KICA8cmVjdCB3aWR0aD0iNTIwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iI2YyZWZlOSIvPgoKICA8IS0tIOu4lOuhnS/qtazsl60g7Yyo7YS0ICjrnpzrjaTtlZjsp4Ag7JWK6rKMIOychOuPhCDquLDrsJgpIC0tPgogIDxyZWN0IHg9IjAiIHk9IjMwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjIwMCIgeT0iMTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMzQwIiB5PSIyNSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI1NSIgZmlsbD0iI2UwZGRkOCIgcng9IjIiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjcwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjE4MCIgeT0iMTMwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjM2MCIgeT0iMTEwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjMwIiB5PSIyMDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMjUwIiB5PSIxOTUiIHdpZHRoPSIyNDAiIGhlaWdodD0iNTUiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iNjAiIHk9IjYwIiB3aWR0aD0iODAiIGhlaWdodD0iNDAiIGZpbGw9IiNjOGU2YTAiIHJ4PSIzIiBvcGFjaXR5PSIwLjciLz4KCiAgPCEtLSDrj4TroZwgLS0+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDAiIHgyPSI1MjAiIHkyPSIxMDAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDMiIHgyPSI1MjAiIHkyPSIxMDMiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjI2MCIgeTE9IjAiIHgyPSIyNjAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjI2MyIgeTE9IjAiIHgyPSIyNjMiIHkyPSIyNjAiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxNzAiIHgyPSI1MjAiIHkyPSIxNzAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjEzMCIgeTE9IjAiIHgyPSIxMzAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjM5MCIgeTE9IjAiIHgyPSIzOTAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSI0MCIgeDI9IjUyMCIgeTI9IjQwIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC42Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIyMjAiIHgyPSI1MjAiIHkyPSIyMjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjYiLz4KCiAgPCEtLSDsnITsuZgg7ZWAIOq3uOumvOyekCAtLT4KICA8ZWxsaXBzZSBjeD0iMjYwIiBjeT0iMTM4IiByeD0iMTgiIHJ5PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuMTUpIi8+CgogIDwhLS0g7JyE7LmYIO2VgCAtLT4KICA8cGF0aCBkPSJNMjYwIDgwIEMyNDMgODAgMjMwIDkzIDIzMCAxMTAgQzIzMCAxMzMgMjYwIDE1NSAyNjAgMTU1IEMyNjAgMTU1IDI5MCAxMzMgMjkwIDExMCBDMjkwIDkzIDI3NyA4MCAyNjAgODAgWiIgZmlsbD0iI0U1MzkzNSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNjAiIGN5PSIxMTAiIHI9IjgiIGZpbGw9IiNmZmYiLz4KCiAgPCEtLSDtlYAg7ZWY7J2065287J207Yq4IC0tPgogIDxjaXJjbGUgY3g9IjI1NSIgY3k9IjEwNiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIi8+CgogIDwhLS0g7KCV67O0IOuwleyKpCAtLT4KICA8cmVjdCB4PSIwIiB5PSIxOTAiIHdpZHRoPSI1MjAiIGhlaWdodD0iNzAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45MikiLz4KICA8bGluZSB4MT0iMCIgeTE9IjE5MCIgeDI9IjUyMCIgeTI9IjE5MCIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgPCEtLSDsnITsuZjrqoUgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIxMyIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYTFhMmUiPlllb25ncHVuZyBKb25nbm88L3RleHQ+CiAgPCEtLSDsg4HshLggLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIzMiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiM2YjcyODAiPuyyreqzhOyynCDsnbjqt7w8L3RleHQ+CiAgPCEtLSDsooztkZwgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjI1MCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM5Y2EzYWYiPjM3LjU2OTfCsE4sIDEyNi45ODIzwrBFPC90ZXh0PgoKICA8IS0tIE9TTSDqt4Dsho0g7ZGc7IucIC0tPgogIDx0ZXh0IHg9IjUwNCIgeT0iMjU4IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5IiBmaWxsPSIjOWNhM2FmIiB0ZXh0LWFuY2hvcj0iZW5kIj7CqSBPcGVuU3RyZWV0TWFwPC90ZXh0Pgo8L3N2Zz4='},
+    {name:'Hottracks Gwanghwamun', brand:'Hottracks (Kyobo)', pri:1, pkm:'yes', lat:37.5709, lng:126.978, place:'ChIJ4ddFhuyifDURahy1jpQ_Mk4', img:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MjAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNTIwIDI2MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InNoYWRvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iMzAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0icmdiYSgwLDAsMCwwLjE1KSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9InJnYmEoMCwwLDAsMCkiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgoKICA8IS0tIOuwsOqyvSAtLT4KICA8cmVjdCB3aWR0aD0iNTIwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iI2YyZWZlOSIvPgoKICA8IS0tIOu4lOuhnS/qtazsl60g7Yyo7YS0ICjrnpzrjaTtlZjsp4Ag7JWK6rKMIOychOuPhCDquLDrsJgpIC0tPgogIDxyZWN0IHg9IjAiIHk9IjMwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjIwMCIgeT0iMTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMzQwIiB5PSIyNSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI1NSIgZmlsbD0iI2UwZGRkOCIgcng9IjIiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjcwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjE4MCIgeT0iMTMwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjM2MCIgeT0iMTEwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjMwIiB5PSIyMDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMjUwIiB5PSIxOTUiIHdpZHRoPSIyNDAiIGhlaWdodD0iNTUiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iNjAiIHk9IjYwIiB3aWR0aD0iODAiIGhlaWdodD0iNDAiIGZpbGw9IiNjOGU2YTAiIHJ4PSIzIiBvcGFjaXR5PSIwLjciLz4KCiAgPCEtLSDrj4TroZwgLS0+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDAiIHgyPSI1MjAiIHkyPSIxMDAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDMiIHgyPSI1MjAiIHkyPSIxMDMiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjI2MCIgeTE9IjAiIHgyPSIyNjAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjI2MyIgeTE9IjAiIHgyPSIyNjMiIHkyPSIyNjAiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxNzAiIHgyPSI1MjAiIHkyPSIxNzAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjEzMCIgeTE9IjAiIHgyPSIxMzAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjM5MCIgeTE9IjAiIHgyPSIzOTAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSI0MCIgeDI9IjUyMCIgeTI9IjQwIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC42Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIyMjAiIHgyPSI1MjAiIHkyPSIyMjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjYiLz4KCiAgPCEtLSDsnITsuZgg7ZWAIOq3uOumvOyekCAtLT4KICA8ZWxsaXBzZSBjeD0iMjYwIiBjeT0iMTM4IiByeD0iMTgiIHJ5PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuMTUpIi8+CgogIDwhLS0g7JyE7LmYIO2VgCAtLT4KICA8cGF0aCBkPSJNMjYwIDgwIEMyNDMgODAgMjMwIDkzIDIzMCAxMTAgQzIzMCAxMzMgMjYwIDE1NSAyNjAgMTU1IEMyNjAgMTU1IDI5MCAxMzMgMjkwIDExMCBDMjkwIDkzIDI3NyA4MCAyNjAgODAgWiIgZmlsbD0iI0U1MzkzNSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNjAiIGN5PSIxMTAiIHI9IjgiIGZpbGw9IiNmZmYiLz4KCiAgPCEtLSDtlYAg7ZWY7J2065287J207Yq4IC0tPgogIDxjaXJjbGUgY3g9IjI1NSIgY3k9IjEwNiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIi8+CgogIDwhLS0g7KCV67O0IOuwleyKpCAtLT4KICA8cmVjdCB4PSIwIiB5PSIxOTAiIHdpZHRoPSI1MjAiIGhlaWdodD0iNzAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45MikiLz4KICA8bGluZSB4MT0iMCIgeTE9IjE5MCIgeDI9IjUyMCIgeTI9IjE5MCIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgPCEtLSDsnITsuZjrqoUgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIxMyIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYTFhMmUiPkhvdHRyYWNrcyBHd2FuZ2h3YW11bjwvdGV4dD4KICA8IS0tIOyDgeyEuCAtLT4KICA8dGV4dCB4PSIxNiIgeT0iMjMyIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgZmlsbD0iIzZiNzI4MCI+6rWQ67O066y46rOgIOyngO2VmDwvdGV4dD4KICA8IS0tIOyijO2RnCAtLT4KICA8dGV4dCB4PSIxNiIgeT0iMjUwIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzljYTNhZiI+MzcuNTcwOcKwTiwgMTI2Ljk3ODDCsEU8L3RleHQ+CgogIDwhLS0gT1NNIOq3gOyGjSDtkZzsi5wgLS0+CiAgPHRleHQgeD0iNTA0IiB5PSIyNTgiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjkiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJlbmQiPsKpIE9wZW5TdHJlZXRNYXA8L3RleHQ+Cjwvc3ZnPg=='},
+    {name:'KARYMARKET Sinsa', brand:'KARYMARKET', pri:3, pkm:'yes', lat:37.5234, lng:127.0227, place:'ChIJr7hABQCjfDURE6RazR2Qg8w', img:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MjAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNTIwIDI2MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InNoYWRvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iMzAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0icmdiYSgwLDAsMCwwLjE1KSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9InJnYmEoMCwwLDAsMCkiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgoKICA8IS0tIOuwsOqyvSAtLT4KICA8cmVjdCB3aWR0aD0iNTIwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iI2YyZWZlOSIvPgoKICA8IS0tIOu4lOuhnS/qtazsl60g7Yyo7YS0ICjrnpzrjaTtlZjsp4Ag7JWK6rKMIOychOuPhCDquLDrsJgpIC0tPgogIDxyZWN0IHg9IjAiIHk9IjMwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjIwMCIgeT0iMTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMzQwIiB5PSIyNSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI1NSIgZmlsbD0iI2UwZGRkOCIgcng9IjIiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjcwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjE4MCIgeT0iMTMwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjM2MCIgeT0iMTEwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjMwIiB5PSIyMDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMjUwIiB5PSIxOTUiIHdpZHRoPSIyNDAiIGhlaWdodD0iNTUiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iNjAiIHk9IjYwIiB3aWR0aD0iODAiIGhlaWdodD0iNDAiIGZpbGw9IiNjOGU2YTAiIHJ4PSIzIiBvcGFjaXR5PSIwLjciLz4KCiAgPCEtLSDrj4TroZwgLS0+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDAiIHgyPSI1MjAiIHkyPSIxMDAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDMiIHgyPSI1MjAiIHkyPSIxMDMiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjI2MCIgeTE9IjAiIHgyPSIyNjAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjI2MyIgeTE9IjAiIHgyPSIyNjMiIHkyPSIyNjAiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxNzAiIHgyPSI1MjAiIHkyPSIxNzAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjEzMCIgeTE9IjAiIHgyPSIxMzAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjM5MCIgeTE9IjAiIHgyPSIzOTAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSI0MCIgeDI9IjUyMCIgeTI9IjQwIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC42Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIyMjAiIHgyPSI1MjAiIHkyPSIyMjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjYiLz4KCiAgPCEtLSDsnITsuZgg7ZWAIOq3uOumvOyekCAtLT4KICA8ZWxsaXBzZSBjeD0iMjYwIiBjeT0iMTM4IiByeD0iMTgiIHJ5PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuMTUpIi8+CgogIDwhLS0g7JyE7LmYIO2VgCAtLT4KICA8cGF0aCBkPSJNMjYwIDgwIEMyNDMgODAgMjMwIDkzIDIzMCAxMTAgQzIzMCAxMzMgMjYwIDE1NSAyNjAgMTU1IEMyNjAgMTU1IDI5MCAxMzMgMjkwIDExMCBDMjkwIDkzIDI3NyA4MCAyNjAgODAgWiIgZmlsbD0iI0U1MzkzNSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNjAiIGN5PSIxMTAiIHI9IjgiIGZpbGw9IiNmZmYiLz4KCiAgPCEtLSDtlYAg7ZWY7J2065287J207Yq4IC0tPgogIDxjaXJjbGUgY3g9IjI1NSIgY3k9IjEwNiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIi8+CgogIDwhLS0g7KCV67O0IOuwleyKpCAtLT4KICA8cmVjdCB4PSIwIiB5PSIxOTAiIHdpZHRoPSI1MjAiIGhlaWdodD0iNzAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45MikiLz4KICA8bGluZSB4MT0iMCIgeTE9IjE5MCIgeDI9IjUyMCIgeTI9IjE5MCIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgPCEtLSDsnITsuZjrqoUgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIxMyIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYTFhMmUiPktBUllNQVJLRVQgU2luc2E8L3RleHQ+CiAgPCEtLSDsg4HshLggLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIzMiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiM2YjcyODAiPuqwgOuhnOyImOq4uDwvdGV4dD4KICA8IS0tIOyijO2RnCAtLT4KICA8dGV4dCB4PSIxNiIgeT0iMjUwIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzljYTNhZiI+MzcuNTIzNMKwTiwgMTI3LjAyMjfCsEU8L3RleHQ+CgogIDwhLS0gT1NNIOq3gOyGjSDtkZzsi5wgLS0+CiAgPHRleHQgeD0iNTA0IiB5PSIyNTgiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjkiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJlbmQiPsKpIE9wZW5TdHJlZXRNYXA8L3RleHQ+Cjwvc3ZnPg=='},
+    {name:'MUSINSA Seongsu', brand:'MUSINSA Store', pri:3, pkm:'partial', lat:37.5416, lng:127.0564, place:'ChIJhSRPNXelfDURV_ooK2_9Ij0', img:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MjAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNTIwIDI2MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InNoYWRvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iMzAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0icmdiYSgwLDAsMCwwLjE1KSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9InJnYmEoMCwwLDAsMCkiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgoKICA8IS0tIOuwsOqyvSAtLT4KICA8cmVjdCB3aWR0aD0iNTIwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iI2YyZWZlOSIvPgoKICA8IS0tIOu4lOuhnS/qtazsl60g7Yyo7YS0ICjrnpzrjaTtlZjsp4Ag7JWK6rKMIOychOuPhCDquLDrsJgpIC0tPgogIDxyZWN0IHg9IjAiIHk9IjMwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjIwMCIgeT0iMTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMzQwIiB5PSIyNSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI1NSIgZmlsbD0iI2UwZGRkOCIgcng9IjIiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjcwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjE4MCIgeT0iMTMwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjM2MCIgeT0iMTEwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjMwIiB5PSIyMDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMjUwIiB5PSIxOTUiIHdpZHRoPSIyNDAiIGhlaWdodD0iNTUiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iNjAiIHk9IjYwIiB3aWR0aD0iODAiIGhlaWdodD0iNDAiIGZpbGw9IiNjOGU2YTAiIHJ4PSIzIiBvcGFjaXR5PSIwLjciLz4KCiAgPCEtLSDrj4TroZwgLS0+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDAiIHgyPSI1MjAiIHkyPSIxMDAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDMiIHgyPSI1MjAiIHkyPSIxMDMiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjI2MCIgeTE9IjAiIHgyPSIyNjAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjI2MyIgeTE9IjAiIHgyPSIyNjMiIHkyPSIyNjAiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxNzAiIHgyPSI1MjAiIHkyPSIxNzAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjEzMCIgeTE9IjAiIHgyPSIxMzAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjM5MCIgeTE9IjAiIHgyPSIzOTAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSI0MCIgeDI9IjUyMCIgeTI9IjQwIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC42Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIyMjAiIHgyPSI1MjAiIHkyPSIyMjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjYiLz4KCiAgPCEtLSDsnITsuZgg7ZWAIOq3uOumvOyekCAtLT4KICA8ZWxsaXBzZSBjeD0iMjYwIiBjeT0iMTM4IiByeD0iMTgiIHJ5PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuMTUpIi8+CgogIDwhLS0g7JyE7LmYIO2VgCAtLT4KICA8cGF0aCBkPSJNMjYwIDgwIEMyNDMgODAgMjMwIDkzIDIzMCAxMTAgQzIzMCAxMzMgMjYwIDE1NSAyNjAgMTU1IEMyNjAgMTU1IDI5MCAxMzMgMjkwIDExMCBDMjkwIDkzIDI3NyA4MCAyNjAgODAgWiIgZmlsbD0iI0U1MzkzNSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNjAiIGN5PSIxMTAiIHI9IjgiIGZpbGw9IiNmZmYiLz4KCiAgPCEtLSDtlYAg7ZWY7J2065287J207Yq4IC0tPgogIDxjaXJjbGUgY3g9IjI1NSIgY3k9IjEwNiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIi8+CgogIDwhLS0g7KCV67O0IOuwleyKpCAtLT4KICA8cmVjdCB4PSIwIiB5PSIxOTAiIHdpZHRoPSI1MjAiIGhlaWdodD0iNzAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45MikiLz4KICA8bGluZSB4MT0iMCIgeTE9IjE5MCIgeDI9IjUyMCIgeTI9IjE5MCIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgPCEtLSDsnITsuZjrqoUgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIxMyIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYTFhMmUiPk1VU0lOU0EgU2VvbmdzdTwvdGV4dD4KICA8IS0tIOyDgeyEuCAtLT4KICA8dGV4dCB4PSIxNiIgeT0iMjMyIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgZmlsbD0iIzZiNzI4MCI+7ISc7Jq47IiyIOyduOq3vDwvdGV4dD4KICA8IS0tIOyijO2RnCAtLT4KICA8dGV4dCB4PSIxNiIgeT0iMjUwIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzljYTNhZiI+MzcuNTQxNsKwTiwgMTI3LjA1NjTCsEU8L3RleHQ+CgogIDwhLS0gT1NNIOq3gOyGjSDtkZzsi5wgLS0+CiAgPHRleHQgeD0iNTA0IiB5PSIyNTgiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjkiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJlbmQiPsKpIE9wZW5TdHJlZXRNYXA8L3RleHQ+Cjwvc3ZnPg=='},
+    {name:'Toys"R"Us Jamsil', brand:'Lotte Mart Toys"R"Us', pri:4, pkm:'yes', lat:37.5119, lng:127.0979, place:'ChIJ1emSIKelfDURwp7QgVvK9Rs', img:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MjAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNTIwIDI2MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InNoYWRvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iMzAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0icmdiYSgwLDAsMCwwLjE1KSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9InJnYmEoMCwwLDAsMCkiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgoKICA8IS0tIOuwsOqyvSAtLT4KICA8cmVjdCB3aWR0aD0iNTIwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iI2YyZWZlOSIvPgoKICA8IS0tIOu4lOuhnS/qtazsl60g7Yyo7YS0ICjrnpzrjaTtlZjsp4Ag7JWK6rKMIOychOuPhCDquLDrsJgpIC0tPgogIDxyZWN0IHg9IjAiIHk9IjMwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjIwMCIgeT0iMTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMzQwIiB5PSIyNSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI1NSIgZmlsbD0iI2UwZGRkOCIgcng9IjIiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjcwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjE4MCIgeT0iMTMwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjM2MCIgeT0iMTEwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjMwIiB5PSIyMDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMjUwIiB5PSIxOTUiIHdpZHRoPSIyNDAiIGhlaWdodD0iNTUiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iNjAiIHk9IjYwIiB3aWR0aD0iODAiIGhlaWdodD0iNDAiIGZpbGw9IiNjOGU2YTAiIHJ4PSIzIiBvcGFjaXR5PSIwLjciLz4KCiAgPCEtLSDrj4TroZwgLS0+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDAiIHgyPSI1MjAiIHkyPSIxMDAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDMiIHgyPSI1MjAiIHkyPSIxMDMiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjI2MCIgeTE9IjAiIHgyPSIyNjAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjI2MyIgeTE9IjAiIHgyPSIyNjMiIHkyPSIyNjAiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxNzAiIHgyPSI1MjAiIHkyPSIxNzAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjEzMCIgeTE9IjAiIHgyPSIxMzAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjM5MCIgeTE9IjAiIHgyPSIzOTAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSI0MCIgeDI9IjUyMCIgeTI9IjQwIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC42Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIyMjAiIHgyPSI1MjAiIHkyPSIyMjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjYiLz4KCiAgPCEtLSDsnITsuZgg7ZWAIOq3uOumvOyekCAtLT4KICA8ZWxsaXBzZSBjeD0iMjYwIiBjeT0iMTM4IiByeD0iMTgiIHJ5PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuMTUpIi8+CgogIDwhLS0g7JyE7LmYIO2VgCAtLT4KICA8cGF0aCBkPSJNMjYwIDgwIEMyNDMgODAgMjMwIDkzIDIzMCAxMTAgQzIzMCAxMzMgMjYwIDE1NSAyNjAgMTU1IEMyNjAgMTU1IDI5MCAxMzMgMjkwIDExMCBDMjkwIDkzIDI3NyA4MCAyNjAgODAgWiIgZmlsbD0iI0U1MzkzNSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNjAiIGN5PSIxMTAiIHI9IjgiIGZpbGw9IiNmZmYiLz4KCiAgPCEtLSDtlYAg7ZWY7J2065287J207Yq4IC0tPgogIDxjaXJjbGUgY3g9IjI1NSIgY3k9IjEwNiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIi8+CgogIDwhLS0g7KCV67O0IOuwleyKpCAtLT4KICA8cmVjdCB4PSIwIiB5PSIxOTAiIHdpZHRoPSI1MjAiIGhlaWdodD0iNzAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45MikiLz4KICA8bGluZSB4MT0iMCIgeTE9IjE5MCIgeDI9IjUyMCIgeTI9IjE5MCIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgPCEtLSDsnITsuZjrqoUgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIxMyIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYTFhMmUiPlRveXMgUiBVcyBKYW1zaWw8L3RleHQ+CiAgPCEtLSDsg4HshLggLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIzMiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiM2YjcyODAiPuuhr+uNsOuniO2KuCDsnqDsi6TsoJA8L3RleHQ+CiAgPCEtLSDsooztkZwgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjI1MCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM5Y2EzYWYiPjM3LjUxMTnCsE4sIDEyNy4wOTc5wrBFPC90ZXh0PgoKICA8IS0tIE9TTSDqt4Dsho0g7ZGc7IucIC0tPgogIDx0ZXh0IHg9IjUwNCIgeT0iMjU4IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5IiBmaWxsPSIjOWNhM2FmIiB0ZXh0LWFuY2hvcj0iZW5kIj7CqSBPcGVuU3RyZWV0TWFwPC90ZXh0Pgo8L3N2Zz4='},
+    {name:'COEX Aqua Planet', brand:'Aqua Planet', pri:5, pkm:'no', lat:37.5131, lng:127.0583, place:'ChIJ72K1TGqkfDURa_ENqoUeeXs', img:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MjAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNTIwIDI2MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InNoYWRvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iMzAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0icmdiYSgwLDAsMCwwLjE1KSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9InJnYmEoMCwwLDAsMCkiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgoKICA8IS0tIOuwsOqyvSAtLT4KICA8cmVjdCB3aWR0aD0iNTIwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iI2YyZWZlOSIvPgoKICA8IS0tIOu4lOuhnS/qtazsl60g7Yyo7YS0ICjrnpzrjaTtlZjsp4Ag7JWK6rKMIOychOuPhCDquLDrsJgpIC0tPgogIDxyZWN0IHg9IjAiIHk9IjMwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjIwMCIgeT0iMTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMzQwIiB5PSIyNSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI1NSIgZmlsbD0iI2UwZGRkOCIgcng9IjIiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjcwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjE4MCIgeT0iMTMwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjM2MCIgeT0iMTEwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjMwIiB5PSIyMDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMjUwIiB5PSIxOTUiIHdpZHRoPSIyNDAiIGhlaWdodD0iNTUiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iNjAiIHk9IjYwIiB3aWR0aD0iODAiIGhlaWdodD0iNDAiIGZpbGw9IiNjOGU2YTAiIHJ4PSIzIiBvcGFjaXR5PSIwLjciLz4KCiAgPCEtLSDrj4TroZwgLS0+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDAiIHgyPSI1MjAiIHkyPSIxMDAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDMiIHgyPSI1MjAiIHkyPSIxMDMiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjI2MCIgeTE9IjAiIHgyPSIyNjAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjI2MyIgeTE9IjAiIHgyPSIyNjMiIHkyPSIyNjAiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxNzAiIHgyPSI1MjAiIHkyPSIxNzAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjEzMCIgeTE9IjAiIHgyPSIxMzAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjM5MCIgeTE9IjAiIHgyPSIzOTAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSI0MCIgeDI9IjUyMCIgeTI9IjQwIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC42Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIyMjAiIHgyPSI1MjAiIHkyPSIyMjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjYiLz4KCiAgPCEtLSDsnITsuZgg7ZWAIOq3uOumvOyekCAtLT4KICA8ZWxsaXBzZSBjeD0iMjYwIiBjeT0iMTM4IiByeD0iMTgiIHJ5PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuMTUpIi8+CgogIDwhLS0g7JyE7LmYIO2VgCAtLT4KICA8cGF0aCBkPSJNMjYwIDgwIEMyNDMgODAgMjMwIDkzIDIzMCAxMTAgQzIzMCAxMzMgMjYwIDE1NSAyNjAgMTU1IEMyNjAgMTU1IDI5MCAxMzMgMjkwIDExMCBDMjkwIDkzIDI3NyA4MCAyNjAgODAgWiIgZmlsbD0iI0U1MzkzNSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNjAiIGN5PSIxMTAiIHI9IjgiIGZpbGw9IiNmZmYiLz4KCiAgPCEtLSDtlYAg7ZWY7J2065287J207Yq4IC0tPgogIDxjaXJjbGUgY3g9IjI1NSIgY3k9IjEwNiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIi8+CgogIDwhLS0g7KCV67O0IOuwleyKpCAtLT4KICA8cmVjdCB4PSIwIiB5PSIxOTAiIHdpZHRoPSI1MjAiIGhlaWdodD0iNzAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45MikiLz4KICA8bGluZSB4MT0iMCIgeTE9IjE5MCIgeDI9IjUyMCIgeTI9IjE5MCIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgPCEtLSDsnITsuZjrqoUgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIxMyIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYTFhMmUiPkNPRVggQXF1YSBQbGFuZXQ8L3RleHQ+CiAgPCEtLSDsg4HshLggLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIzMiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiM2YjcyODAiPkNPRVgg7KeA7ZWYPC90ZXh0PgogIDwhLS0g7KKM7ZGcIC0tPgogIDx0ZXh0IHg9IjE2IiB5PSIyNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiBmaWxsPSIjOWNhM2FmIj4zNy41MTMxwrBOLCAxMjcuMDU4M8KwRTwvdGV4dD4KCiAgPCEtLSBPU00g6reA7IaNIO2RnOyLnCAtLT4KICA8dGV4dCB4PSI1MDQiIHk9IjI1OCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iOSIgZmlsbD0iIzljYTNhZiIgdGV4dC1hbmNob3I9ImVuZCI+wqkgT3BlblN0cmVldE1hcDwvdGV4dD4KPC9zdmc+'},
+    {name:'N Seoul Tower', brand:'N Seoul Tower', pri:5, pkm:'partial', lat:37.5512, lng:126.9882, place:'ChIJqWqOqFeifDURpYJ5LnxX-Fw', img:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MjAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNTIwIDI2MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InNoYWRvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iMzAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0icmdiYSgwLDAsMCwwLjE1KSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9InJnYmEoMCwwLDAsMCkiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgoKICA8IS0tIOuwsOqyvSAtLT4KICA8cmVjdCB3aWR0aD0iNTIwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iI2YyZWZlOSIvPgoKICA8IS0tIOu4lOuhnS/qtazsl60g7Yyo7YS0ICjrnpzrjaTtlZjsp4Ag7JWK6rKMIOychOuPhCDquLDrsJgpIC0tPgogIDxyZWN0IHg9IjAiIHk9IjMwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjIwMCIgeT0iMTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMzQwIiB5PSIyNSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI1NSIgZmlsbD0iI2UwZGRkOCIgcng9IjIiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjcwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjE4MCIgeT0iMTMwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjM2MCIgeT0iMTEwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjMwIiB5PSIyMDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMjUwIiB5PSIxOTUiIHdpZHRoPSIyNDAiIGhlaWdodD0iNTUiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iNjAiIHk9IjYwIiB3aWR0aD0iODAiIGhlaWdodD0iNDAiIGZpbGw9IiNjOGU2YTAiIHJ4PSIzIiBvcGFjaXR5PSIwLjciLz4KCiAgPCEtLSDrj4TroZwgLS0+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDAiIHgyPSI1MjAiIHkyPSIxMDAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDMiIHgyPSI1MjAiIHkyPSIxMDMiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjI2MCIgeTE9IjAiIHgyPSIyNjAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjI2MyIgeTE9IjAiIHgyPSIyNjMiIHkyPSIyNjAiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxNzAiIHgyPSI1MjAiIHkyPSIxNzAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjEzMCIgeTE9IjAiIHgyPSIxMzAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjM5MCIgeTE9IjAiIHgyPSIzOTAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSI0MCIgeDI9IjUyMCIgeTI9IjQwIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC42Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIyMjAiIHgyPSI1MjAiIHkyPSIyMjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjYiLz4KCiAgPCEtLSDsnITsuZgg7ZWAIOq3uOumvOyekCAtLT4KICA8ZWxsaXBzZSBjeD0iMjYwIiBjeT0iMTM4IiByeD0iMTgiIHJ5PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuMTUpIi8+CgogIDwhLS0g7JyE7LmYIO2VgCAtLT4KICA8cGF0aCBkPSJNMjYwIDgwIEMyNDMgODAgMjMwIDkzIDIzMCAxMTAgQzIzMCAxMzMgMjYwIDE1NSAyNjAgMTU1IEMyNjAgMTU1IDI5MCAxMzMgMjkwIDExMCBDMjkwIDkzIDI3NyA4MCAyNjAgODAgWiIgZmlsbD0iI0U1MzkzNSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNjAiIGN5PSIxMTAiIHI9IjgiIGZpbGw9IiNmZmYiLz4KCiAgPCEtLSDtlYAg7ZWY7J2065287J207Yq4IC0tPgogIDxjaXJjbGUgY3g9IjI1NSIgY3k9IjEwNiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIi8+CgogIDwhLS0g7KCV67O0IOuwleyKpCAtLT4KICA8cmVjdCB4PSIwIiB5PSIxOTAiIHdpZHRoPSI1MjAiIGhlaWdodD0iNzAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45MikiLz4KICA8bGluZSB4MT0iMCIgeTE9IjE5MCIgeDI9IjUyMCIgeTI9IjE5MCIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgPCEtLSDsnITsuZjrqoUgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIxMyIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYTFhMmUiPk4gU2VvdWwgVG93ZXI8L3RleHQ+CiAgPCEtLSDsg4HshLggLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIzMiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiM2YjcyODAiPuuCqOyCsOqzteybkCDsoJXsg4E8L3RleHQ+CiAgPCEtLSDsooztkZwgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjI1MCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM5Y2EzYWYiPjM3LjU1MTLCsE4sIDEyNi45ODgywrBFPC90ZXh0PgoKICA8IS0tIE9TTSDqt4Dsho0g7ZGc7IucIC0tPgogIDx0ZXh0IHg9IjUwNCIgeT0iMjU4IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5IiBmaWxsPSIjOWNhM2FmIiB0ZXh0LWFuY2hvcj0iZW5kIj7CqSBPcGVuU3RyZWV0TWFwPC90ZXh0Pgo8L3N2Zz4='},
+    {name:'ToyPlus Mario Outlet', brand:'Aurora World (ToyPlus)', pri:6, pkm:'yes', lat:37.4782, lng:126.8871, place:'ChIJMwPSS-BhezURCbSfK6p09bA', img:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MjAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNTIwIDI2MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InNoYWRvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iMzAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0icmdiYSgwLDAsMCwwLjE1KSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9InJnYmEoMCwwLDAsMCkiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgoKICA8IS0tIOuwsOqyvSAtLT4KICA8cmVjdCB3aWR0aD0iNTIwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iI2YyZWZlOSIvPgoKICA8IS0tIOu4lOuhnS/qtazsl60g7Yyo7YS0ICjrnpzrjaTtlZjsp4Ag7JWK6rKMIOychOuPhCDquLDrsJgpIC0tPgogIDxyZWN0IHg9IjAiIHk9IjMwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjIwMCIgeT0iMTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMzQwIiB5PSIyNSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI1NSIgZmlsbD0iI2UwZGRkOCIgcng9IjIiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjcwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjE4MCIgeT0iMTMwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjM2MCIgeT0iMTEwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjMwIiB5PSIyMDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMjUwIiB5PSIxOTUiIHdpZHRoPSIyNDAiIGhlaWdodD0iNTUiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iNjAiIHk9IjYwIiB3aWR0aD0iODAiIGhlaWdodD0iNDAiIGZpbGw9IiNjOGU2YTAiIHJ4PSIzIiBvcGFjaXR5PSIwLjciLz4KCiAgPCEtLSDrj4TroZwgLS0+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDAiIHgyPSI1MjAiIHkyPSIxMDAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDMiIHgyPSI1MjAiIHkyPSIxMDMiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjI2MCIgeTE9IjAiIHgyPSIyNjAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjI2MyIgeTE9IjAiIHgyPSIyNjMiIHkyPSIyNjAiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxNzAiIHgyPSI1MjAiIHkyPSIxNzAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjEzMCIgeTE9IjAiIHgyPSIxMzAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjM5MCIgeTE9IjAiIHgyPSIzOTAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSI0MCIgeDI9IjUyMCIgeTI9IjQwIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC42Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIyMjAiIHgyPSI1MjAiIHkyPSIyMjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjYiLz4KCiAgPCEtLSDsnITsuZgg7ZWAIOq3uOumvOyekCAtLT4KICA8ZWxsaXBzZSBjeD0iMjYwIiBjeT0iMTM4IiByeD0iMTgiIHJ5PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuMTUpIi8+CgogIDwhLS0g7JyE7LmYIO2VgCAtLT4KICA8cGF0aCBkPSJNMjYwIDgwIEMyNDMgODAgMjMwIDkzIDIzMCAxMTAgQzIzMCAxMzMgMjYwIDE1NSAyNjAgMTU1IEMyNjAgMTU1IDI5MCAxMzMgMjkwIDExMCBDMjkwIDkzIDI3NyA4MCAyNjAgODAgWiIgZmlsbD0iI0U1MzkzNSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNjAiIGN5PSIxMTAiIHI9IjgiIGZpbGw9IiNmZmYiLz4KCiAgPCEtLSDtlYAg7ZWY7J2065287J207Yq4IC0tPgogIDxjaXJjbGUgY3g9IjI1NSIgY3k9IjEwNiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIi8+CgogIDwhLS0g7KCV67O0IOuwleyKpCAtLT4KICA8cmVjdCB4PSIwIiB5PSIxOTAiIHdpZHRoPSI1MjAiIGhlaWdodD0iNzAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45MikiLz4KICA8bGluZSB4MT0iMCIgeTE9IjE5MCIgeDI9IjUyMCIgeTI9IjE5MCIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgPCEtLSDsnITsuZjrqoUgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIxMyIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYTFhMmUiPlRveVBsdXMgTWFyaW8gT3V0bGV0PC90ZXh0PgogIDwhLS0g7IOB7IS4IC0tPgogIDx0ZXh0IHg9IjE2IiB5PSIyMzIiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmaWxsPSIjNmI3MjgwIj7rp4jrpqzsmKTslYTsmrjroJs8L3RleHQ+CiAgPCEtLSDsooztkZwgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjI1MCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM5Y2EzYWYiPjM3LjQ3ODLCsE4sIDEyNi44ODcxwrBFPC90ZXh0PgoKICA8IS0tIE9TTSDqt4Dsho0g7ZGc7IucIC0tPgogIDx0ZXh0IHg9IjUwNCIgeT0iMjU4IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5IiBmaWxsPSIjOWNhM2FmIiB0ZXh0LWFuY2hvcj0iZW5kIj7CqSBPcGVuU3RyZWV0TWFwPC90ZXh0Pgo8L3N2Zz4='},
+    {name:'AK Plaza Incheon T1', brand:'AK Plaza Incheon Airport', pri:7, pkm:'no', lat:37.4491, lng:126.4506, place:'ChIJxe1rSWKaezUR4eQkLpy1BVE', img:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MjAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNTIwIDI2MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InNoYWRvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iMzAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0icmdiYSgwLDAsMCwwLjE1KSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9InJnYmEoMCwwLDAsMCkiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgoKICA8IS0tIOuwsOqyvSAtLT4KICA8cmVjdCB3aWR0aD0iNTIwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iI2YyZWZlOSIvPgoKICA8IS0tIOu4lOuhnS/qtazsl60g7Yyo7YS0ICjrnpzrjaTtlZjsp4Ag7JWK6rKMIOychOuPhCDquLDrsJgpIC0tPgogIDxyZWN0IHg9IjAiIHk9IjMwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjIwMCIgeT0iMTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMzQwIiB5PSIyNSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI1NSIgZmlsbD0iI2UwZGRkOCIgcng9IjIiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjcwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjE4MCIgeT0iMTMwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjM2MCIgeT0iMTEwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjMwIiB5PSIyMDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMjUwIiB5PSIxOTUiIHdpZHRoPSIyNDAiIGhlaWdodD0iNTUiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iNjAiIHk9IjYwIiB3aWR0aD0iODAiIGhlaWdodD0iNDAiIGZpbGw9IiNjOGU2YTAiIHJ4PSIzIiBvcGFjaXR5PSIwLjciLz4KCiAgPCEtLSDrj4TroZwgLS0+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDAiIHgyPSI1MjAiIHkyPSIxMDAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDMiIHgyPSI1MjAiIHkyPSIxMDMiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjI2MCIgeTE9IjAiIHgyPSIyNjAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjI2MyIgeTE9IjAiIHgyPSIyNjMiIHkyPSIyNjAiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxNzAiIHgyPSI1MjAiIHkyPSIxNzAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjEzMCIgeTE9IjAiIHgyPSIxMzAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjM5MCIgeTE9IjAiIHgyPSIzOTAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSI0MCIgeDI9IjUyMCIgeTI9IjQwIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC42Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIyMjAiIHgyPSI1MjAiIHkyPSIyMjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjYiLz4KCiAgPCEtLSDsnITsuZgg7ZWAIOq3uOumvOyekCAtLT4KICA8ZWxsaXBzZSBjeD0iMjYwIiBjeT0iMTM4IiByeD0iMTgiIHJ5PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuMTUpIi8+CgogIDwhLS0g7JyE7LmYIO2VgCAtLT4KICA8cGF0aCBkPSJNMjYwIDgwIEMyNDMgODAgMjMwIDkzIDIzMCAxMTAgQzIzMCAxMzMgMjYwIDE1NSAyNjAgMTU1IEMyNjAgMTU1IDI5MCAxMzMgMjkwIDExMCBDMjkwIDkzIDI3NyA4MCAyNjAgODAgWiIgZmlsbD0iI0U1MzkzNSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNjAiIGN5PSIxMTAiIHI9IjgiIGZpbGw9IiNmZmYiLz4KCiAgPCEtLSDtlYAg7ZWY7J2065287J207Yq4IC0tPgogIDxjaXJjbGUgY3g9IjI1NSIgY3k9IjEwNiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIi8+CgogIDwhLS0g7KCV67O0IOuwleyKpCAtLT4KICA8cmVjdCB4PSIwIiB5PSIxOTAiIHdpZHRoPSI1MjAiIGhlaWdodD0iNzAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45MikiLz4KICA8bGluZSB4MT0iMCIgeTE9IjE5MCIgeDI9IjUyMCIgeTI9IjE5MCIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgPCEtLSDsnITsuZjrqoUgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIxMyIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYTFhMmUiPkFLIFBsYXphIEluY2hlb24gVDE8L3RleHQ+CiAgPCEtLSDsg4HshLggLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIzMiIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiM2YjcyODAiPuyduOyynOqzte2VrSAx7YSw66+464SQIDPsuLU8L3RleHQ+CiAgPCEtLSDsooztkZwgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjI1MCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM5Y2EzYWYiPjM3LjQ0OTHCsE4sIDEyNi40NTA2wrBFPC90ZXh0PgoKICA8IS0tIE9TTSDqt4Dsho0g7ZGc7IucIC0tPgogIDx0ZXh0IHg9IjUwNCIgeT0iMjU4IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5IiBmaWxsPSIjOWNhM2FmIiB0ZXh0LWFuY2hvcj0iZW5kIj7CqSBPcGVuU3RyZWV0TWFwPC90ZXh0Pgo8L3N2Zz4='},
+    {name:'Butter · Inspire Resort', brand:'Butter (Inspire Resort)', pri:5, pkm:'no', lat:37.4657, lng:126.3891, place:'ChIJ4bBgb5effDURolxQYzHNszU', img:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MjAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNTIwIDI2MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InNoYWRvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iMzAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0icmdiYSgwLDAsMCwwLjE1KSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9InJnYmEoMCwwLDAsMCkiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgoKICA8IS0tIOuwsOqyvSAtLT4KICA8cmVjdCB3aWR0aD0iNTIwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iI2YyZWZlOSIvPgoKICA8IS0tIOu4lOuhnS/qtazsl60g7Yyo7YS0ICjrnpzrjaTtlZjsp4Ag7JWK6rKMIOychOuPhCDquLDrsJgpIC0tPgogIDxyZWN0IHg9IjAiIHk9IjMwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjIwMCIgeT0iMTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMzQwIiB5PSIyNSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI1NSIgZmlsbD0iI2UwZGRkOCIgcng9IjIiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjcwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjE4MCIgeT0iMTMwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjM2MCIgeT0iMTEwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjMwIiB5PSIyMDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMjUwIiB5PSIxOTUiIHdpZHRoPSIyNDAiIGhlaWdodD0iNTUiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iNjAiIHk9IjYwIiB3aWR0aD0iODAiIGhlaWdodD0iNDAiIGZpbGw9IiNjOGU2YTAiIHJ4PSIzIiBvcGFjaXR5PSIwLjciLz4KCiAgPCEtLSDrj4TroZwgLS0+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDAiIHgyPSI1MjAiIHkyPSIxMDAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDMiIHgyPSI1MjAiIHkyPSIxMDMiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjI2MCIgeTE9IjAiIHgyPSIyNjAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjI2MyIgeTE9IjAiIHgyPSIyNjMiIHkyPSIyNjAiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxNzAiIHgyPSI1MjAiIHkyPSIxNzAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjEzMCIgeTE9IjAiIHgyPSIxMzAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjM5MCIgeTE9IjAiIHgyPSIzOTAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSI0MCIgeDI9IjUyMCIgeTI9IjQwIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC42Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIyMjAiIHgyPSI1MjAiIHkyPSIyMjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjYiLz4KCiAgPCEtLSDsnITsuZgg7ZWAIOq3uOumvOyekCAtLT4KICA8ZWxsaXBzZSBjeD0iMjYwIiBjeT0iMTM4IiByeD0iMTgiIHJ5PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuMTUpIi8+CgogIDwhLS0g7JyE7LmYIO2VgCAtLT4KICA8cGF0aCBkPSJNMjYwIDgwIEMyNDMgODAgMjMwIDkzIDIzMCAxMTAgQzIzMCAxMzMgMjYwIDE1NSAyNjAgMTU1IEMyNjAgMTU1IDI5MCAxMzMgMjkwIDExMCBDMjkwIDkzIDI3NyA4MCAyNjAgODAgWiIgZmlsbD0iI0U1MzkzNSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNjAiIGN5PSIxMTAiIHI9IjgiIGZpbGw9IiNmZmYiLz4KCiAgPCEtLSDtlYAg7ZWY7J2065287J207Yq4IC0tPgogIDxjaXJjbGUgY3g9IjI1NSIgY3k9IjEwNiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIi8+CgogIDwhLS0g7KCV67O0IOuwleyKpCAtLT4KICA8cmVjdCB4PSIwIiB5PSIxOTAiIHdpZHRoPSI1MjAiIGhlaWdodD0iNzAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45MikiLz4KICA8bGluZSB4MT0iMCIgeTE9IjE5MCIgeDI9IjUyMCIgeTI9IjE5MCIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgPCEtLSDsnITsuZjrqoUgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIxMyIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYTFhMmUiPkJ1dHRlciBJbnNwaXJlIFJlc29ydDwvdGV4dD4KICA8IS0tIOyDgeyEuCAtLT4KICA8dGV4dCB4PSIxNiIgeT0iMjMyIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgZmlsbD0iIzZiNzI4MCI+7J247Iqk7YyM7J207Ja0IOyXlO2EsO2FjOyduOuovO2KuCDrpqzsobDtirg8L3RleHQ+CiAgPCEtLSDsooztkZwgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjI1MCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM5Y2EzYWYiPjM3LjQ2NTfCsE4sIDEyNi4zODkxwrBFPC90ZXh0PgoKICA8IS0tIE9TTSDqt4Dsho0g7ZGc7IucIC0tPgogIDx0ZXh0IHg9IjUwNCIgeT0iMjU4IiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5IiBmaWxsPSIjOWNhM2FmIiB0ZXh0LWFuY2hvcj0iZW5kIj7CqSBPcGVuU3RyZWV0TWFwPC90ZXh0Pgo8L3N2Zz4='},
+    {name:'Jeju Shinhwa World', brand:'Jeju Shinhwa World', pri:5, pkm:'no', lat:33.3076, lng:126.3176, place:'ChIJWQi2UfdcDDURX1pf0oraCTY', img:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MjAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgNTIwIDI2MCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InNoYWRvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iMzAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0icmdiYSgwLDAsMCwwLjE1KSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9InJnYmEoMCwwLDAsMCkiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgoKICA8IS0tIOuwsOqyvSAtLT4KICA8cmVjdCB3aWR0aD0iNTIwIiBoZWlnaHQ9IjI2MCIgZmlsbD0iI2YyZWZlOSIvPgoKICA8IS0tIOu4lOuhnS/qtazsl60g7Yyo7YS0ICjrnpzrjaTtlZjsp4Ag7JWK6rKMIOychOuPhCDquLDrsJgpIC0tPgogIDxyZWN0IHg9IjAiIHk9IjMwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjIwMCIgeT0iMTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMzQwIiB5PSIyNSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI1NSIgZmlsbD0iI2UwZGRkOCIgcng9IjIiLz4KICA8cmVjdCB4PSIyMCIgeT0iMTIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjcwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjE4MCIgeT0iMTMwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjM2MCIgeT0iMTEwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTBkZGQ4IiByeD0iMiIvPgogIDxyZWN0IHg9IjMwIiB5PSIyMDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iMjUwIiB5PSIxOTUiIHdpZHRoPSIyNDAiIGhlaWdodD0iNTUiIGZpbGw9IiNlMGRkZDgiIHJ4PSIyIi8+CiAgPHJlY3QgeD0iNjAiIHk9IjYwIiB3aWR0aD0iODAiIGhlaWdodD0iNDAiIGZpbGw9IiNjOGU2YTAiIHJ4PSIzIiBvcGFjaXR5PSIwLjciLz4KCiAgPCEtLSDrj4TroZwgLS0+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDAiIHgyPSI1MjAiIHkyPSIxMDAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxMDMiIHgyPSI1MjAiIHkyPSIxMDMiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjI2MCIgeTE9IjAiIHgyPSIyNjAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZDcwMCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgPGxpbmUgeDE9IjI2MyIgeTE9IjAiIHgyPSIyNjMiIHkyPSIyNjAiIHN0cm9rZT0icmdiYSgyMDAsMTUwLDAsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjAiIHkxPSIxNzAiIHgyPSI1MjAiIHkyPSIxNzAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjEzMCIgeTE9IjAiIHgyPSIxMzAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjM5MCIgeTE9IjAiIHgyPSIzOTAiIHkyPSIyNjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSI0MCIgeDI9IjUyMCIgeTI9IjQwIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC42Ii8+CiAgPGxpbmUgeDE9IjAiIHkxPSIyMjAiIHgyPSI1MjAiIHkyPSIyMjAiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjYiLz4KCiAgPCEtLSDsnITsuZgg7ZWAIOq3uOumvOyekCAtLT4KICA8ZWxsaXBzZSBjeD0iMjYwIiBjeT0iMTM4IiByeD0iMTgiIHJ5PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuMTUpIi8+CgogIDwhLS0g7JyE7LmYIO2VgCAtLT4KICA8cGF0aCBkPSJNMjYwIDgwIEMyNDMgODAgMjMwIDkzIDIzMCAxMTAgQzIzMCAxMzMgMjYwIDE1NSAyNjAgMTU1IEMyNjAgMTU1IDI5MCAxMzMgMjkwIDExMCBDMjkwIDkzIDI3NyA4MCAyNjAgODAgWiIgZmlsbD0iI0U1MzkzNSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8Y2lyY2xlIGN4PSIyNjAiIGN5PSIxMTAiIHI9IjgiIGZpbGw9IiNmZmYiLz4KCiAgPCEtLSDtlYAg7ZWY7J2065287J207Yq4IC0tPgogIDxjaXJjbGUgY3g9IjI1NSIgY3k9IjEwNiIgcj0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIi8+CgogIDwhLS0g7KCV67O0IOuwleyKpCAtLT4KICA8cmVjdCB4PSIwIiB5PSIxOTAiIHdpZHRoPSI1MjAiIGhlaWdodD0iNzAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45MikiLz4KICA8bGluZSB4MT0iMCIgeTE9IjE5MCIgeDI9IjUyMCIgeTI9IjE5MCIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiLz4KCiAgPCEtLSDsnITsuZjrqoUgLS0+CiAgPHRleHQgeD0iMTYiIHk9IjIxMyIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYTFhMmUiPkplanUgU2hpbmh3YSBXb3JsZDwvdGV4dD4KICA8IS0tIOyDgeyEuCAtLT4KICA8dGV4dCB4PSIxNiIgeT0iMjMyIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgZmlsbD0iIzZiNzI4MCI+7KCc7KO87Iug7ZmU7JuU65OcPC90ZXh0PgogIDwhLS0g7KKM7ZGcIC0tPgogIDx0ZXh0IHg9IjE2IiB5PSIyNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiBmaWxsPSIjOWNhM2FmIj4zMy4zMDc2wrBOLCAxMjYuMzE3NsKwRTwvdGV4dD4KCiAgPCEtLSBPU00g6reA7IaNIO2RnOyLnCAtLT4KICA8dGV4dCB4PSI1MDQiIHk9IjI1OCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iOSIgZmlsbD0iIzljYTNhZiIgdGV4dC1hbmNob3I9ImVuZCI+wqkgT3BlblN0cmVldE1hcDwvdGV4dD4KPC9zdmc+'},
+  ];
+
+  const PKM_COL2={yes:'#16A34A',partial:'#B45309',no:'#6B7280'};
+  const PKM_BG2 ={yes:'#F0FDF4',partial:'#FFFBEB',no:'#F3F4F6'};
+  const PKM_LBL ={yes:'Selling Now',partial:'Partial',no:'Opportunity'};
+  const CAT2={1:'Bookstore',2:'Fancy Shop',3:'Fashion Edit',4:'Mart',5:'Tourism',6:'Road Shop',7:'Airport'};
+
+  const cont=document.getElementById('region-grid');
+  cont.innerHTML='';
+
+  // ── 팝업 오버레이 (숨김 상태로 미리 생성) ──────────────────
+  const overlay=document.createElement('div');
+  overlay.id='map-overlay';
+  overlay.style.cssText='display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;align-items:center;justify-content:center';
+  overlay.onclick=function(e){if(e.target===overlay)closePopup();};
+  overlay.innerHTML=`
+    <div style="background:#fff;border-radius:16px;overflow:hidden;width:520px;max-width:92vw;box-shadow:0 20px 60px rgba(0,0,0,.4)">
+      <div id="pop-header" style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #f3f4f6">
+        <span id="pop-badge" style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;color:#fff;font-size:10px;font-weight:800"></span>
+        <div style="flex:1">
+          <div id="pop-name" style="font-size:14px;font-weight:800"></div>
+          <div id="pop-sub"  style="font-size:11px;color:#9ca3af;margin-top:1px"></div>
+        </div>
+        <span id="pop-pkm" style="font-size:11px;padding:3px 9px;border-radius:20px;font-weight:700"></span>
+        <button onclick="closePopup()" style="border:none;background:none;font-size:18px;color:#9ca3af;cursor:pointer;line-height:1;padding:0 4px">✕</button>
+      </div>
+      <div id="pop-img-wrap" style="position:relative;height:260px;background:#f1f5f9;overflow:hidden">
+        <img id="pop-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+        <div id="pop-img-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:#9ca3af;font-size:13px">
+          <div style="font-size:36px">📍</div>
+          <div id="pop-addr" style="font-size:12px;text-align:center;padding:0 20px"></div>
+        </div>
+      </div>
+      <div style="padding:14px 18px;display:flex;align-items:center;justify-content:space-between">
+        <div id="pop-addr2" style="font-size:12px;color:#6b7280"></div>
+        <a id="pop-link" href="" target="_blank"
+           style="font-size:12px;font-weight:600;color:#2E5FA3;text-decoration:none;padding:6px 14px;border:1px solid #2E5FA3;border-radius:20px">
+          Google Maps ↗
+        </a>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+
+  window.closePopup=function(){
+    overlay.style.display='none';
+    document.getElementById('pop-img').src='';
+  };
+
+  window.openStorePopup=function(i){
+    const s=KEY_STORES[i];
+    // 헤더
+    document.getElementById('pop-badge').style.background=PC[s.pri];
+    document.getElementById('pop-badge').textContent=s.pri;
+    document.getElementById('pop-name').textContent=s.name;
+    document.getElementById('pop-sub').textContent=CAT2[s.pri]+' · '+s.brand;
+    const pkmEl=document.getElementById('pop-pkm');
+    pkmEl.textContent=PKM_LBL[s.pkm];
+    pkmEl.style.background=PKM_BG2[s.pkm];
+    pkmEl.style.color=PKM_COL2[s.pkm];
+    // embed된 SVG 미니맵 사용 (외부 요청 없음)
+    const img=document.getElementById('pop-img');
+    const fallback=document.getElementById('pop-img-fallback');
+    if(s.img){
+      img.style.display='block';
+      fallback.style.display='none';
+      img.src=s.img;
+    } else {
+      img.style.display='none';
+      fallback.style.display='flex';
+      document.getElementById('pop-addr').textContent=s.name;
+    }
+    // 주소 및 링크
+    document.getElementById('pop-addr2').textContent='위도 '+s.lat+' · 경도 '+s.lng;
+    document.getElementById('pop-link').href='https://www.google.com/maps/place/?q=place_id:'+s.place;
+    // 표시
+    overlay.style.display='flex';
+  };
+
+  // ── 매장 리스트 ─────────────────────────────────────────────
+  const card=document.createElement('div');
+  card.style.cssText='background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden';
+  card.innerHTML=`
+    <div style="padding:14px 18px;border-bottom:2px solid #f3f4f6;background:#f9fafb;display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:13px;font-weight:700;color:#1a1a2e">Key Stores</div>
+      <div style="font-size:11px;color:#9ca3af">${KEY_STORES.length} locations · click to preview</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+      ${KEY_STORES.map((s,i)=>`
+        <div onclick="openStorePopup(${i})"
+          style="display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid #f9fafb;border-right:${i%2===0?'1px solid #f9fafb':'none'};cursor:pointer;transition:background .12s"
+          onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:${PC[s.pri]};color:#fff;font-size:10px;font-weight:800;flex-shrink:0">${s.pri}</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
+            <div style="font-size:11px;color:#9ca3af;margin-top:2px">${CAT2[s.pri]} · ${s.brand}</div>
+          </div>
+          <span style="font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:${PKM_BG2[s.pkm]};color:${PKM_COL2[s.pkm]};flex-shrink:0;white-space:nowrap">${PKM_LBL[s.pkm]}</span>
+        </div>`).join('')}
+    </div>`;
+  cont.appendChild(card);
+}
+
+function buildTimeline(){
+  const COLS=[
+    {id:'jul',  label:'Jul\nAug',   yr:'2026'},
+    {id:'sep',  label:'Sept',       yr:'2026'},
+    {id:'oct1', label:'Oct\nWk 1',  yr:'2026'},
+    {id:'oct2', label:'Oct\nWk 2',  yr:'2026'},
+    {id:'oct34',label:'Oct\nWk 3–4',yr:'2026'},
+    {id:'nov',  label:'Nov',        yr:'2026'},
+    {id:'dec',  label:'Dec',        yr:'2026', sep:true},
+    {id:'q127', label:'Q1\n2027',   yr:'2027'},
+    {id:'q227', label:'Q2–Q3\n2027',yr:'2027'},
+  ];
+
+  // propose/negotiate compressed, more Oct launches
+  const ROWS=[
+    {type:'group', label:'① Bookstore', color:'#1F3864'},
+    {type:'store', label:'Yeongpung Jongno',   note:'Jongno Flagship', color:'#1F3864', key:true,
+     cells:{jul:'propose', sep:'negotiate', oct1:'launch'}},
+    {type:'store', label:'Hottracks Gwanghwamun', note:'Gwanghwamun',     color:'#1F3864', key:true,
+     cells:{jul:'propose', sep:'negotiate', oct1:'launch'}},
+
+    {type:'group', label:'② Fancy Shop', color:'#6D28D9'},
+    {type:'store', label:'ARTBOX',  note:'207 stores · Pilot 20–30', color:'#6D28D9', key:true,
+     cells:{jul:'propose', sep:'negotiate', oct2:'launch'}},
+    {type:'store', label:'BUTTER',  note:'Myeongdong · COEX',        color:'#6D28D9', key:false,
+     cells:{sep:'propose', oct1:'negotiate', oct2:'launch'}},
+
+    {type:'group', label:'③ Fashion Edit', color:'#0E7490'},
+    {type:'store', label:'KARYMARKET Sinsa', note:'Garosu-gil Flagship', color:'#0E7490', key:true,
+     cells:{sep:'propose', oct1:'negotiate', oct2:'launch'}},
+    {type:'store', label:'MUSINSA Seongsu',    note:'Mega Store Seongsu',  color:'#0E7490', key:true,
+     cells:{sep:'propose', oct1:'negotiate', oct34:'launch'}},
+
+    {type:'group', label:'④ Mart', color:'#B45309'},
+    {type:'store', label:'Toys"R"Us Jamsil', note:'Jamsil ZETTAPLEX', color:'#B45309', key:true,
+     cells:{sep:'propose', oct1:'negotiate', oct34:'launch'}},
+    {type:'store', label:'E-Mart',          note:'via vendor',        color:'#B45309', key:false,
+     cells:{oct1:'propose', oct2:'negotiate', nov:'launch'}},
+    {type:'store', label:'Costco Korea',    note:'Bundle pack · Roadshow', color:'#92400E', key:false,
+     cells:{q127:'propose', q227:'negotiate'}},
+
+    {type:'group', label:'⑤ Tourism', color:'#15803D'},
+    {type:'store', label:'Aqua Planet COEX', note:'COEX Flagship',    color:'#15803D', key:true,
+     cells:{oct1:'propose', oct2:'negotiate', oct34:'launch'}},
+    {type:'store', label:'N Seoul Tower',          note:'6M+ visitors/yr',  color:'#15803D', key:true,
+     cells:{oct2:'propose', oct34:'negotiate', nov:'launch'}},
+    {type:'store', label:'Jeju Shinhwa World',        note:'Jeju Resort',      color:'#15803D', key:false,
+     cells:{oct1:'propose', oct2:'negotiate', nov:'launch'}},
+    {type:'store', label:'Butter · Inspire',   note:'Inspire Resort',   color:'#166534', key:false,
+     cells:{nov:'propose', dec:'negotiate', q127:'launch'}},
+    {type:'store', label:'Hotel · Resort Chain',    note:'Hanwha · Lotte · Sono', color:'#166534', key:false,
+     cells:{q127:'propose', q227:'negotiate'}},
+
+    {type:'group', label:'⑥ Road Shop', color:'#9D174D'},
+    {type:'store', label:'ToyPlus (Mario)', note:'Mario Outlet', color:'#9D174D', key:true,
+     cells:{sep:'propose', oct1:'negotiate', oct2:'launch'}},
+    {type:'store', label:'TM Toy',           note:'30+ stores',    color:'#9D174D', key:false,
+     cells:{sep:'propose', oct1:'negotiate', oct34:'launch'}},
+
+    {type:'group', label:'⑦ Airport & Airline', color:'#1D4ED8'},
+    {type:'store', label:'AK Plaza Incheon T1', note:'T1 3F · Pop-up', color:'#1D4ED8', key:true,
+     cells:{nov:'propose', dec:'negotiate', q127:'launch'}},
+    {type:'store', label:'Korean Air SKYSHOP', note:'incl. Jinair',   color:'#0369A1', key:false,
+     cells:{dec:'propose', q127:'negotiate', q227:'launch'}},
+
+    {type:'group', label:'⑧ Duty-Free', color:'#7C3AED'},
+    {type:'store', label:'Lotte Duty Free', note:'Incheon T1 · Online first', color:'#7C3AED', key:false,
+     cells:{q127:'propose', q227:'negotiate'}},
+    {type:'store', label:'Shilla Duty Free', note:'SRM vendor registration',          color:'#6D28D9', key:false,
+     cells:{q127:'propose', q227:'negotiate'}},
+  ];
+
+  const LBL ={propose:'Propose', negotiate:'Negotiate', launch:'Launch'};
+  const CLS ={propose:'sc-prep', negotiate:'sc-out', launch:'sc-live'};
+  const ICON={propose:'◎',       negotiate:'◈',      launch:'▶'};
+
+  function cell(st){
+    if(!st) return '';
+    return `<span class="sc ${CLS[st]}" style="min-width:64px;justify-content:center">${ICON[st]} ${LBL[st]}</span>`;
+  }
+
+  const n2026=COLS.filter(c=>c.yr==='2026').length;
+  const n2027=COLS.filter(c=>c.yr==='2027').length;
+
+  let thead=`<tr class="hdr-group">
+    <th style="background:#0f172a;color:#94a3b8;min-width:190px;text-align:left;padding-left:16px">Channel / Key Store</th>
+    <th colspan="${n2026}" style="background:#1e3a5f;color:#93c5fd;border-right:2px solid rgba(255,255,255,.2)">2026</th>
+    <th colspan="${n2027}" style="background:#1e293b;color:#94a3b8">2027</th>
+  </tr>
+  <tr class="hdr-months">
+    <th style="background:#0f172a;color:#e2e8f0;text-align:left;padding-left:16px;font-size:11px">Partner</th>`;
+  COLS.forEach(c=>{
+    const sep=c.sep?'border-right:2px solid rgba(255,255,255,.25)':'';
+    thead+=`<th class="${c.yr==='2026'?'m-2026':'m-2027'}" style="${sep};white-space:pre-line">${c.label}</th>`;
+  });
+  thead+='</tr>';
+
+  let tbody='';
+  ROWS.forEach(r=>{
+    if(r.type==='group'){
+      tbody+=`<tr class="group-row"><td colspan="${COLS.length+1}" style="padding:9px 16px">
+        <span style="color:${r.color};font-weight:800;font-size:13px">${r.label}</span>
+      </td></tr>`;
+      return;
+    }
+    const dot=`<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${r.color};margin-right:7px;vertical-align:middle;flex-shrink:0"></span>`;
+    const keyBadge=r.key?`<span style="font-size:9px;padding:1px 5px;border-radius:6px;background:#FEF3C7;color:#B45309;font-weight:700;margin-left:5px">Key</span>`:'';
+    const noteSpan=r.note?`<div style="font-size:10px;color:#9ca3af;margin-top:1px">${r.note}</div>`:'';
+    tbody+=`<tr><td style="padding:9px 16px">${dot}<span style="font-size:12px;font-weight:600">${r.label}</span>${keyBadge}${noteSpan}</td>`;
+    COLS.forEach(c=>{
+      const sep=c.sep?'border-right:2px solid #e2e8f0':'';
+      tbody+=`<td style="${sep};padding:7px 6px;text-align:center">${cell(r.cells&&r.cells[c.id]||'')}</td>`;
+    });
+    tbody+='</tr>';
+  });
+
+  document.getElementById('tl-wrap').innerHTML=`
+    <div class="sch-outer">
+      <table class="sch-tbl">
+        <thead>${thead}</thead>
+        <tbody>${tbody}</tbody>
+      </table>
+    </div>`;
+}
+
+function go(pg,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ntab').forEach(b=>{b.classList.remove('on');b.style.color='';});
+  document.getElementById('page-'+pg).classList.add('on');
+  btn.classList.add('on');
+  const pi=parseInt(pg.replace('p',''));
+  if(pi>=1&&pi<=8)btn.style.color=PC[pi];
+}
+
+buildPriCards();
+buildOvTable();
+[1,2,3,4,5,6,7,8].forEach(p=>buildChannelDetail(p,'ch-p'+p));
+buildRegion();
+buildTimeline();
+</script>
+</body>
+</html>
